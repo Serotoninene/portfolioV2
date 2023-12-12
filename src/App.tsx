@@ -18,8 +18,8 @@ const Loader = () => {
 
 function App() {
   return (
-    <main id="main--container" className="overflow-hidden">
-      <div className="h-screen flex justify-center items-center bg-red-400">
+    <main id="main--container" className="overflow-hidden text-dark">
+      <div className="h-screen flex justify-center items-center bg-grey-400">
         {" "}
         Hello World
       </div>
