@@ -19,13 +19,13 @@ const Loader = () => {
 function App() {
   return (
     <main id="main--container" className="overflow-hidden">
-      <Suspense fallback={<Loader />}>
-        <Placeholder />
-        <div className="h-screen fixed bg-slate-900 inset-0 z-10">
-          <Experience />
-        </div>
-        <Placeholder></Placeholder>
-      </Suspense>
+      <div className="h-screen flex justify-center items-center bg-red-400">
+        {" "}
+        Hello World
+      </div>
+      <div className="h-screen fixed inset-0 z-10">
+        <Experience />
+      </div>
     </main>
   );
 }

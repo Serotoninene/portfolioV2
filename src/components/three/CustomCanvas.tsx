@@ -36,7 +36,7 @@ export const CustomCanvas = ({ children }: Props) => {
 
   return (
     <Canvas flat ref={canvasRef}>
-      <Perf position="top-left" />
+      {/* <Perf position="top-left" /> */}
       <CustomCamera />
       <OrbitControls />
       {children}

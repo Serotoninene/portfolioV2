@@ -9,12 +9,21 @@ import {
 } from "@react-three/rapier";
 import { useWindowSize } from "../../../hooks";
 
+type dupleOfNumbers = [number, number, number];
+
+interface Instance {
+  key: string;
+  position: dupleOfNumbers;
+  rotation: dupleOfNumbers;
+  scale: dupleOfNumbers;
+}
+
 export const FallingLogos = () => {
   const count = 500;
   const { width, height } = useWindowSize();
   const { geometry, material } = useLogo();
 
-  const instances = useMemo<InstancedRigidBodies>(() => {
+  const instances = useMemo<Instance[]>(() => {
     const instances = [];
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -39,9 +48,9 @@ export const FallingLogos = () => {
 
       instances.push({
         key: "instance_" + i,
-        position: [x, y, 0],
-        rotation: [90, 0, 90],
-        scale: [100, 100, 100],
+        position: [x, y, 0] as dupleOfNumbers,
+        rotation: [90, 0, 90] as dupleOfNumbers,
+        scale: [100, 100, 100] as dupleOfNumbers,
       });
     }
 
