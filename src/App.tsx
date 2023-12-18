@@ -1,10 +1,11 @@
 import Homepage from "./pages/Homepage";
+import { Layout } from "./components/organisms";
 
 function App() {
   return (
-    <main id="main--container" className="overflow-hidden text-dark">
+    <Layout>
       <Homepage />
-    </main>
+    </Layout>
   );
 }
 

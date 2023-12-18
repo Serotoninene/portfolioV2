@@ -1,7 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import React, { useEffect, useRef, useState } from "react";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { Perf } from "r3f-perf";
 import { useWindowSize } from "../../hooks";
 
 type Props = {

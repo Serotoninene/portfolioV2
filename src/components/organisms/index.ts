@@ -1,3 +1,1 @@
-export * from "./HorizontalScroll";
-export * from "./OneSidePinned";
-export * from "./GalleryFlipped";
+export * from "./Layout";
