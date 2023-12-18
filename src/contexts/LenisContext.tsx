@@ -26,7 +26,7 @@ export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     lenis.current = new Lenis({
       lerp: 0.1,
-      wheelMultiplier: 100,
+      // wheelMultiplier: 100,
     });
 
     function raf(time: number) {

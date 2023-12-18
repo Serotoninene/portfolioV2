@@ -1,5 +1,5 @@
 import { LenisProvider } from "../../contexts/LenisContext";
-import { Navbar } from "../molecules";
+import { Navbar, ScrollIndicator } from "../molecules";
 
 type Props = {
   children: React.ReactNode;
@@ -11,6 +11,7 @@ export const Layout = ({ children }: Props) => {
       <LenisProvider>
         <Navbar />
         {children}
+        <ScrollIndicator />
       </LenisProvider>
     </main>
   );
