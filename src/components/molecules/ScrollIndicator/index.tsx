@@ -1,28 +1,9 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import { useRef } from "react";
+import { useScrollShrink } from "./animations/useScrollShrink";
 
 export function ScrollIndicator() {
   const lineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const tl = gsap.timeline();
-    tl.to(lineRef.current, {
-      opacity: 1,
-      delay: 1.5,
-    });
-    tl.to(lineRef.current, {
-      scaleY: 0,
-      scrollTrigger: {
-        start: "top top",
-        end: "bottom bottom", // correct end
-        scrub: true,
-      },
-    });
-
-    return () => {
-      tl.kill();
-    };
-  }, []);
+  useScrollShrink({ ref: lineRef });
 
   return (
     <div
