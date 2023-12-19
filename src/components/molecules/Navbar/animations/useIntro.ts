@@ -45,7 +45,7 @@ export const useIntro = ({
     tl.current.to(menuRef.current, {
       opacity: 1,
       duration: 0.5,
-      delay: 0.6,
+      delay: 0.4,
     });
   }, []);
 

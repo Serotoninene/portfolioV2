@@ -44,13 +44,16 @@ export const Navbar = () => {
         <AnimLetters
           string="Portfolio 2004"
           delay={0}
+          ease="easeOut"
           stagger={0.005}
           start={isRevealCenter}
         />
         <AnimLetters
           string={formattedDate}
-          delay={0.3}
-          stagger={0.01}
+          delay={0}
+          ease="easeOut"
+          stagger={0.005}
+          staggerStart="end"
           start={isRevealCenter}
         />
       </div>

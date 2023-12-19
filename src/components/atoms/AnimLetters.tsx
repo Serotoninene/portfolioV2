@@ -6,6 +6,14 @@ interface Props {
   delay?: number;
   ease?: "easeIn" | "easeOut" | "easeInOut";
   duration?: number;
+  staggerStart?:
+    | number
+    | "start"
+    | "center"
+    | "end"
+    | "edges"
+    | "random"
+    | [number, number];
   rotate?: number;
   stagger?: number;
   start?: boolean;
@@ -27,6 +35,7 @@ export const AnimLetters = ({
   ease = "easeOut",
   duration = 0.45,
   stagger = 0.02,
+  staggerStart = "start",
   start = true,
 }: Props) => {
   const containerRef = useRef<HTMLSpanElement>(null);
@@ -44,7 +53,7 @@ export const AnimLetters = ({
         rotation: 0,
         ease: easingFunctions[ease],
         duration: duration,
-        stagger: stagger,
+        stagger: { each: stagger, from: staggerStart },
         delay: delay,
       });
 

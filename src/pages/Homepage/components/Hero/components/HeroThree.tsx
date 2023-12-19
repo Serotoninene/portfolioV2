@@ -3,7 +3,7 @@ import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 
 import { Logo } from "../../../../../components/three";
 
-export const HeroLogo = () => {
+export const HeroThree = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
 
