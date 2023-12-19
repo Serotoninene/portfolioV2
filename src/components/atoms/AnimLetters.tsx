@@ -46,15 +46,6 @@ export const AnimLetters = ({
         duration: duration,
         stagger: stagger,
         delay: delay,
-      })
-      // PHASE 2
-      .to(letters.current, {
-        y: -y,
-        rotation: -rotate,
-        ease: easingFunctions[ease],
-        duration: duration,
-        stagger: stagger,
-        delay: delay,
       });
 
     tl.current.tweenTo(0);

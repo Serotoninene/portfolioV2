@@ -1,14 +1,33 @@
+import { useRef } from "react";
 import { getFormattedDate } from "../../../utils";
 import { AnimLetters } from "../../atoms";
-import { useAlexReveal } from "./animations";
+import { useAlexReveal, useIntro } from "./animations";
 
 export const Navbar = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLHeadingElement>(null);
+  const middleRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
+
   const formattedDate = getFormattedDate();
   const hasScrolled = useAlexReveal();
+  const { isRevealCenter } = useIntro({
+    containerRef,
+    logoRef,
+    middleRef,
+    menuRef,
+  });
 
+  console.log("Navbar", isRevealCenter);
   return (
-    <div className="fixed top-0 left-0 right-0 flex items-end justify-between mt-3 mx-5 pb-1 z-10 border-b border-black">
-      <h1 className="bg-dark px-1 text-secondary-200 text-xl font-extrabold">
+    <div
+      ref={containerRef}
+      className="fixed top-0 left-0 right-0 flex items-end justify-between mt-3 mx-5 pb-1 z-10 border-b border-black origin-left"
+    >
+      <h1
+        ref={logoRef}
+        className="bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
+      >
         <AnimLetters
           string="ALEX"
           y="120%"
@@ -18,11 +37,27 @@ export const Navbar = () => {
         />
       </h1>
 
-      <div className="flex gap-10 text-sm font-medium">
-        <p>Portfolio 2004</p>
-        <p>{formattedDate}</p>
+      <div
+        ref={middleRef}
+        className="flex gap-10 text-sm font-medium overflow-hidden"
+      >
+        <AnimLetters
+          string="Portfolio 2004"
+          delay={0}
+          stagger={0.005}
+          start={isRevealCenter}
+        />
+        <AnimLetters
+          string={formattedDate}
+          delay={0.3}
+          stagger={0.01}
+          start={isRevealCenter}
+        />
       </div>
-      <button className="font-extrabold text-lg cursor-pointer leading-5">
+      <button
+        ref={menuRef}
+        className="font-extrabold text-lg cursor-pointer leading-5"
+      >
         menu
       </button>
     </div>

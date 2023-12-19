@@ -1,5 +1,6 @@
-import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import { useRef } from "react";
+import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
+
 import { Logo } from "../../../../../components/three";
 
 export const HeroLogo = () => {
@@ -16,7 +17,7 @@ export const HeroLogo = () => {
         className="h-[65vh] aspect-[2/4] bg-gray-400 opacity-0 "
       ></div>
       <UseCanvas>
-        <ScrollScene track={ref}>
+        <ScrollScene track={ref} inViewportMargin="10%">
           {({ scale, inViewport }) => {
             return <Logo scale={scale} inViewport={inViewport} />;
           }}

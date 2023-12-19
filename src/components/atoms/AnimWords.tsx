@@ -8,9 +8,7 @@ interface Props {
   duration?: number;
   stagger?: number;
   start?: boolean;
-  fontWeight?: string;
   leading?: string;
-  absolute?: boolean;
 }
 
 export const AnimWords = ({
@@ -20,15 +18,14 @@ export const AnimWords = ({
   duration = 0.45,
   stagger = 0.2,
   start = true,
-  fontWeight = "font-normal",
-  absolute,
 }: Props) => {
   const containerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (start && containerRef.current) {
+      const targets = gsap.utils.toArray(".word");
       gsap.fromTo(
-        containerRef.current.children,
+        targets,
         { y: "120%" },
         {
           y: 0,
@@ -44,21 +41,18 @@ export const AnimWords = ({
   const words = string?.split(" ");
 
   return (
-    <span
-      ref={containerRef}
-      key={string}
-      id={string}
-      className={`${absolute ? "absolute w-[100px]" : ""}
-      overflow-hidden inline-block align-bottom`}
-    >
-      {words?.map((word) => (
-        <span
-          key={`${word}-${string}`}
-          className={`${fontWeight} overflow-hidden inline-block align-bottom`}
-        >
-          {word}
-        </span>
+    <span ref={containerRef} id={string} className="inline-block align-bottom">
+      {words?.map((word, idx) => (
+        <>
+          <span
+            key={`${word}-${string}-${idx}`}
+            className="overflow-hidden  inline-block align-bottom"
+          >
+            <span className="inline-block word">{word}</span>{" "}
+          </span>{" "}
+        </>
       ))}
+      &nbsp;
     </span>
   );
 };

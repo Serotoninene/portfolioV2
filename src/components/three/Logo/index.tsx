@@ -1,7 +1,7 @@
 import { useGLTF } from "@react-three/drei";
 
 import { useEffect, useRef } from "react";
-import { Mesh } from "three";
+import { Mesh, MathUtils } from "three";
 import { useFrame } from "@react-three/fiber";
 
 const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/untitled2.glb";
@@ -17,6 +17,9 @@ export const Logo = ({ scale, inViewport }: Props) => {
   // @ts-ignore
   const geometry = model.nodes.Plane.geometry;
 
+  const targetRotationY = useRef(1.6);
+  const targetRotationX = useRef(-0.2);
+
   useEffect(() => {
     if (!ref.current) return;
     ref.current.rotation.set(-0.2, 1.6, 0);
@@ -29,8 +32,19 @@ export const Logo = ({ scale, inViewport }: Props) => {
     const mappedX = (pointer.x - 1) / 2;
     const mappedY = (pointer.y - 1) / 2;
 
-    ref.current.rotation.y = 1.6 + mappedX * 0.5;
-    ref.current.rotation.x = -0.2 + mappedY * 0.1;
+    targetRotationY.current = 1.6 + mappedX * 0.5;
+    targetRotationX.current = -0.2 + mappedY * 0.1;
+
+    ref.current.rotation.y = MathUtils.lerp(
+      ref.current.rotation.y,
+      targetRotationY.current,
+      0.1
+    );
+    ref.current.rotation.x = MathUtils.lerp(
+      ref.current.rotation.x,
+      targetRotationX.current,
+      0.1
+    );
   });
 
   if (!scale) return null;
