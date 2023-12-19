@@ -32,7 +32,7 @@ export const FallingLogos = () => {
       const matrix = new THREE.Matrix4();
       // positions
       const x = Math.random() * width - width / 2;
-      const y = i * height;
+      const y = i * height * 0.5;
       // rotations : first on the z axis, then on the x axis
       const quaternion = new THREE.Quaternion();
       quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
@@ -48,7 +48,7 @@ export const FallingLogos = () => {
 
       instances.push({
         key: "instance_" + i,
-        position: [x, y, 0] as dupleOfNumbers,
+        position: [x, y, -100] as dupleOfNumbers,
         rotation: [90, 0, 90] as dupleOfNumbers,
         scale: [100, 100, 100] as dupleOfNumbers,
       });
@@ -57,18 +57,13 @@ export const FallingLogos = () => {
     return instances;
   }, []);
 
-  // if (!width || !height) return null;
-
-  const boxWidth = width || 0.5;
-  const boxHeight = height || 0.5;
-
   return (
     <>
-      <Physics gravity={[0, -500, 0]}>
+      <Physics debug gravity={[0, -5, 0]}>
         <InstancedRigidBodies instances={instances}>
           <instancedMesh args={[geometry, material, count]} />
         </InstancedRigidBodies>
-        <RigidBody type="fixed">
+        {/* <RigidBody type="fixed">
           <CuboidCollider
             args={[boxWidth, 10, boxWidth]}
             position={[0, 0, 0]}
@@ -87,9 +82,9 @@ export const FallingLogos = () => {
           />
           <CuboidCollider
             args={[boxWidth, boxHeight, 0.5]}
-            position={[0, 0, -boxWidth / 2]}
+            position={[0, 0, -boxWidth]}
           />
-        </RigidBody>
+        </RigidBody> */}
       </Physics>
     </>
   );

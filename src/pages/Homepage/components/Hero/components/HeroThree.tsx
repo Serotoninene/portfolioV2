@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 
 import { Logo } from "../../../../../components/three";
+import { FallingLogos } from "../../../../../components/three/FallingLogos";
 
 export const HeroThree = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,7 +20,12 @@ export const HeroThree = () => {
       <UseCanvas>
         <ScrollScene track={ref} inViewportMargin="10%">
           {({ scale, inViewport }) => {
-            return <Logo scale={scale} inViewport={inViewport} />;
+            return (
+              <>
+                <FallingLogos />
+                <Logo scale={scale} inViewport={inViewport} />
+              </>
+            );
           }}
         </ScrollScene>
       </UseCanvas>
