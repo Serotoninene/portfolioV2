@@ -1,31 +1,47 @@
 import { useGLTF } from "@react-three/drei";
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
+import { Mesh } from "three";
+import { useFrame } from "@react-three/fiber";
 
-import { Vector3 } from "three";
-
-import { useWindowSize } from "../../../hooks";
-
-const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/untitled.glb";
-gsap.registerPlugin(ScrollTrigger);
+const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/untitled2.glb";
 
 type Props = {
-  position?: Vector3;
+  scale?: vec3;
+  inViewport?: boolean;
 };
 
-export const Logo = ({ position }: Props) => {
-  // set up
+export const Logo = ({ scale, inViewport }: Props) => {
+  const ref = useRef<Mesh>(null);
   const model = useGLTF(LOGO_SRC);
-  const { width } = useWindowSize();
+  // @ts-ignore
+  const geometry = model.nodes.Plane.geometry;
 
-  const logoScale = width ? width * 0.05 : 0;
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.rotation.set(-0.2, 1.6, 0);
+  }, []);
+
+  useFrame(({ pointer }) => {
+    if (!ref.current || !inViewport) return;
+    // i need to map pointer.x to be in between -1 and 0
+
+    const mappedX = (pointer.x - 1) / 2;
+    const mappedY = (pointer.y - 1) / 2;
+
+    ref.current.rotation.y = 1.6 + mappedX * 0.5;
+    ref.current.rotation.x = -0.2 + mappedY * 0.1;
+  });
+
+  if (!scale) return null;
 
   return (
-    <primitive
-      object={model.scene}
-      scale={[logoScale, logoScale, logoScale]}
-      position={position}
-    />
+    <mesh
+      ref={ref}
+      geometry={geometry}
+      scale={[scale?.x * 0.6, scale?.x * 0.6, scale?.x]}
+    >
+      <meshStandardMaterial />
+    </mesh>
   );
 };

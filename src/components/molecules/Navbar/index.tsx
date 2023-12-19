@@ -17,6 +17,7 @@ export const Navbar = () => {
           start={hasScrolled}
         />
       </h1>
+
       <div className="flex gap-10 text-sm font-medium">
         <p>Portfolio 2004</p>
         <p>{formattedDate}</p>
