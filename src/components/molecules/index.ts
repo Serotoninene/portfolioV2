@@ -1,2 +1,2 @@
-export * from "./Navbar/Navbar";
+export * from "./Navbar";
 export * from "./ScrollIndicator";

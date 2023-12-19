@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const useAlexReveal = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
