@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { MutableRefObject, useRef } from "react";
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 
 import { Logo } from "../../../../../components/three";
@@ -18,7 +18,10 @@ export const HeroThree = () => {
         className="h-[65vh] aspect-[2/4] bg-gray-400 opacity-0 "
       ></div>
       <UseCanvas>
-        <ScrollScene track={ref} inViewportMargin="10%">
+        <ScrollScene
+          track={ref as MutableRefObject<HTMLElement>}
+          inViewportMargin="100%"
+        >
           {({ scale, inViewport }) => {
             return (
               <>

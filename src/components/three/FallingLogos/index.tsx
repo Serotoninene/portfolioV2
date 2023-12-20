@@ -1,51 +1,74 @@
-import { useMemo } from "react";
-import * as THREE from "three";
 import { useLogo } from "./hooks/useLogo";
-import { Physics, InstancedRigidBodies } from "@react-three/rapier";
 
-type tupleOfNumbers = [number, number, number];
+import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
+import * as THREE from "three";
+import { useWindowSize } from "../../../hooks";
 
-interface Instance {
-  key: string;
-  position: tupleOfNumbers;
-  rotation: tupleOfNumbers;
-  scale: tupleOfNumbers;
-}
+type Tuple = [number, number, number];
+type PositionRotation = { position: Tuple; rotation: Tuple };
 
 export const FallingLogos = () => {
-  const count = 50;
-  const { geometry, material } = useLogo();
+  const COUNT = 4;
+  const ARR = new Array(COUNT).fill(0);
 
-  const instances = useMemo<Instance[]>(() => {
-    const instances = [];
-    const width = window.innerWidth;
+  const { width, height } = useWindowSize();
+  const { geometry } = useLogo();
+
+  const logos = useRef<THREE.Mesh[]>([]);
+
+  // INITIAL POSITION ------------------------------------------
+  const initialPosition = useMemo<PositionRotation[]>(() => {
     const height = window.innerHeight;
+    const width = window.innerWidth;
 
-    for (let i = 0; i < count; i++) {
-      const range = i % 2 === 0 ? width / 2 : -width / 2;
+    return ARR.map((_, i) => {
+      const range = i % 2 === 0 ? -width / 2 : width / 2;
       const x = Math.random() * range;
-      const y = (-height - i * height) / 4;
+      const y = (-height / 2 - i * height) / 2;
+      const position: Tuple = [x, y, -500];
+      const rotation: Tuple = [Math.random() * 90, 0, Math.random() * 90]; // Set your initial rotation here
+      return { position, rotation };
+    });
+  }, [ARR]);
 
-      const randomRotation = Math.random() * 90;
+  useFrame(({ clock }) => {
+    if (!logos.current || !height || !width) return;
+    const scrollY = window.scrollY;
+    const time = clock.getElapsedTime();
 
-      instances.push({
-        key: "instance_" + i,
-        position: [x, y, -500] as tupleOfNumbers,
-        rotation: [randomRotation, 0, 90] as tupleOfNumbers,
-        scale: [100, 160, 160] as tupleOfNumbers,
-      });
-    }
+    logos.current.forEach((logo, i) => {
+      logo.position.y = initialPosition[i].position[1] + time * 100;
+      logo.rotation.x = initialPosition[i].rotation[0] + time;
+      logo.rotation.y = initialPosition[i].rotation[1] + time;
 
-    return instances;
-  }, []);
+      if (scrollY < 10 && logo.position.y > height) {
+        logo.position.y -= initialPosition[i].position[1];
+        initialPosition[i].position[0] = Math.random() * width;
+      }
+    });
+  });
 
   return (
     <>
-      <Physics gravity={[0, 10, 0]}>
-        <InstancedRigidBodies instances={instances}>
-          <instancedMesh args={[geometry, material, count]} />
-        </InstancedRigidBodies>
-      </Physics>
+      {ARR.map((_, i) => {
+        return (
+          <mesh
+            key={i}
+            ref={(e) => (logos.current[i] = e as THREE.Mesh)}
+            scale={[100, 160, 160]}
+            position={initialPosition[i].position}
+            rotation={initialPosition[i].rotation}
+          >
+            <bufferGeometry {...geometry} />
+            <meshStandardMaterial color="#ebe9e5" />
+          </mesh>
+        );
+      })}
+      <mesh position={[0, height ? height : 0, 0]}>
+        <planeGeometry args={[width, height]} />
+        <meshBasicMaterial color={new THREE.Color("#fdfcfc")} />
+      </mesh>
     </>
   );
 };

@@ -14,7 +14,6 @@ type Props = {
 export const Logo = ({ scale, inViewport }: Props) => {
   const ref = useRef<Mesh>(null);
   const model = useGLTF(LOGO_SRC);
-  // @ts-ignore
   const geometry = model.nodes.Plane.geometry;
 
   const targetRotationY = useRef(1.6);

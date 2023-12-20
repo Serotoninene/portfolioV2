@@ -13,7 +13,7 @@ export const Layout = ({ children }: Props) => {
   return (
     <main ref={eventSource} className="text-dark bg-secondary-200">
       <GlobalCanvas eventSource={eventSource} eventPrefix="client">
-        {/* <Perf /> */}
+        <Perf />
         <Lights />
       </GlobalCanvas>
       <SmoothScrollbar />
