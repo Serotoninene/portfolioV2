@@ -1,46 +1,50 @@
 import { useLogo } from "./hooks/useLogo";
 
+import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useWindowSize } from "../../../hooks";
-import { useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
 
 type Tuple = [number, number, number];
+type PositionRotation = { position: Tuple; rotation: Tuple };
 
 export const FallingLogos = () => {
-  const COUNT = 10;
+  const COUNT = 4;
   const ARR = new Array(COUNT).fill(0);
 
   const { width, height } = useWindowSize();
   const { geometry } = useLogo();
 
   const logos = useRef<THREE.Mesh[]>([]);
-  const initialPosition = useMemo<Tuple[]>(() => {
+
+  // INITIAL POSITION ------------------------------------------
+  const initialPosition = useMemo<PositionRotation[]>(() => {
     const height = window.innerHeight;
     const width = window.innerWidth;
 
     return ARR.map((_, i) => {
       const range = i % 2 === 0 ? -width / 2 : width / 2;
-
       const x = Math.random() * range;
       const y = (-height / 2 - i * height) / 2;
-      return [x, y, -500];
+      const position: Tuple = [x, y, -500];
+      const rotation: Tuple = [Math.random() * 90, 0, Math.random() * 90]; // Set your initial rotation here
+      return { position, rotation };
     });
   }, [ARR]);
 
   useFrame(({ clock }) => {
-    if (!logos.current || !height) return;
+    if (!logos.current || !height || !width) return;
+    const scrollY = window.scrollY;
     const time = clock.getElapsedTime();
 
     logos.current.forEach((logo, i) => {
-      logo.position.y = initialPosition[i][1] + time * 100;
-      const speed = 0.0001;
-      const rot = time * speed;
-      logo.rotation.y = rot;
-      logo.rotation.x = rot;
+      logo.position.y = initialPosition[i].position[1] + time * 100;
+      logo.rotation.x = initialPosition[i].rotation[0] + time;
+      logo.rotation.y = initialPosition[i].rotation[1] + time;
 
-      if (logo.position.y > height) {
-        logo.position.y -= height * 2;
+      if (scrollY < 10 && logo.position.y > height) {
+        logo.position.y -= initialPosition[i].position[1];
+        initialPosition[i].position[0] = Math.random() * width;
       }
     });
   });
@@ -48,14 +52,13 @@ export const FallingLogos = () => {
   return (
     <>
       {ARR.map((_, i) => {
-        const randomRotation = Math.random() * 90;
         return (
           <mesh
             key={i}
             ref={(e) => (logos.current[i] = e as THREE.Mesh)}
             scale={[100, 160, 160]}
-            rotation={[randomRotation, 0, 90]}
-            position={initialPosition[i]}
+            position={initialPosition[i].position}
+            rotation={initialPosition[i].rotation}
           >
             <bufferGeometry {...geometry} />
             <meshStandardMaterial color="#ebe9e5" />
