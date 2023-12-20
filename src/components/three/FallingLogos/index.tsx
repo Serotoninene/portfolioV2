@@ -1,51 +1,54 @@
-import { useMemo } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useLogo } from "./hooks/useLogo";
-import { Physics, InstancedRigidBodies } from "@react-three/rapier";
 
-type tupleOfNumbers = [number, number, number];
-
-interface Instance {
-  key: string;
-  position: tupleOfNumbers;
-  rotation: tupleOfNumbers;
-  scale: tupleOfNumbers;
-}
+import vertex from "./shaders/vertex.glsl";
+import fragment from "./shaders/fragment.glsl";
 
 export const FallingLogos = () => {
   const count = 50;
-  const { geometry, material } = useLogo();
+  const instances = useRef<THREE.InstancedMesh>();
+  const { geometry } = useLogo();
 
-  const instances = useMemo<Instance[]>(() => {
-    const instances = [];
+  const shaderMaterial = new THREE.ShaderMaterial({
+    vertexShader: vertex,
+    fragmentShader: fragment,
+
+    // transparent: true,
+    // depthWrite: false,
+    // depthTest: false,
+  });
+
+  useEffect(() => {
+    if (!instances.current) return;
     const width = window.innerWidth;
     const height = window.innerHeight;
 
     for (let i = 0; i < count; i++) {
+      const matrix = new THREE.Matrix4();
+
+      // position
       const range = i % 2 === 0 ? width / 2 : -width / 2;
       const x = Math.random() * range;
-      const y = (-height - i * height) / 4;
+      const y = (-height - i * height) / 2;
 
-      const randomRotation = Math.random() * 90;
+      // rotation
+      const rotation = new THREE.Quaternion();
+      rotation.setFromEuler(
+        new THREE.Euler(0, Math.PI * Math.random(), Math.random() * Math.PI)
+      );
 
-      instances.push({
-        key: "instance_" + i,
-        position: [x, y, -500] as tupleOfNumbers,
-        rotation: [randomRotation, 0, 90] as tupleOfNumbers,
-        scale: [100, 160, 160] as tupleOfNumbers,
-      });
+      matrix.compose(
+        new THREE.Vector3(x, y, -500), // position
+        rotation, // rotation
+        new THREE.Vector3(100, 160, 160) // scale
+      );
+      instances.current.setMatrixAt(i, matrix);
+      instances.current.instanceMatrix.needsUpdate = true;
     }
-
-    return instances;
   }, []);
 
   return (
-    <>
-      <Physics gravity={[0, 10, 0]}>
-        <InstancedRigidBodies instances={instances}>
-          <instancedMesh args={[geometry, material, count]} />
-        </InstancedRigidBodies>
-      </Physics>
-    </>
+    <instancedMesh ref={instances} args={[geometry, shaderMaterial, count]} />
   );
 };
