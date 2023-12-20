@@ -25,11 +25,13 @@ export const useIntro = ({
       defaults: { ease: Power3.easeOut },
       delay: 1,
     });
+
     tl.current.to(containerRef.current, {
       scaleX: 1,
       duration: 1,
       ease: Power3.easeInOut,
     });
+
     tl.current.fromTo(
       logoRef.current,
       {
@@ -38,15 +40,23 @@ export const useIntro = ({
       },
       { scaleX: 1 }
     );
-    tl.current.to(middleRef.current, {
-      opacity: 1,
-      onStart: () => setIsRevealCenter(true),
-    });
-    tl.current.to(menuRef.current, {
-      opacity: 1,
-      duration: 0.5,
-      delay: 0.4,
-    });
+    tl.current.to(
+      menuRef.current,
+      {
+        opacity: 1,
+        duration: 0.5,
+      },
+      "<"
+    );
+    tl.current.to(
+      middleRef.current,
+      {
+        opacity: 1,
+
+        onStart: () => setIsRevealCenter(true),
+      },
+      "+=0.3"
+    );
   }, []);
 
   return { isRevealCenter };

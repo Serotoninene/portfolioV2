@@ -18,7 +18,6 @@ export const Navbar = () => {
     menuRef,
   });
 
-  console.log("Navbar", isRevealCenter);
   return (
     <div
       ref={containerRef}
