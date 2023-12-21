@@ -5,8 +5,6 @@ export default function Homepage() {
     <div id="Homepage">
       <Hero />
       <StickyText />
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
     </div>
   );
 }

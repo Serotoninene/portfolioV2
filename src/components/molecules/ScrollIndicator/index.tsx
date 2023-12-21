@@ -1,9 +1,12 @@
 import { useRef } from "react";
-import { useScrollShrink } from "./animations/useScrollShrink";
+import { splitLetters } from "../../../utils";
+import { useScrollShrink } from "./animations";
 
 export function ScrollIndicator() {
   const lineRef = useRef<HTMLDivElement>(null);
-  useScrollShrink({ ref: lineRef });
+  const textRef = useRef<HTMLElement[]>([]);
+
+  useScrollShrink(lineRef, textRef);
 
   return (
     <div
@@ -14,7 +17,9 @@ export function ScrollIndicator() {
         ref={lineRef}
         className="h-20 w-[1px] self-center bg-dark origin-bottom"
       />
-      <p className="font-medium">Scroll</p>
+      <p className="font-medium overflow-hidden">
+        {splitLetters("Scroll", textRef)}
+      </p>
     </div>
   );
 }
