@@ -12,7 +12,7 @@ export const Hero = () => {
         <AnimLetters string="ALEX" /> <br /> <AnimLetters string="PUJOL" />
       </h1>
 
-      <p className="text-center text-base font-medium leading-[130%] sm:w-[360px] z-10">
+      <p className="text-center text-base font-base leading-[130%] sm:w-[360px] z-10">
         <AnimWords
           string="I'm a passionate creative developer dedicated to turning ideas into
         immersive digital experiences. From elegant websites to interactive applications."
@@ -20,7 +20,7 @@ export const Hero = () => {
           delay={0.5}
         />
       </p>
-      <div className="fixed bottom-3 left-5 w-5 aspect-square bg-dark"></div>
+      <div className="absolute bottom-3 left-5 w-5 aspect-square bg-dark" />
     </div>
   );
 };

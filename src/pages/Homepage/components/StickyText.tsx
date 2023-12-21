@@ -16,10 +16,10 @@ export const StickyText = () => {
       scrollTrigger: {
         trigger: container.current,
         start: "top top",
-        end: "200% top",
+        end: "bottom top",
         pin: true,
         pinSpacing: true,
-        scrub: true,
+        scrub: 0.7,
       },
     });
 

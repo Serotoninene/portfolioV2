@@ -43,8 +43,10 @@ export const FallingLogos = () => {
       logo.rotation.y += delta;
 
       if (scrollY === 0 && logo.position.y > height * 1.5) {
+        logo.scale.set(100, 160, 160);
         logo.position.x = Math.random() * width - width / 2;
         logo.position.y = -height - (i * height) / 1.5;
+        logo.position.z = -500;
       }
     });
   });
@@ -56,8 +58,7 @@ export const FallingLogos = () => {
           <mesh
             key={i}
             ref={(e) => (logos.current[i] = e as THREE.Mesh)}
-            scale={[100, 160, 160]}
-            position={initialPosition[i].position}
+            // scale={[100, 160, 160]}
             rotation={initialPosition[i].rotation}
           >
             <bufferGeometry {...geometry} />

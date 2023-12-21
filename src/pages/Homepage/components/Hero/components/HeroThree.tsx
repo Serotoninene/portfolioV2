@@ -20,7 +20,7 @@ export const HeroThree = () => {
       <UseCanvas>
         <ScrollScene
           track={ref as MutableRefObject<HTMLElement>}
-          inViewportMargin="200%"
+          inViewportMargin="150%"
         >
           {({ scale, inViewport }) => {
             return (
