@@ -20,7 +20,6 @@ export const StickyText = () => {
         pin: true,
         pinSpacing: true,
         scrub: true,
-        markers: true,
       },
     });
 
@@ -33,7 +32,7 @@ export const StickyText = () => {
   return (
     <div
       ref={container}
-      className="h-screen flex justify-center items-center p-[160px]"
+      className="h-screen flex justify-center items-center sm:p-[160px] 2xl:p-[320px]  "
     >
       <div className="text-5xl font-medium text-center leading-[150%]">
         {splitWords(phrase, letters)}

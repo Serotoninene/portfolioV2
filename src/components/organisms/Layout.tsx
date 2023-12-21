@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, MutableRefObject } from "react";
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 import { Navbar, ScrollIndicator } from "../molecules";
 import { Lights } from "../three/Lights/Lights";
@@ -11,8 +11,11 @@ type Props = {
 export const Layout = ({ children }: Props) => {
   const eventSource = useRef<HTMLDivElement>(null);
   return (
-    <main ref={eventSource} className="text-dark bg-secondary-200">
-      <GlobalCanvas eventSource={eventSource} eventPrefix="client">
+    <main ref={eventSource} className="text-dark bg-secondary-400">
+      <GlobalCanvas
+        eventSource={eventSource as MutableRefObject<HTMLElement>}
+        eventPrefix="client"
+      >
         <Perf />
         <Lights />
       </GlobalCanvas>
