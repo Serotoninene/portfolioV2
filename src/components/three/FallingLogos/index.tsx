@@ -9,7 +9,7 @@ type Tuple = [number, number, number];
 type PositionRotation = { position: Tuple; rotation: Tuple };
 
 export const FallingLogos = () => {
-  const COUNT = 4;
+  const COUNT = 5;
   const ARR = new Array(COUNT).fill(0);
 
   const { width, height } = useWindowSize();
@@ -32,19 +32,19 @@ export const FallingLogos = () => {
     });
   }, [ARR]);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!logos.current || !height || !width) return;
     const scrollY = window.scrollY;
-    const time = clock.getElapsedTime();
+    const speed = 500;
 
     logos.current.forEach((logo, i) => {
-      logo.position.y = initialPosition[i].position[1] + time * 100;
-      logo.rotation.x = initialPosition[i].rotation[0] + time;
-      logo.rotation.y = initialPosition[i].rotation[1] + time;
+      logo.position.y += delta * speed;
+      logo.rotation.x += delta;
+      logo.rotation.y += delta;
 
-      if (scrollY < 10 && logo.position.y > height) {
-        logo.position.y -= initialPosition[i].position[1];
-        initialPosition[i].position[0] = Math.random() * width;
+      if (scrollY === 0 && logo.position.y > height * 1.5) {
+        logo.position.x = Math.random() * width - width / 2;
+        logo.position.y = -height - (i * height) / 1.5;
       }
     });
   });

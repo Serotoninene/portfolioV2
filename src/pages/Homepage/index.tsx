@@ -1,10 +1,11 @@
-import { Hero } from "./components";
+import { Hero, StickyText } from "./components";
 
 export default function Homepage() {
   return (
     <div id="Homepage">
       <Hero />
-      <div className="h-screen "></div>
+      <StickyText />
+      <div className="h-screen"></div>
       <div className="h-screen"></div>
     </div>
   );
