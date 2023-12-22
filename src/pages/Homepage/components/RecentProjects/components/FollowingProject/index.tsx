@@ -1,13 +1,14 @@
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useProjectContext } from "../../hooks/useProjectContext";
-import vertex from "./shaders/vertex.glsl";
 import fragment from "./shaders/fragment.glsl";
+import vertex from "./shaders/vertex.glsl";
+import gsap from "gsap";
 
-import photo from "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg";
 import { useTexture } from "@react-three/drei";
-import { useControls } from "leva";
+
+import { projects } from "../../data";
 
 type FollowingProjectProps = {
   scale: vec3;
@@ -16,36 +17,70 @@ type FollowingProjectProps = {
 export const FollowingProject = ({ scale }: FollowingProjectProps) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
+  const [mixFactor, setMixFactor] = useState({ value: 0 });
   const { selectedProject } = useProjectContext();
-
-  const texture = useTexture(photo);
+  const textures = useTexture(projects.map((project) => project.img));
   const targetPosition = useRef<THREE.Vector3>(new THREE.Vector3());
 
-  const controls = useControls({
-    frequency: {
-      value: 3,
-      min: 0,
-      max: 10,
-    },
-  });
+  useEffect(() => {
+    if (!shader.current) return;
+    // Find the index of the selected project
+    if (selectedProject) {
+      const updateTexture = async () => {
+        if (!shader.current) return;
+        // Use the index to get the corresponding texture
+        const index = projects.findIndex(
+          (project) => project.title === selectedProject.title
+        );
+
+        const texture2 = textures[index];
+
+        shader.current.uniforms.uTexture2.value = texture2;
+        shader.current.uniforms.uTextureSize.value = new THREE.Vector2(
+          texture2.image.width,
+          texture2.image.height
+        );
+        gsap.killTweensOf(mixFactor);
+
+        await gsap.to(mixFactor, {
+          value: 1,
+          duration: 0.25,
+          delay: 0.25,
+        });
+        shader.current.uniforms.uTexture.value = texture2;
+        setMixFactor({ value: 0 });
+      };
+
+      updateTexture();
+    } else {
+      shader.current.uniforms.uTexture.value = null;
+      shader.current.uniforms.uTexture2.value = null;
+    }
+  }, [selectedProject]);
 
   const uniforms = useMemo(
     () => ({
-      uTexture: { value: texture },
+      uTexture: { value: null },
+      uTexture2: { value: null },
+      uMixFactor: { value: mixFactor.value },
+      uTime: { value: 0 },
       uTextureSize: {
-        value: new THREE.Vector2(texture.image.width, texture.image.height),
+        value: new THREE.Vector2(
+          textures[0].image.width,
+          textures[0].image.height
+        ),
       },
       uQuadSize: {
         value: new THREE.Vector2(scale.x, scale.y),
       },
-      uFrequency: { value: controls.frequency },
     }),
     []
   );
 
-  useFrame(({ pointer }) => {
+  useFrame(({ pointer, clock }) => {
     if (!ref.current || !shader.current) return;
     const scrollY = window.scrollY;
+    const time = clock.getElapsedTime();
 
     // ----------- POSITION ON MOUSE MOVE ----------- //
     targetPosition.current.x =
@@ -65,12 +100,13 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
     );
 
     // ----------- UPDATING THE UNIFORMS ----------- //
-    shader.current.uniforms.uFrequency.value = controls.frequency;
+    shader.current.uniforms.uMixFactor.value = mixFactor.value;
+    shader.current.uniforms.uTime.value = time;
   });
 
   return (
     <mesh ref={ref} scale={[scale.x, scale.y, 0]}>
-      <planeGeometry args={[1, 1]} />
+      <planeGeometry args={[1, 1, 16, 16]} />
       <shaderMaterial
         ref={shader}
         vertexShader={vertex}

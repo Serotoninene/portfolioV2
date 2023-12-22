@@ -1,13 +1,9 @@
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import { MutableRefObject, useRef } from "react";
 import { FollowingProject, ProjectLine } from "..";
-import { Project } from "../../types";
+import { projects } from "../../data";
 
-type Props = {
-  projects: Project[];
-};
-
-export const ProjectLines = ({ projects }: Props) => {
+export const ProjectLines = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
