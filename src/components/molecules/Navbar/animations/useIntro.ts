@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap, { Power3 } from "gsap";
+import { useProgress } from "@react-three/drei";
+
 type Props = {
   containerRef: React.RefObject<HTMLElement>;
   logoRef: React.RefObject<HTMLElement>;
@@ -15,6 +17,7 @@ export const useIntro = ({
 }: Props) => {
   const tl = useRef<gsap.core.Timeline | null>(null);
   const [isRevealCenter, setIsRevealCenter] = useState(false);
+  const { progress } = useProgress();
 
   useEffect(() => {
     gsap.set([logoRef.current, middleRef.current, menuRef.current], {
@@ -24,6 +27,7 @@ export const useIntro = ({
     tl.current = gsap.timeline({
       defaults: { ease: Power3.easeOut },
       delay: 1,
+      paused: true,
     });
 
     tl.current.to(containerRef.current, {
@@ -52,12 +56,15 @@ export const useIntro = ({
       middleRef.current,
       {
         opacity: 1,
-
         onStart: () => setIsRevealCenter(true),
       },
-      "+=0.3"
+      "<+=1"
     );
-  }, []);
+
+    if (progress === 100) {
+      tl.current.play();
+    }
+  }, [progress]);
 
   return { isRevealCenter };
 };

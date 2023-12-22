@@ -1,6 +1,6 @@
-import Homepage from "./pages/Homepage";
-import { Layout } from "./components/organisms";
 import { useEffect } from "react";
+import { Layout } from "./components/organisms";
+import Homepage from "./pages/Homepage";
 
 function App() {
   useEffect(() => {

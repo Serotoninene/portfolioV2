@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { splitWords } from "../../../utils";
+import { splitWords } from "../../../../utils";
 
 export const StickyText = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -18,7 +18,6 @@ export const StickyText = () => {
         start: "top top",
         end: "bottom top",
         pin: true,
-        pinSpacing: true,
         scrub: 0.7,
       },
     });
@@ -30,12 +29,14 @@ export const StickyText = () => {
   }, []);
 
   return (
-    <div
-      ref={container}
-      className="h-screen flex justify-center items-center sm:p-[160px] 2xl:p-[320px]  "
-    >
-      <div className="text-5xl font-medium text-center leading-[150%]">
-        {splitWords(phrase, letters)}
+    <div className="h-[200vh]">
+      <div
+        ref={container}
+        className="h-screen flex justify-center items-center sm:p-[160px] 2xl:p-[320px]  "
+      >
+        <div className="text-5xl font-medium text-center leading-[150%]">
+          {splitWords(phrase, letters)}
+        </div>
       </div>
     </div>
   );

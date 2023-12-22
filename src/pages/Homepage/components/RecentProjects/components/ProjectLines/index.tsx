@@ -8,7 +8,7 @@ export const ProjectLines = () => {
 
   return (
     <>
-      <div className="relative mt-[64px] ml-4 mr-[160px]">
+      <div className="relative mt-[64px] ml-5 mr-[160px]">
         {projects.map((item, index) => (
           <ProjectLine key={index} {...item} num={index + 1} />
         ))}
@@ -16,7 +16,7 @@ export const ProjectLines = () => {
 
       <div
         ref={ref}
-        className="fixed top-0 left-0 w-[300px] aspect-[3/5] "
+        className="fixed top-0 left-0 w-[300px] aspect-[3/5] pointer-events-none"
       ></div>
 
       <UseCanvas>

@@ -13,6 +13,7 @@
     "@14islands/r3f-scroll-rig": "^8.12.3",
     "@react-three/drei": "^9.84.2",
     "@react-three/fiber": "^8.14.2",
+    "@react-three/postprocessing": "^2.15.11",
     "@react-three/rapier": "^1.2.1",
     "@studio-freight/lenis": "^1.0.23",
     "@types/node": "^20.7.0",

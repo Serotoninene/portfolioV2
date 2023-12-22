@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { Mesh, MathUtils } from "three";
 import { useFrame } from "@react-three/fiber";
 
+import gsap from "gsap";
+
 const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/untitled2.glb";
 
 type Props = {
@@ -13,6 +15,7 @@ type Props = {
 
 export const Logo = ({ scale, inViewport }: Props) => {
   const ref = useRef<Mesh>(null);
+  const tl = useRef<gsap.core.Timeline>();
   const model = useGLTF(LOGO_SRC);
   const geometry = model.nodes.Plane.geometry;
 
@@ -21,7 +24,11 @@ export const Logo = ({ scale, inViewport }: Props) => {
 
   useEffect(() => {
     if (!ref.current) return;
+    tl.current = gsap.timeline({ delay: 0.2 });
     ref.current.rotation.set(-0.2, 1.6, 0);
+
+    tl.current.from(ref.current.rotation, { x: 1 });
+    tl.current.from(ref.current.position, { y: -300, z: -600 }, "<");
   }, []);
 
   useFrame(({ pointer }) => {
