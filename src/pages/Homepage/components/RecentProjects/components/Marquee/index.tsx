@@ -3,8 +3,8 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Marquee = () => {
-  const ref = React.useRef<HTMLElement[]>([]);
   const slider = React.useRef<HTMLDivElement>(null);
+
   let xPercent = 0;
   let speed = 0.1;
   let direction = -1;
@@ -17,7 +17,7 @@ export const Marquee = () => {
       xPercent = -100;
     }
 
-    gsap.set(ref.current, { xPercent });
+    gsap.set(slider.current, { xPercent });
     xPercent += speed * direction;
     requestAnimationFrame(animation);
   };
@@ -29,29 +29,25 @@ export const Marquee = () => {
       end: "bottom bottom",
       onUpdate: (self) => {
         direction = self.direction === 1 ? -1 : 1;
-        speed = Math.abs(self.getVelocity()) / 2000; // Adjust the speed based on the scroll velocity
+        speed = 0.1 + Math.abs(self.getVelocity()) / 2000; // Adjust the speed based on the scroll velocity
       },
     });
   }, []);
 
+  const projectTitles = new Array(3).fill(0);
+
   return (
     <div className="relative text-[80px] w-fit font-bold">
       <div ref={slider}>
-        <h2 ref={(e) => ref.current.push(e as HTMLElement)}>
-          RECENT PROJECTS -&nbsp;
-        </h2>
-        <p
-          ref={(e) => ref.current.push(e as HTMLElement)}
-          className="absolute left-[100%] top-0 w-full"
-        >
-          RECENT PROJECTS -
-        </p>
-        <p
-          ref={(e) => ref.current.push(e as HTMLElement)}
-          className="absolute left-[200%] top-0 w-full"
-        >
-          RECENT PROJECTS -
-        </p>
+        <h2>RECENT PROJECTS -&nbsp;</h2>
+        {projectTitles.map((_, index) => (
+          <p
+            key={index}
+            className={`absolute left-[${(index + 1) * 100}%] top-0 w-full`}
+          >
+            RECENT PROJECTS -
+          </p>
+        ))}
       </div>
     </div>
   );
