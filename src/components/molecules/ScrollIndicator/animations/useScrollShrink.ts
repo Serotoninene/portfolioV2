@@ -28,7 +28,6 @@ export const useScrollShrink = (
         scrollTrigger: {
           start: "1% top",
           end: "bottom bottom",
-          markers: true,
           scrub: 0.8,
         },
       }

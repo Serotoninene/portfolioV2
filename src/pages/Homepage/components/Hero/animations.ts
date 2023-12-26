@@ -15,7 +15,6 @@ export const useShrinkOnScroll = (ref: React.RefObject<HTMLDivElement>) => {
         pin: true,
         pinSpacing: false,
         scrub: 0.8,
-        markers: true,
       },
       scale: 0,
       borderRadius: "25px",

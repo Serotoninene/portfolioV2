@@ -1,27 +1,28 @@
 import { useLayoutEffect, useRef } from "react";
 
-import gsap from "gsap";
+import gsap, { Power0 } from "gsap";
+import { Contact } from "..";
+import { useColorContext } from "../../../../hooks/useColorContext";
 
 export const ExpendingSquare = () => {
   const container = useRef<HTMLDivElement>(null);
   const square = useRef<HTMLDivElement>(null);
+  const { colors } = useColorContext();
 
   const tl = useRef<gsap.core.Timeline>();
 
   useLayoutEffect(() => {
-    gsap.set(square.current, {
-      scaleX: 0.3,
-      scaleY: 0.6,
-    });
-
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
         start: "top top",
         end: "bottom top",
-        pin: true,
-        pinSpacing: true,
-        scrub: 1.1,
+        markers: true,
+        scrub: true,
+        // set a easing of none
+      },
+      defaults: {
+        ease: Power0.easeNone,
       },
     });
 
@@ -30,24 +31,36 @@ export const ExpendingSquare = () => {
       scaleY: 1,
     });
 
-    tl.current.to("#Layout", {
-      backgroundColor: "#0B0B0B",
-      color: "#ebe9e5",
-    });
+    tl.current.to(
+      "#Layout",
+      {
+        backgroundColor: colors.dark,
+        color: colors.light,
+      },
+      "<"
+    );
 
     tl.current.to("#ScrollIndicator div", {
-      backgroundColor: "#ebe9e5",
+      backgroundColor: colors.light,
     });
+
+    return () => {
+      tl.current?.kill();
+    };
   }, []);
   return (
-    <div
-      ref={container}
-      className="h-[--fullScreen]  flex justify-center items-center"
-    >
+    <div ref={container} className="h-[200vh]">
       <div
-        ref={square}
-        className="h-[--fullScreen] w-screen bg-[#0B0B0B]"
-      ></div>
+        id="ExpendingSquare"
+        className="h-screen sticky top-0 flex justify-center items-center border-4 border-red-400"
+      >
+        <div
+          ref={square}
+          className="h-[--fullScreen] scale-x-[0.2] scale-y-75 w-screen"
+          style={{ background: colors.dark }}
+        ></div>
+      </div>
+      <Contact />
     </div>
   );
 };

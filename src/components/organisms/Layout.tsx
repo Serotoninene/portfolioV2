@@ -4,8 +4,7 @@ import { MutableRefObject, useRef } from "react";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { Navbar, ScrollIndicator } from "../molecules";
 import { Lights } from "../three/Lights/Lights";
-import { EffectComposer, Noise } from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
+import { useColorContext } from "../../hooks/useColorContext";
 
 type Props = {
   children: React.ReactNode;
@@ -13,26 +12,22 @@ type Props = {
 
 export const Layout = ({ children }: Props) => {
   const eventSource = useRef<HTMLDivElement>(null);
+  const { colors } = useColorContext();
 
   return (
     <ProjectProvider>
       <main
         id="Layout"
         ref={eventSource}
-        className="bg-secondary-400 text-dark"
+        style={{
+          background: colors.light,
+          color: colors.dark,
+        }}
       >
         <GlobalCanvas
           eventSource={eventSource as MutableRefObject<HTMLElement>}
           eventPrefix="client"
         >
-          {/* <Perf /> */}
-          <EffectComposer>
-            <Noise
-              blendFunction={BlendFunction.OVERLAY}
-              premultiply
-              opacity={0.5}
-            />
-          </EffectComposer>
           <Lights />
         </GlobalCanvas>
         <SmoothScrollbar config={{ wheelMultiplier: 0.7 }} />

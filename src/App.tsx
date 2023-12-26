@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Layout } from "./components/organisms";
 import Homepage from "./pages/Homepage";
+import { ColorProvider } from "./contexts/ColorContext";
 
 function App() {
   useEffect(() => {
@@ -8,9 +9,11 @@ function App() {
     document.documentElement.style.setProperty("--fullScreen", screen + "px");
   }, []);
   return (
-    <Layout>
-      <Homepage />
-    </Layout>
+    <ColorProvider>
+      <Layout>
+        <Homepage />
+      </Layout>
+    </ColorProvider>
   );
 }
 
