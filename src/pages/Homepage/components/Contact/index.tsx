@@ -1,4 +1,13 @@
-import { FormEvent, RefObject, useEffect, useRef, useState } from "react";
+import {
+  FormEvent,
+  MutableRefObject,
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import gsap, { Power3 } from "gsap";
 
 // Types
 interface InputProps {
@@ -86,11 +95,35 @@ const Form = () => {
   );
 };
 
-export const Contact = () => {
+type Props = {
+  tl: MutableRefObject<gsap.core.Timeline | null>;
+};
+
+export const Contact = ({ tl }: Props) => {
+  const container = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    gsap.set(container.current, { opacity: 0 });
+
+    tl.current = gsap.timeline({
+      paused: true,
+      defaults: { ease: Power3.easeOut },
+    });
+
+    tl.current.to(container.current, {
+      opacity: 1,
+    });
+
+    return () => {
+      tl.current?.kill();
+    };
+  });
+
   return (
     <div
       id="Contact"
-      className="px-2 pt-14 pb-6 h-[--fullScreen] grid gap-8 sm:gap-0 sm:grid-cols-2 sm:px-5 sm:pt-14sm:pb-6 m-auto snap-child-start text-secondary-200"
+      ref={container}
+      className="px-2 pt-14 pb-6 h-[--fullScreen] grid gap-8 sm:gap-0 sm:grid-cols-2 sm:px-5 sm:pt-14sm:pb-6 m-auto"
     >
       {/* left part */}
       <div className="overflow-hidden">

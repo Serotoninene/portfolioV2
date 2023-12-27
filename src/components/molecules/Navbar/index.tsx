@@ -20,6 +20,7 @@ export const Navbar = () => {
 
   return (
     <div
+      id="Navbar"
       ref={containerRef}
       className="fixed top-0 left-0 right-0 flex items-end justify-between mt-3 mx-5 pb-1 z-10 border-b border-black origin-left"
     >

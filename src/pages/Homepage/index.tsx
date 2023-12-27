@@ -59,8 +59,9 @@ export default function Homepage() {
       <StickyText />
       <RecentProjects />*/}
       <ExpendingSquare />
-      <Contact />
-      <div className="h-screen"> </div>
+      {/* <Contact /> */}
+      <div className="h-screen bg-green-400"> </div>
+      <div className="h-screen bg-blue-400"> </div>
     </div>
   );
 }
