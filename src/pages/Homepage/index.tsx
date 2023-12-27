@@ -54,12 +54,12 @@ export default function Homepage() {
 
   return (
     <div id="Homepage">
-      <Loader />
-      {/* <Hero />
+      {/* <Loader />
+      <Hero />
       <StickyText />
-      <RecentProjects />*/}
-      <ExpendingSquare />
-      {/* <Contact /> */}
+      <RecentProjects /> */}
+      <Contact />
+
       <div className="h-screen bg-green-400"> </div>
       <div className="h-screen bg-blue-400"> </div>
     </div>

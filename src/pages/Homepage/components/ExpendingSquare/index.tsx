@@ -28,6 +28,7 @@ export const ExpendingSquare = () => {
         markers: true,
         scrub: true,
         pin: true,
+        pinSpacing: true,
         onLeave: () => {
           backgroundTl.current?.play();
         },
@@ -42,7 +43,6 @@ export const ExpendingSquare = () => {
       scaleX: 1,
       scaleY: 1,
       onComplete: () => {
-        console.log("complete");
         contactTl.current?.play();
       },
     });
@@ -67,29 +67,27 @@ export const ExpendingSquare = () => {
       borderColor: colors.light,
 
       onReverseComplete: () => {
-        console.log("reverse");
         contactTl.current?.reverse();
       },
     });
 
     return () => {
-      // mainTl.current?.kill();
+      // mainTl.current?.kill(); <- if i kill the main tl it makes the whole component disappear when
       backgroundTl.current?.kill();
     };
   }, []);
   return (
-    <div ref={container} className="h-[100vh]">
+    <div
+      ref={container}
+      id="ExpendingSquare"
+      className="h-screen flex justify-center items-center border-4"
+    >
       <div
-        id="ExpendingSquare"
-        className="h-screen flex justify-center items-center border-4 border-red-400"
+        ref={square}
+        className="h-screen absolute top-0 left-0 right-0 scale-x-[0.2] scale-y-75"
+        style={{ background: colors.dark }}
       >
-        <div
-          ref={square}
-          className="h-[--fullScreen] scale-x-[0.2] scale-y-75 w-screen"
-          style={{ background: colors.dark }}
-        >
-          <Contact tl={contactTl} />
-        </div>
+        <Contact tl={contactTl} />
       </div>
     </div>
   );
