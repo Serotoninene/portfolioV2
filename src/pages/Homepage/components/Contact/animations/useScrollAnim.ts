@@ -15,7 +15,6 @@ export const useScrollAnim = (
         trigger: container.current,
         start: "top top",
         end: "bottom top",
-        markers: true,
         scrub: true,
         pin: true,
         pinSpacing: true,

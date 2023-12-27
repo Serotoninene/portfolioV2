@@ -101,9 +101,9 @@ export const Contact = () => {
   const { colors } = useColorContext();
   const container = useRef<HTMLDivElement>(null);
 
-  const tl = useIntroAnim();
+  const introTl = useIntroAnim();
   const backgroundTl = useChangeBackgroundColor();
-  const containerTl = useScrollAnim(container, backgroundTl);
+  useScrollAnim(container, backgroundTl);
 
   return (
     <div ref={container} className="h-screen">
