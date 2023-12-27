@@ -16,7 +16,7 @@ export const useIntroAnim = () => {
         trigger: "#Contact",
         start: "51% top",
         markers: true,
-        toggleActions: "play reverse play none", // Specify the toggle actions
+        toggleActions: "play reverse play none",
       },
       defaults: { ease: Power3.easeOut },
     });

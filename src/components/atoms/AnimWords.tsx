@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Fragment } from "react";
 import gsap from "gsap";
 
 interface Props {
@@ -43,14 +43,14 @@ export const AnimWords = ({
   return (
     <span ref={containerRef} id={string} className="inline-block align-bottom">
       {words?.map((word, idx) => (
-        <>
+        <Fragment key={`${word}-${string}-${idx}`}>
           <span
             key={`${word}-${string}-${idx}`}
             className="overflow-hidden  inline-block align-bottom"
           >
             <span className="inline-block word">{word}</span>{" "}
           </span>{" "}
-        </>
+        </Fragment>
       ))}
       &nbsp;
     </span>

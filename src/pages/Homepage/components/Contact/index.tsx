@@ -10,6 +10,7 @@ import { useColorContext } from "../../../../hooks/useColorContext";
 import { useChangeBackgroundColor } from "./animations/useChangeBackgroundColor";
 import { useIntroAnim } from "./animations/useIntroAnim";
 import { useScrollAnim } from "./animations/useScrollAnim";
+import { splitWords } from "../../../../utils";
 
 // Types
 interface InputProps {
@@ -100,8 +101,9 @@ const Form = () => {
 export const Contact = () => {
   const { colors } = useColorContext();
   const container = useRef<HTMLDivElement>(null);
+  const headerLetters = useRef<HTMLSpanElement[]>(null);
 
-  const introTl = useIntroAnim();
+  useIntroAnim();
   const backgroundTl = useChangeBackgroundColor();
   useScrollAnim(container, backgroundTl);
 
@@ -133,8 +135,8 @@ export const Contact = () => {
         >
           <div className="w-fit">
             <div id="ContactHeader" className="mb-14">
-              <h2 className="text-3xl font-bold mb-2 sm:text-4xl ">
-                Let's work for you
+              <h2 className="text-3xl font-bold mb-2 sm:text-4xl">
+                {splitWords("Let's work together !", headerLetters)}
               </h2>
               <p className="font-thin">
                 Drop me a message, and let's turn your ideas into reality.{" "}
