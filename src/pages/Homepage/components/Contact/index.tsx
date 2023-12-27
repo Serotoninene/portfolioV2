@@ -1,15 +1,15 @@
 import {
   FormEvent,
-  MutableRefObject,
   RefObject,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import gsap, { Power0, Power3 } from "gsap";
-import { splitWords } from "../../../../utils";
 import { useColorContext } from "../../../../hooks/useColorContext";
+import { useChangeBackgroundColor } from "./animations/useChangeBackgroundColor";
+import { useIntroAnim } from "./animations/useIntroAnim";
+import { useScrollAnim } from "./animations/useScrollAnim";
 
 // Types
 interface InputProps {
@@ -99,93 +99,53 @@ const Form = () => {
 
 export const Contact = () => {
   const { colors } = useColorContext();
-  const tl = useRef<gsap.core.Timeline>();
-  const containerTl = useRef<gsap.core.Timeline>();
   const container = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    containerTl.current = gsap.timeline({
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top top",
-        end: "bottom top",
-        markers: true,
-        scrub: true,
-        pin: true,
-        pinSpacing: true,
-        onLeave: () => {
-          tl.current?.play();
-        },
-        onEnterBack: () => tl.current?.reverse(),
-      },
-      defaults: {
-        ease: Power0.easeNone,
-      },
-    });
-
-    tl.current = gsap.timeline({
-      paused: true,
-      defaults: { ease: Power3.easeOut },
-    });
-
-    tl.current.to("#ContactImage", {
-      opacity: 1,
-      scale: 1,
-    });
-
-    tl.current.to("#ContactHeader h2", {
-      y: 0,
-      duration: 1,
-    });
-
-    containerTl.current.to(container.current, {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-    });
-
-    return () => {
-      tl.current?.kill();
-    };
-  });
+  const tl = useIntroAnim();
+  const backgroundTl = useChangeBackgroundColor();
+  const containerTl = useScrollAnim(container, backgroundTl);
 
   return (
-    <div
-      id="Contact"
-      ref={container}
-      className="px-2 pt-14 pb-10 h-[--fullScreen] grid gap-8 sm:gap-0 sm:grid-cols-2 sm:px-5 sm:pt-14sm:pb-6 m-auto"
-      style={{
-        background: colors.dark,
-        clipPath: "polygon(40% 20%, 60% 20%, 60% 80%, 40% 80%)",
-      }}
-    >
-      {/* left part */}
-      <div className="overflow-hidden">
-        <div className="relative w-full h-[35vh] sm:h-full overflow-hidden ">
-          <img
-            id="ContactImage"
-            alt="placeholder"
-            src="/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg"
-            className="w-full object-cover h-full"
-          />
-        </div>
-      </div>
-      {/* right part */}
+    <div ref={container} className="h-screen">
       <div
-        className="relative px-2 flex flex-col sm:justify-center sm:items-center"
-        style={{ color: colors.light }}
+        id="Contact"
+        className="px-2 pt-14 pb-10 h-screen grid gap-8 sm:gap-0 sm:grid-cols-2 sm:px-5 sm:pt-14sm:pb-6 m-auto"
+        style={{
+          background: colors.dark,
+          clipPath: "polygon(40% 20%, 60% 20%, 60% 80%, 40% 80%)",
+        }}
       >
-        <div className="w-fit">
-          <div id="ContactHeader" className="mb-14">
-            <h2 className="text-3xl font-bold mb-2 sm:text-4xl ">
-              Let's work for you
-            </h2>
-            <p className="font-thin">
-              Drop me a message, and let's turn your ideas into reality. <br />
-              Excited to collaborate on your next creative project!🤝
-            </p>
+        {/* left part */}
+        <div className="overflow-hidden">
+          <div className="relative w-full h-[35vh] sm:h-full overflow-hidden ">
+            <img
+              id="ContactImage"
+              alt="placeholder"
+              src="/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg"
+              className="w-full object-cover h-full"
+            />
           </div>
-          <Form />
-          <div className="sm:absolute sm:left-4 sm:-bottom-1">
-            <p className="">Hello </p>
+        </div>
+        {/* right part */}
+        <div
+          className="relative px-2 flex flex-col sm:justify-center sm:items-center"
+          style={{ color: colors.light }}
+        >
+          <div className="w-fit">
+            <div id="ContactHeader" className="mb-14">
+              <h2 className="text-3xl font-bold mb-2 sm:text-4xl ">
+                Let's work for you
+              </h2>
+              <p className="font-thin">
+                Drop me a message, and let's turn your ideas into reality.{" "}
+                <br />
+                Excited to collaborate on your next creative project!🤝
+              </p>
+            </div>
+            <Form />
+            <div className="sm:absolute sm:left-4 sm:-bottom-1">
+              <p className="">Hello </p>
+            </div>
           </div>
         </div>
       </div>
