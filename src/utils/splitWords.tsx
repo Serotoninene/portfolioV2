@@ -11,7 +11,7 @@ export const splitWords = (
     const letters = splitLetters(word, ref);
     body.push(
       <Fragment key={word + i}>
-        <p className="inline-block">{letters}</p>{" "}
+        <p className="inline-block overflow-hidden">{letters}</p>{" "}
       </Fragment>
     );
   });

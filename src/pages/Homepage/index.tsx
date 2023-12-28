@@ -47,10 +47,10 @@ export default function Homepage() {
 
   return (
     <div id="Homepage">
-      <Loader />
+      {/* <Loader />
       <Hero />
       <StickyText />
-      <RecentProjects />
+      <RecentProjects /> */}
       <Contact />
     </div>
   );

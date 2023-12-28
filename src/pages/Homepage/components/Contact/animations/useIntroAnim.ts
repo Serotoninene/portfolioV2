@@ -1,24 +1,42 @@
-import gsap from "gsap";
-import { Power3 } from "gsap/gsap-core";
-import { useLayoutEffect, useRef } from "react";
+import { RefObject, useLayoutEffect, useRef } from "react";
+import gsap, { Power3 } from "gsap";
 
 export const useIntroAnim = () => {
   const tl = useRef<gsap.core.Timeline>();
 
   useLayoutEffect(() => {
+    const headerTitle = gsap.utils.toArray("#ContactHeader_Title span");
+    const headerParagraph = gsap.utils.toArray("#ContactHeader_Paragraph span");
+
     gsap.set("#ContactImage", {
       opacity: 0,
       scale: 1.2,
+    });
+    gsap.set(headerTitle, {
+      yPercent: 120,
+    });
+
+    gsap.set(headerParagraph, {
+      yPercent: 220,
     });
 
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: "#Contact",
         start: "51% top",
-        markers: true,
-        toggleActions: "play reverse play none",
+        toggleActions: "play none play none",
       },
       defaults: { ease: Power3.easeOut },
+    });
+
+    tl.current.to(headerTitle, {
+      yPercent: 0,
+      stagger: 0.005,
+    });
+
+    tl.current.to(headerParagraph, {
+      yPercent: 0,
+      stagger: 0.001,
     });
 
     // image

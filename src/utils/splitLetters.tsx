@@ -1,5 +1,4 @@
 import { ReactElement, RefObject } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 export const splitLetters = (
   word: string,
@@ -11,7 +10,7 @@ export const splitLetters = (
     letters.push(
       <span
         ref={(el) => ref && ref.current?.push(el as HTMLSpanElement)}
-        key={uuidv4()}
+        key={word + "_" + i}
         className={`inline-block`}
       >
         {letter}
