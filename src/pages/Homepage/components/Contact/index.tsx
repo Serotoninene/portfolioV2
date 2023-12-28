@@ -1,37 +1,31 @@
-import {
-  FormEvent,
-  RefObject,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { FormEvent, RefObject, useEffect, useRef, useState } from "react";
+import { Button } from "../../../../components/atoms";
 import { useColorContext } from "../../../../hooks/useColorContext";
+import { splitWords } from "../../../../utils";
 import { useChangeBackgroundColor } from "./animations/useChangeBackgroundColor";
 import { useIntroAnim } from "./animations/useIntroAnim";
 import { useScrollAnim } from "./animations/useScrollAnim";
-import { splitWords } from "../../../../utils";
 
 // Types
 interface InputProps {
   field: string;
   type?: string;
   hasSubmit: boolean;
-  optionnal?: boolean;
 }
 
-const Input = ({ type = "text", hasSubmit, field, optionnal }: InputProps) => {
+const Input = ({ type = "text", hasSubmit, field }: InputProps) => {
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
 
+  console.log(focus);
   useEffect(() => {
     setValue("");
   }, [hasSubmit]);
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <input
-        required={!optionnal && true}
+        required={true}
         name={field.toLowerCase()}
         type={type}
         value={value}
@@ -41,9 +35,6 @@ const Input = ({ type = "text", hasSubmit, field, optionnal }: InputProps) => {
         onBlur={() => setFocus(false)}
         className="bg-transparent border-secondary-200 border-b-[0.5px] placeholder-secondary-600 w-full mb-2 px-2 py-2 focus:outline-none"
       ></input>
-      {optionnal && !focus && (
-        <div className="absolute top-1 right-1 text-xs">(optionnel)</div>
-      )}
     </div>
   );
 };
@@ -70,14 +61,15 @@ const Form = () => {
 
   return (
     <form
+      id="ContactForm"
       ref={formRef}
       onSubmit={(e) => handleSubmit(e)}
-      className="sm:grid sm:grid-cols-2 sm:gap-2 sm:w-full"
+      className="sm:grid sm:grid-cols-2 sm:gap-4 sm:w-full"
     >
       <Input field="Prenom" hasSubmit={hasSubmit} />
       <Input field="Nom" hasSubmit={hasSubmit} />
       <Input field="Mail" type="mail" hasSubmit={hasSubmit} />
-      <Input field="Telephone" type="phone" optionnal hasSubmit={hasSubmit} />
+      <Input field="Telephone" type="phone" hasSubmit={hasSubmit} />
       <div className="sm:col-span-2">
         <textarea
           required={true}
@@ -87,7 +79,7 @@ const Form = () => {
         ></textarea>
       </div>
       <div className="mt-2 sm:col-span-2 sm:mt-6">
-        <button>Submit</button>
+        <Button>Submit</Button>
       </div>
       {hasSubmit && (
         <p className="w-full text-center sm:absolute sm:bottom-28">
@@ -140,18 +132,15 @@ export const Contact = () => {
               >
                 {splitWords("Let's work together !")}
               </h2>
-              <p
-                id="ContactHeader_Paragraph"
-                className="font-thin border border-red-400"
-              >
+              <p id="ContactHeader_Paragraph" className="font-thin">
                 {splitWords(
-                  "Drop me a message, and let's turn your ideas into reality. Excited to collaborate on your next creative project!🤝"
+                  "Drop me a message, and let's turn your ideas into reality. Excited to collaborate on your next creative project!"
                 )}
               </p>
             </div>
             <Form />
             <div className="sm:absolute sm:left-4 sm:-bottom-1">
-              <p className="">Hello </p>
+              <p></p>
             </div>
           </div>
         </div>
