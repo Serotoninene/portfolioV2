@@ -1,6 +1,13 @@
 import { useFrame } from "@react-three/fiber";
 import gsap, { Power1 } from "gsap";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  RefObject,
+  MutableRefObject,
+} from "react";
 import * as THREE from "three";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import fragment from "./shaders/fragment.glsl";
@@ -26,7 +33,6 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
 
   useEffect(() => {
     if (!shader.current) return;
-
     const updateTexture = async () => {
       if (!shader.current) return;
       // Use the index to get the corresponding texture
@@ -57,23 +63,6 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
       shader.current.uniforms.uTexture.value = texture2;
       setMixFactor({ value: 0 });
     };
-
-    if (!ref.current) return;
-    if (!selectedProject) {
-      gsap.to(ref.current?.scale, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 0.2,
-      });
-    } else {
-      gsap.to(ref.current?.scale, {
-        x: scale.x,
-        y: scale.y,
-        z: 1,
-        duration: 0.2,
-      });
-    }
 
     updateTexture();
   }, [selectedProject]);
@@ -114,12 +103,12 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
     ref.current.position.x = THREE.MathUtils.lerp(
       ref.current.position.x,
       targetPosition.current.x,
-      0.1
+      0.06
     );
     ref.current.position.y = THREE.MathUtils.lerp(
       ref.current.position.y,
       targetPosition.current.y,
-      0.1
+      0.06
     );
 
     // ----------- UPDATING THE UNIFORMS ----------- //
@@ -138,6 +127,7 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
+        transparent={true}
       />
     </mesh>
   );

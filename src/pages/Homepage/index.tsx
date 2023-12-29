@@ -8,7 +8,7 @@ import {
   RecentProjects,
   StickyText,
 } from "./components";
-import { Button } from "../../components/atoms";
+
 const Loader = () => {
   const ref = useRef<HTMLElement>();
   const container = useRef<HTMLDivElement>();

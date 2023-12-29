@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 
 type Props = {
@@ -12,13 +13,13 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
 
   const { setSelectedProject } = useProjectContext();
 
-  const handleHover = () => {
+  const handleHover = useCallback(() => {
     setSelectedProject({ title, subtitle, img });
-  };
+  }, [setSelectedProject, title, subtitle, img]);
 
-  const handleLeave = () => {
+  const handleLeave = useCallback(() => {
     setSelectedProject(null);
-  };
+  }, [setSelectedProject]);
 
   return (
     <div
