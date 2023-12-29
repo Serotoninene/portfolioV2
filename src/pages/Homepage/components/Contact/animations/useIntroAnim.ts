@@ -1,5 +1,5 @@
-import { RefObject, useLayoutEffect, useRef } from "react";
 import gsap, { Power3 } from "gsap";
+import { useLayoutEffect, useRef } from "react";
 
 export const useIntroAnim = () => {
   const tl = useRef<gsap.core.Timeline>();
@@ -30,11 +30,15 @@ export const useIntroAnim = () => {
       y: 50,
     });
 
+    gsap.set("#Contact .button", {
+      opacity: 0,
+    });
+
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: "#Contact",
         start: "51% top",
-        toggleActions: "play none play none",
+        toggleActions: "play none none reverse",
       },
       defaults: { ease: Power3.easeOut },
     });
@@ -62,6 +66,15 @@ export const useIntroAnim = () => {
         rotate: 0,
         y: 0,
         stagger: 0.05,
+      },
+      "<0.1"
+    );
+
+    // button
+    tl.current.to(
+      "#Contact .button",
+      {
+        opacity: 1,
       },
       "<0.1"
     );

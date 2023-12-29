@@ -3,7 +3,8 @@ import { splitLetters } from ".";
 
 export const splitWords = (
   phrase: string,
-  ref?: RefObject<HTMLSpanElement[]>
+  ref?: RefObject<HTMLSpanElement[]>,
+  overflow: "hidden" | "visible" = "hidden"
 ) => {
   const body: ReactElement[] = [];
 
@@ -11,7 +12,7 @@ export const splitWords = (
     const letters = splitLetters(word, ref);
     body.push(
       <Fragment key={word + i}>
-        <p className="inline-block overflow-hidden">{letters}</p>{" "}
+        <p className={`inline-block overflow-${overflow}`}>{letters}</p>{" "}
       </Fragment>
     );
   });

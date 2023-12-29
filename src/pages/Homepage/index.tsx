@@ -2,6 +2,7 @@ import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
 import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 import { Contact, Hero, RecentProjects, StickyText } from "./components";
+import { Button } from "../../components/atoms";
 const Loader = () => {
   const ref = useRef<HTMLElement>();
   const container = useRef<HTMLDivElement>();
@@ -47,10 +48,10 @@ export default function Homepage() {
 
   return (
     <div id="Homepage">
-      {/* <Loader />
+      <Loader />
       <Hero />
       <StickyText />
-      <RecentProjects /> */}
+      <RecentProjects />
       <Contact />
     </div>
   );

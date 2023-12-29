@@ -17,7 +17,6 @@ const Input = ({ type = "text", hasSubmit, field }: InputProps) => {
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
 
-  console.log(focus);
   useEffect(() => {
     setValue("");
   }, [hasSubmit]);
