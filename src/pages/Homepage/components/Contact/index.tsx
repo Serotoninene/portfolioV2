@@ -1,4 +1,4 @@
-import { FormEvent, RefObject, useEffect, useRef, useState } from "react";
+import { FormEvent, RefObject, useRef, useState } from "react";
 import { Button } from "../../../../components/atoms";
 import { useColorContext } from "../../../../hooks/useColorContext";
 import { splitWords } from "../../../../utils";
@@ -10,16 +10,11 @@ import { useScrollAnim } from "./animations/useScrollAnim";
 interface InputProps {
   field: string;
   type?: string;
-  hasSubmit: boolean;
+  // hasSubmit: boolean;
 }
 
-const Input = ({ type = "text", hasSubmit, field }: InputProps) => {
-  const [focus, setFocus] = useState(false);
+const Input = ({ type = "text", field }: InputProps) => {
   const [value, setValue] = useState("");
-
-  useEffect(() => {
-    setValue("");
-  }, [hasSubmit]);
 
   return (
     <div className="relative overflow-hidden">
@@ -30,8 +25,6 @@ const Input = ({ type = "text", hasSubmit, field }: InputProps) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={field}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
         className="bg-transparent border-secondary-200 border-b-[0.5px] placeholder-secondary-600 w-full mb-2 px-2 py-2 focus:outline-none"
       ></input>
     </div>
@@ -40,8 +33,8 @@ const Input = ({ type = "text", hasSubmit, field }: InputProps) => {
 
 const Form = () => {
   const formRef = useRef() as RefObject<HTMLFormElement>;
-  const [feedback, setFeedback] = useState<string>("");
-  const [hasSubmit, setHasSubmit] = useState(false);
+  // const [feedback, setFeedback] = useState<string>("");
+  // const [hasSubmit, setHasSubmit] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,10 +58,10 @@ const Form = () => {
       onSubmit={(e) => handleSubmit(e)}
       className="sm:grid sm:grid-cols-2 sm:gap-4 sm:w-full"
     >
-      <Input field="Prenom" hasSubmit={hasSubmit} />
-      <Input field="Nom" hasSubmit={hasSubmit} />
-      <Input field="Mail" type="mail" hasSubmit={hasSubmit} />
-      <Input field="Telephone" type="phone" hasSubmit={hasSubmit} />
+      <Input field="Prenom" />
+      <Input field="Nom" />
+      <Input field="Mail" type="mail" />
+      <Input field="Telephone" type="phone" />
       <div className="sm:col-span-2">
         <textarea
           required={true}
@@ -78,13 +71,13 @@ const Form = () => {
         ></textarea>
       </div>
       <div className="mt-2 sm:col-span-2 sm:mt-6">
-        <Button>Submit</Button>
+        <Button>Get in touch</Button>
       </div>
-      {hasSubmit && (
+      {/* {hasSubmit && (
         <p className="w-full text-center sm:absolute sm:bottom-28">
           {feedback}
         </p>
-      )}
+      )} */}
     </form>
   );
 };
@@ -131,16 +124,13 @@ export const Contact = () => {
               >
                 {splitWords("Let's work together !")}
               </h2>
-              <p id="ContactHeader_Paragraph" className="font-thin">
+              <div id="ContactHeader_Paragraph" className="font-thin">
                 {splitWords(
                   "Drop me a message, and let's turn your ideas into reality. Excited to collaborate on your next creative project!"
                 )}
-              </p>
+              </div>
             </div>
             <Form />
-            <div className="sm:absolute sm:left-4 sm:-bottom-1">
-              <p></p>
-            </div>
           </div>
         </div>
       </div>

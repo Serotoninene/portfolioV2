@@ -1,7 +1,13 @@
 import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
 import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
-import { Contact, Hero, RecentProjects, StickyText } from "./components";
+import {
+  Contact,
+  Footer,
+  Hero,
+  RecentProjects,
+  StickyText,
+} from "./components";
 import { Button } from "../../components/atoms";
 const Loader = () => {
   const ref = useRef<HTMLElement>();
@@ -53,6 +59,7 @@ export default function Homepage() {
       <StickyText />
       <RecentProjects />
       <Contact />
+      <Footer />
     </div>
   );
 }

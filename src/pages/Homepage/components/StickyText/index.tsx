@@ -26,6 +26,10 @@ export const StickyText = () => {
       opacity: 1,
       stagger: 0.05,
     });
+
+    return () => {
+      tl.current?.kill();
+    };
   }, []);
 
   return (

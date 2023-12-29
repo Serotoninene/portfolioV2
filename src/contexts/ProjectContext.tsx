@@ -4,6 +4,8 @@ import { Project } from "../pages/Homepage/components/RecentProjects/types";
 interface ProjectContextProps {
   selectedProject: Project | null;
   setSelectedProject: (project: Project | null) => void;
+  isHover: boolean;
+  setIsHover: (isHover: boolean) => void;
 }
 
 interface ProjectProviderProps {
@@ -13,14 +15,17 @@ interface ProjectProviderProps {
 export const ProjectContext = createContext<ProjectContextProps>({
   selectedProject: null,
   setSelectedProject: () => {},
+  isHover: false,
+  setIsHover: () => {},
 });
 
 export const ProjectProvider = ({ children }: ProjectProviderProps) => {
+  const [isHover, setIsHover] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const value = useMemo(
-    () => ({ selectedProject, setSelectedProject }),
-    [selectedProject]
+    () => ({ selectedProject, setSelectedProject, isHover, setIsHover }),
+    [selectedProject, isHover]
   );
 
   return (

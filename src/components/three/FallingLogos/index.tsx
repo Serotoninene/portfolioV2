@@ -8,7 +8,7 @@ import { useWindowSize } from "../../../hooks";
 type Tuple = [number, number, number];
 
 export const FallingLogos = () => {
-  const COUNT = 8;
+  const COUNT = 5;
   const ARR = new Array(COUNT).fill(0);
 
   const { width, height } = useWindowSize();
@@ -22,6 +22,7 @@ export const FallingLogos = () => {
     const speed = 500;
 
     logos.current.forEach((logo, i) => {
+      if (!logo) return;
       logo.position.y += delta * speed;
       logo.rotation.x += delta;
       logo.rotation.y += delta;

@@ -32,14 +32,14 @@ export const Button = ({ children }: Props) => {
     hoveredTl.current.to(buttonLetters.current, {
       duration: 0.5,
       y: "-120%",
-      stagger: 0.02,
+      stagger: 0.005,
       ease: Power3.easeOut,
     });
     hoveredTl.current.to(
       buttonLettersShadow.current,
       {
         y: "-120%",
-        stagger: 0.02,
+        stagger: 0.005,
         ease: Power3.easeOut,
       },
       "<"
@@ -57,11 +57,11 @@ export const Button = ({ children }: Props) => {
 
     gsap.to(buttonLetters.current, {
       y: 0,
-      stagger: 0.05,
+      stagger: 0.01,
       ease: "power2.out",
       scrollTrigger: {
         trigger: buttonLetters.current,
-        start: "bottom top",
+        start: "top bottom",
         markers: true,
       },
     });

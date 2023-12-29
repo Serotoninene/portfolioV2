@@ -20,15 +20,6 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
   const [mixFactor, setMixFactor] = useState({ value: 0 });
   const { selectedProject } = useProjectContext();
 
-  // const controls = useControls({
-  //   intensity: {
-  //     value: 0.2,
-  //     min: 0,
-  //     max: 2,
-  //     step: 0.01,
-  //   },
-  // });
-
   const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
   const targetPosition = useRef<THREE.Vector3>(new THREE.Vector3());
@@ -67,10 +58,21 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
       setMixFactor({ value: 0 });
     };
 
+    if (!ref.current) return;
     if (!selectedProject) {
-      ref.current?.scale.set(0, 0, 0);
+      gsap.to(ref.current?.scale, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 0.2,
+      });
     } else {
-      ref.current?.scale.set(scale.x, scale.y, 0);
+      gsap.to(ref.current?.scale, {
+        x: scale.x,
+        y: scale.y,
+        z: 1,
+        duration: 0.2,
+      });
     }
 
     updateTexture();
