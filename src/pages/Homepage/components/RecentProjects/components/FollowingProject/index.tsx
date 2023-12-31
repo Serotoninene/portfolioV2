@@ -1,27 +1,22 @@
+import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import gsap, { Power1 } from "gsap";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  RefObject,
-  MutableRefObject,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
+
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
 
-import { useTexture } from "@react-three/drei";
-
 import { projects } from "../../data";
+import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 
-type FollowingProjectProps = {
-  scale: vec3;
+type Props = {
+  scrollScene: ScrollSceneChildProps;
 };
 
-export const FollowingProject = ({ scale }: FollowingProjectProps) => {
+export const FollowingProject = ({ scrollScene }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
   const [mixFactor, setMixFactor] = useState({ value: 0 });
@@ -29,7 +24,6 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
 
   const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
-  const targetPosition = useRef<THREE.Vector3>(new THREE.Vector3());
 
   useEffect(() => {
     if (!shader.current) return;
@@ -83,33 +77,19 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
         ),
       },
       uQuadSize: {
-        value: new THREE.Vector2(scale.x, scale.y),
+        value: new THREE.Vector2(scrollScene?.scale.x, scrollScene?.scale.y),
       },
     }),
-    []
+    [scrollScene]
   );
 
-  useFrame(({ pointer, clock }) => {
+  useFrame(({ clock, pointer }) => {
     if (!ref.current || !shader.current) return;
-    const scrollY = window.scrollY;
     const time = clock.getElapsedTime();
-
-    // ----------- POSITION ON MOUSE MOVE ----------- //
-    targetPosition.current.x =
-      ((pointer.x + 1) / 2) * window.innerWidth - scale.x / 2;
-    targetPosition.current.y =
-      (pointer.y / 2) * window.innerHeight - scrollY - scale.y / 2;
-
-    ref.current.position.x = THREE.MathUtils.lerp(
-      ref.current.position.x,
-      targetPosition.current.x,
-      0.06
-    );
-    ref.current.position.y = THREE.MathUtils.lerp(
-      ref.current.position.y,
-      targetPosition.current.y,
-      0.06
-    );
+    // ----------- UPDATING THE POSITION ----------- //
+    // ref.current.needsUpdate = true;
+    ref.current.position.x = pointer.x;
+    ref.current.position.y = pointer.y;
 
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
@@ -120,7 +100,7 @@ export const FollowingProject = ({ scale }: FollowingProjectProps) => {
   });
 
   return (
-    <mesh ref={ref} scale={[scale.x, scale.y, 0]}>
+    <mesh ref={ref} {...scrollScene} matrixWorldNeedsUpdate>
       <planeGeometry args={[1, 1, 16, 16]} />
       <shaderMaterial
         ref={shader}

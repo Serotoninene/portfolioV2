@@ -3,7 +3,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Marquee = () => {
-  const slider = React.useRef<HTMLDivElement>(null);
+  const slider = React.useRef<HTMLDivElement[]>([]);
 
   let xPercent = 0;
   let speed = 0.1;
@@ -16,7 +16,6 @@ export const Marquee = () => {
     if (xPercent > 0) {
       xPercent = -100;
     }
-
     gsap.set(slider.current, { xPercent });
     xPercent += speed * direction;
     requestAnimationFrame(animation);
@@ -34,21 +33,18 @@ export const Marquee = () => {
     });
   }, []);
 
-  const projectTitles = new Array(3).fill(0);
+  const projectTitles = new Array(10).fill(0);
 
   return (
-    <div className="relative text-[80px] w-fit font-bold">
-      <div ref={slider}>
-        <h2>RECENT PROJECTS -&nbsp;</h2>
-        {projectTitles.map((_, index) => (
-          <p
-            key={index}
-            className={`absolute left-[${(index + 1) * 100}%] top-0 w-full`}
-          >
-            RECENT PROJECTS -
-          </p>
-        ))}
-      </div>
+    <div className="relative text-[160px] italic w-fit font-bold">
+      <h2 ref={(e) => e && slider.current.push(e)}>RECENT PROJECTS -&nbsp;</h2>
+
+      <p
+        ref={(e) => e && slider.current.push(e)}
+        className={`absolute left-[100%] top-0 w-full whitespace-nowrap`}
+      >
+        RECENT PROJECTS - RECENT PROJECTS
+      </p>
     </div>
   );
 };
