@@ -1,15 +1,15 @@
-import { RefObject, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { RefObject, useMemo, useRef } from "react";
 
-import * as THREE from "three";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
-import { useTexture } from "@react-three/drei";
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
+import { useTexture } from "@react-three/drei";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
-import vertexShader from "./shaders/vertex.glsl";
-import fragmentShader from "./shaders/fragment.glsl";
+import { useColorContext } from "../../../hooks/useColorContext";
 import TouchTexture from "../TouchTexture";
 import { useStripesUVMapping } from "./hooks/useStripesUVMapping";
-import { useColorContext } from "../../../hooks/useColorContext";
+import fragmentShader from "./shaders/fragment.glsl";
+import vertexShader from "./shaders/vertex.glsl";
 
 const disp_src = "/assets/DisplacementMaps/logo-displacement_map.jpg";
 
@@ -19,21 +19,24 @@ type Props = {
 };
 
 const Lines = ({ scrollScene }: Props) => {
+  // -------------------- SETTING CONSTANTS -------------------- //
+  const GAP = 16;
+  const VERTICES = 128;
+  const NB_STRIPES = 24;
+  const ARRAY_STRIPES = new Array(NB_STRIPES).fill(0);
+  const WIDTH = scrollScene.scale.x;
+  const HEIGHT = scrollScene.scale.y;
+
+  // -------------------- SETTING REFS -------------------- //
   const refs = useRef<THREE.ShaderMaterial>(null);
   const stripeGeometries = useRef<THREE.PlaneGeometry[]>([]);
   const planeGeometry = useRef<THREE.PlaneGeometry>(null);
 
+  // -------------------- SETTING TEXTURES -------------------- //
   const texture = useTexture(disp_src);
   const touchTexture = useMemo(() => new TouchTexture(true), []);
 
   const { colors } = useColorContext();
-
-  const gap = 16;
-  const NB_STRIPES = 24;
-  const ARRAY_STRIPES = new Array(NB_STRIPES).fill(0);
-
-  const WIDTH = scrollScene.scale.x;
-  const HEIGHT = scrollScene.scale.y;
 
   const uniforms = useMemo(
     () => ({
@@ -55,16 +58,8 @@ const Lines = ({ scrollScene }: Props) => {
       x: THREE.MathUtils.mapLinear(e.pointer.x, -1, 1, 0, 1),
       y: THREE.MathUtils.mapLinear(e.pointer.y, -1, 1, 0, 1), // <-- PROBLEM HERE !
     };
-
-    // console.log(mappedMouse.y);
     touchTexture.addTouch(mappedMouse);
   };
-
-  useFrame(() => {
-    if (touchTexture) {
-      touchTexture.update();
-    }
-  });
 
   useStripesUVMapping({
     planeGeometry,
@@ -72,22 +67,25 @@ const Lines = ({ scrollScene }: Props) => {
     nbStripes: NB_STRIPES,
   });
 
-  const vertexNum = 128;
+  useFrame(() => {
+    if (!touchTexture) return;
+    touchTexture.update();
+  });
 
   return (
     <>
       <mesh onPointerMove={handleMouseMove}>
         <planeGeometry
           ref={planeGeometry}
-          args={[WIDTH, HEIGHT, vertexNum, vertexNum]}
+          args={[WIDTH, HEIGHT, VERTICES, VERTICES]}
         />
         <meshStandardMaterial transparent opacity={0} />
       </mesh>
       {ARRAY_STRIPES.map((_, index) => {
         const stripeHeight =
-          (HEIGHT - gap * (ARRAY_STRIPES.length - 1)) / ARRAY_STRIPES.length;
+          (HEIGHT - GAP * (ARRAY_STRIPES.length - 1)) / ARRAY_STRIPES.length;
         const yPosition =
-          index * (stripeHeight + gap) - HEIGHT / 2 + stripeHeight / 2;
+          index * (stripeHeight + GAP) - HEIGHT / 2 + stripeHeight / 2;
 
         return (
           <mesh key={index} position={[0, yPosition, 2]}>
@@ -96,7 +94,7 @@ const Lines = ({ scrollScene }: Props) => {
                 if (!e) return;
                 stripeGeometries.current[index] = e;
               }}
-              args={[WIDTH, stripeHeight, vertexNum, vertexNum]}
+              args={[WIDTH, stripeHeight, VERTICES, VERTICES]}
             />
             <shaderMaterial
               ref={refs}
