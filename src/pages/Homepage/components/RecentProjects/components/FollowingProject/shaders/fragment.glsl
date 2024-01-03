@@ -8,14 +8,6 @@ uniform float uIntensity;
 uniform float uMixFactor;
 
 void main() {
-  // float x = uMixFactor;
-  // x = smoothstep(.0,1.0,(x*2.0+vUv.x-1.0));
-
-  // vec4 color = texture2D(uTexture, (vUv - .5)*(1.-x)+.5);
-  // vec4 color2 = texture2D(uTexture2, (vUv - .5)*x+.5);
-
-  // vec4 mixedColor = mix(color, color2, x);
-
   vec4 d1 = texture2D(uTexture, vUv);
   vec4 d2 = texture2D(uTexture2, vUv);
 
@@ -25,8 +17,6 @@ void main() {
   vec4 t1 = texture2D(uTexture, vec2(vUv.x, vUv.y + uMixFactor * (displace2 * uIntensity)));
   vec4 t2 = texture2D(uTexture2, vec2(vUv.x, vUv.y + (1.0 - uMixFactor) * (displace1 * uIntensity)));
 
-  // gl_FragColor = mix(t1, t2, uMixFactor);
-  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-
-  // gl_FragColor = mixedColor;
+  gl_FragColor = mix(t1, t2, uMixFactor);
+  // gl_FragColor = vec4(t1.r, t2.g, t1.b, 1.0);
 }

@@ -33,17 +33,15 @@ export const Marquee = () => {
     });
   }, []);
 
-  const projectTitles = new Array(10).fill(0);
-
   return (
-    <div className="relative text-[160px] italic w-fit font-bold">
+    <div className="relative text-[80px] italic w-fit font-bold">
       <h2 ref={(e) => e && slider.current.push(e)}>RECENT PROJECTS -&nbsp;</h2>
 
       <p
         ref={(e) => e && slider.current.push(e)}
         className={`absolute left-[100%] top-0 w-full whitespace-nowrap`}
       >
-        RECENT PROJECTS - RECENT PROJECTS
+        RECENT PROJECTS - RECENT PROJECTS - RECENT PROJECTS - RECENT PROJECTS
       </p>
     </div>
   );

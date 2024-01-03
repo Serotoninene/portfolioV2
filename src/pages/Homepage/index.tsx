@@ -54,15 +54,12 @@ export default function Homepage() {
 
   return (
     <div id="Homepage">
-      {/* <Loader /> */}
-      {/* <Hero /> */}
-      <div className="h-screen"></div>
-      {/* <StickyText /> */}
+      <Loader />
+      <Hero />
+      <StickyText />
       <RecentProjects />
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
-      {/* <Contact />
-      <Footer /> */}
+      <Contact />
+      <Footer />
     </div>
   );
 }

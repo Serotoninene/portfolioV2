@@ -8,24 +8,24 @@ import { projects } from "../../data";
 export const ProjectLines = () => {
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const dimensions = ref.current?.getBoundingClientRect();
-    const moveDiv = (e: MouseEvent) => {
-      if (dimensions) {
-        gsap.to(ref.current, {
-          x: e.clientX - dimensions.width / 2,
-          y: e.clientY - dimensions.height / 2 + window.scrollY,
-          ease: Power1.easeOut,
-        });
-      }
-    };
+  // useEffect(() => {
+  //   const dimensions = ref.current?.getBoundingClientRect();
+  //   const moveDiv = (e: MouseEvent) => {
+  //     if (dimensions) {
+  //       gsap.to(ref.current, {
+  //         x: e.clientX - dimensions.width / 2,
+  //         y: e.clientY - dimensions.height / 2,
+  //         ease: Power1.easeOut,
+  //       });
+  //     }
+  //   };
 
-    window.addEventListener("mousemove", moveDiv);
+  //   window.addEventListener("mousemove", moveDiv);
 
-    return () => {
-      window.removeEventListener("mousemove", moveDiv);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("mousemove", moveDiv);
+  //   };
+  // }, []);
 
   return (
     <>

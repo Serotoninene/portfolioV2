@@ -1,16 +1,14 @@
 import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import gsap, { Power1 } from "gsap";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-
-import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
 
-import { projects } from "../../data";
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
+import { projects } from "../../data";
+import { useUpdateTexture } from "./animations";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
@@ -20,46 +18,16 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
   const [mixFactor, setMixFactor] = useState({ value: 0 });
-  const { selectedProject } = useProjectContext();
 
   const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
 
-  useEffect(() => {
-    if (!shader.current) return;
-    const updateTexture = async () => {
-      if (!shader.current) return;
-      // Use the index to get the corresponding texture
-      const index = projects.findIndex(
-        (project) => project.title === selectedProject?.title
-      );
-
-      // Get the next texture
-      const texture2 = selectedProject ? textures[index] : null;
-
-      // Set the uniforms
-      shader.current.uniforms.uTexture2.value = texture2;
-      if (texture2)
-        shader.current.uniforms.uTextureSize.value = new THREE.Vector2(
-          texture2.image.width,
-          texture2.image.height
-        );
-
-      // Animate the mix factor
-      gsap.killTweensOf(mixFactor);
-      await gsap.to(mixFactor, {
-        value: 1,
-        duration: 0.2,
-        ease: Power1.easeIn,
-      });
-
-      // Set the first texture to the second texture
-      shader.current.uniforms.uTexture.value = texture2;
-      setMixFactor({ value: 0 });
-    };
-
-    updateTexture();
-  }, [selectedProject]);
+  useUpdateTexture({
+    shader: shader.current,
+    textures,
+    mixFactor,
+    setMixFactor,
+  });
 
   const uniforms = useMemo(
     () => ({
@@ -69,7 +37,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       uMixFactor: { value: mixFactor.value },
       uTime: { value: 0 },
       uIntensity: { value: 0.2 },
-      // uIntensity: { value: controls.intensity },
       uTextureSize: {
         value: new THREE.Vector2(
           textures[0].image.width,
@@ -85,11 +52,24 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   useFrame(({ clock, pointer }) => {
     if (!ref.current || !shader.current) return;
+
     const time = clock.getElapsedTime();
+
     // ----------- UPDATING THE POSITION ----------- //
-    // ref.current.needsUpdate = true;
-    ref.current.position.x = pointer.x;
-    ref.current.position.y = pointer.y;
+    const targetX = ((pointer.x + 1) / 2) * window.innerWidth;
+    const targetY = ((pointer.y + 1) / 2) * window.innerHeight - window.scrollY;
+
+    // adding lerp effect to the position
+    ref.current.position.x = THREE.MathUtils.lerp(
+      ref.current.position.x,
+      targetX,
+      0.1
+    );
+    ref.current.position.y = THREE.MathUtils.lerp(
+      ref.current.position.y,
+      targetY,
+      0.1
+    );
 
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
@@ -100,7 +80,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   });
 
   return (
-    <mesh ref={ref} {...scrollScene} matrixWorldNeedsUpdate>
+    <mesh ref={ref} scale={scrollScene.scale.xyz}>
       <planeGeometry args={[1, 1, 16, 16]} />
       <shaderMaterial
         ref={shader}
