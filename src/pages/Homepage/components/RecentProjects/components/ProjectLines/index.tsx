@@ -32,7 +32,7 @@ export const ProjectLines = () => {
         {projects.map((item, index) => (
           <ProjectLine key={item.title} {...item} num={index + 1} />
         ))}
-        <div className="absolute inset-0 border border-red-400 flex justify-center items-center">
+        <div className="absolute inset-0 border border-red-400 flex justify-center items-center pointer-events-none">
           <div
             ref={ref}
             className="w-[70%] aspect-[16/9] pointer-events-none bg-red-400 opacity-50"

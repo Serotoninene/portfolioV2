@@ -20,5 +20,5 @@ void main() {
   vec4 red = vec4(1., 0., 0., 1.);
 
   gl_FragColor = mix(t1, t2, uMixFactor);
-  gl_FragColor= vec4(1., 0., 0., 1.);
+  // gl_FragColor= vec4(1., 0., 0., 1.);
 }
