@@ -1,6 +1,5 @@
-import { MutableRefObject, useEffect, useRef } from "react";
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
-import gsap, { Power1 } from "gsap";
+import { MutableRefObject, useRef } from "react";
 
 import { FollowingProject, ProjectLine } from "..";
 import { projects } from "../../data";
@@ -29,16 +28,17 @@ export const ProjectLines = () => {
 
   return (
     <>
-      <div className="relative mt-[64px] ml-5 mr-[160px]">
+      <div className="relative mt-[64px] ml-5 overflow-hidden">
         {projects.map((item, index) => (
           <ProjectLine key={item.title} {...item} num={index + 1} />
         ))}
+        <div className="absolute inset-0 border border-red-400 flex justify-center items-center">
+          <div
+            ref={ref}
+            className="w-[70%] aspect-[16/9] pointer-events-none bg-red-400 opacity-50"
+          />
+        </div>
       </div>
-
-      <div
-        ref={ref}
-        className="absolute top-0 left-0 w-[300px] aspect-[3/5] pointer-events-none bg-red-400 opacity-50"
-      />
 
       <UseCanvas>
         <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>

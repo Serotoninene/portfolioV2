@@ -3,12 +3,12 @@ import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
-import fragment from "./shaders/fragment.glsl";
-import vertex from "./shaders/vertex.glsl";
-
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { projects } from "../../data";
 import { useUpdateTexture } from "./animations";
+
+import vertex from "./shaders/vertex.glsl";
+import fragment from "./shaders/fragment.glsl";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
@@ -52,13 +52,14 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   useFrame(({ clock, pointer }) => {
     if (!ref.current || !shader.current) return;
-
     const time = clock.getElapsedTime();
 
     // ----------- UPDATING THE POSITION ----------- //
-    const targetX = ((pointer.x + 1) / 2) * window.innerWidth;
-    const targetY = ((pointer.y + 1) / 2) * window.innerHeight - window.scrollY;
-
+    let targetX =
+      ((pointer.x + 1) / 2) * window.innerWidth - scrollScene.scale.x / 2;
+    targetX *= 0.1;
+    let targetY = ((pointer.y + 1) / 2) * window.innerHeight;
+    targetY *= 0.05;
     // adding lerp effect to the position
     ref.current.position.x = THREE.MathUtils.lerp(
       ref.current.position.x,
@@ -87,7 +88,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
-        transparent={true}
+        needsUpdate={true}
       />
     </mesh>
   );

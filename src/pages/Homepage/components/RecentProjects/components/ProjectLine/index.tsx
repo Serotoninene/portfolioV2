@@ -25,7 +25,7 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
     <div
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
-      className="border-t border-dark pt-6 pb-10 grid grid-cols-6"
+      className="border-t border-dark pt-6 pb-10 grid grid-cols-6 mr-[160px]"
     >
       <div className="flex gap-5 col-span-3">
         <div className="font-medium mt-2">{formattedNum}</div>

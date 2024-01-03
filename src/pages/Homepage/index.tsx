@@ -53,10 +53,10 @@ export default function Homepage() {
   }, []);
 
   return (
-    <div id="Homepage">
+    <div id="Homepage" className="overflow-hidden">
       <Loader />
       <Hero />
-      <StickyText />
+      {/* <StickyText /> */}
       <RecentProjects />
       <Contact />
       <Footer />
