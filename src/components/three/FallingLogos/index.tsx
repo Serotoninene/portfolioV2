@@ -28,11 +28,8 @@ export const FallingLogos = () => {
       logo.rotation.y += delta;
 
       if (scrollY === 0 && logo.position.y > height * 1.5) {
-        // logo.scale.set(100, 160, 160);
-        const range = i % 2 === 0 ? -width / 2 : width / 2;
-        logo.position.x = Math.random() * range;
+        // logo.position.x = width * Math.random();
         logo.position.y = -height - (i * height) / 1.5;
-        logo.position.z = -500;
       }
     });
   });
@@ -42,7 +39,7 @@ export const FallingLogos = () => {
   return (
     <>
       {ARR.map((_, i) => {
-        const range = i % 2 === 0 ? -width / 2 : width / 2;
+        const range = i % 2 === 0 ? -width : width;
         const x = Math.random() * range;
         const y = (-height - i * height) / 2;
         const position: Tuple = [x, y, -500];

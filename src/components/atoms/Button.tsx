@@ -62,7 +62,6 @@ export const Button = ({ children }: Props) => {
       scrollTrigger: {
         trigger: buttonLetters.current,
         start: "top bottom",
-        markers: true,
       },
     });
   }, []);

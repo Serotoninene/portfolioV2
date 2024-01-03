@@ -86,7 +86,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     ref.current.rotation.z = rotationX;
 
     // ----------- UPDATING THE UNIFORMS ----------- //
-    console.log(mixFactor.value);
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
     shader.current.uniforms.uTime.value = time;
 

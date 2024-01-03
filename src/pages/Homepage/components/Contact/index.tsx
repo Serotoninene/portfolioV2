@@ -33,6 +33,7 @@ const Input = ({ type = "text", field }: InputProps) => {
 
 const Form = () => {
   const formRef = useRef() as RefObject<HTMLFormElement>;
+
   // const [feedback, setFeedback] = useState<string>("");
   // const [hasSubmit, setHasSubmit] = useState(false);
 

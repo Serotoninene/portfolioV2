@@ -56,7 +56,7 @@ export default function Homepage() {
     <div id="Homepage" className="overflow-hidden">
       <Loader />
       <Hero />
-      {/* <StickyText /> */}
+      <StickyText />
       <RecentProjects />
       <Contact />
       <Footer />
