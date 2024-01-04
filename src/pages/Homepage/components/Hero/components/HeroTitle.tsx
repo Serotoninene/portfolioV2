@@ -1,42 +1,59 @@
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
-import { Text3D } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { Center, Text3D } from "@react-three/drei";
+
 import { useRef } from "react";
-import { NormalBufferAttributes, Object3D } from "three";
+import { Mesh } from "three";
 
 type Props = {
-  scrollScene: ScrollSceneChildProps;
+  scrollScene?: ScrollSceneChildProps;
+  isMobile: boolean;
 };
 
-export const HeroTitle = ({ scrollScene }: Props) => {
-  const threeTitle = useRef<NormalBufferAttributes | null>(null);
-  const { viewport } = useThree();
-  const { scale } = scrollScene;
+export const HeroTitle = ({ isMobile }: Props) => {
+  const threeTitle = useRef<Mesh>(null);
 
-  console.log(scale);
+  // const { xPos, yPos, zPos, fontSize, lineHeight } = useControls({
+  //   xPos: { value: 0, min: 0, max: 500 },
+  //   yPos: { value: 0, min: -500, max: 500 },
+  //   zPos: { value: 0, min: 0, max: 500 },
+  //   fontSize: { value: 160, min: 0, max: 160 },
+  //   lineHeight: { value: 0.45, min: 0, max: 1 },
+  // });
 
-  useFrame(({ clock }) => {
-    const time = clock.getElapsedTime();
-    if (threeTitle.current) {
-      console.log("eh");
-      threeTitle.current.rotation.y = time * 10;
-    }
-  });
+  if (isMobile) return null;
 
   return (
-    <Text3D
-      position={[0, 0, 0]}
-      ref={threeTitle}
-      font={"/font/Poppins-ExtraBold.json"}
-      curveSegments={24}
-      bevelEnabled
-      bevelSize={0.08}
-      bevelThickness={0.03}
-      lineHeight={0.9}
-      letterSpacing={0.3}
-    >
-      {`ALEX\n PUJOL`}
-      <meshStandardMaterial color={"red"} />
-    </Text3D>
+    <>
+      <Center position={[-0.5, 64, 0]}>
+        <Text3D
+          size={115}
+          ref={threeTitle}
+          font={"/font/Poppins-ExtraBold.json"}
+          curveSegments={24}
+          bevelEnabled
+          bevelSize={0.08}
+          bevelThickness={0.03}
+          letterSpacing={0.3}
+        >
+          {`ALEX`}
+          <meshStandardMaterial color={"red"} />
+        </Text3D>
+      </Center>
+      <Center position={[3, -63, 0]}>
+        <Text3D
+          size={115}
+          ref={threeTitle}
+          font={"/font/Poppins-ExtraBold.json"}
+          curveSegments={24}
+          bevelEnabled
+          bevelSize={0.08}
+          bevelThickness={0.03}
+          letterSpacing={0.3}
+        >
+          {`PUJOL`}
+          <meshStandardMaterial color={"red"} />
+        </Text3D>
+      </Center>
+    </>
   );
 };

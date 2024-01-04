@@ -11,18 +11,18 @@ import { useControls } from "leva";
 export const ShaderGradient = () => {
   const { width, height } = useWindowSize();
 
-  const { uScale, uSpeed, uNoiseStrength } = useControls({
-    uScale: { value: 1.5, min: 0, max: 10 },
-    uSpeed: { value: 0.5, min: 0, max: 1, step: 0.01 },
-    uNoiseStrength: { value: 0.2, min: 0, max: 1, step: 0.01 },
-  });
+  // const { uScale, uSpeed, uNoiseStrength } = useControls({
+  //   uScale: { value: 1.5, min: 0, max: 10 },
+  //   uSpeed: { value: 0.5, min: 0, max: 1, step: 0.01 },
+  //   uNoiseStrength: { value: 0.2, min: 0, max: 1, step: 0.01 },
+  // });
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uScale: { value: uScale },
-      uSpeed: { value: uSpeed },
-      uNoiseStrength: { value: uNoiseStrength },
+      uScale: { value: 1.5 },
+      uSpeed: { value: 0.5 },
+      uNoiseStrength: { value: 0.2 },
     }),
     []
   );
