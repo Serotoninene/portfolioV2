@@ -28,6 +28,8 @@ export const FallingLogos = () => {
       logo.rotation.y += delta;
 
       if (scrollY === 0 && logo.position.y > height * 1.5) {
+        const range = i % 2 === 0 ? -width : width;
+        logo.position.x = Math.random() * range;
         // logo.position.x = width * Math.random();
         logo.position.y = -height - (i * height) / 1.5;
       }
