@@ -57,7 +57,7 @@ export default function Homepage() {
     <div id="Homepage" className="overflow-hidden">
       <Loader />
       <Hero />
-      <Showreal />
+      {/* <Showreal /> */}
       <StickyText />
       <RecentProjects />
       <Contact />

@@ -39,6 +39,10 @@ export const Hero = () => {
       },
       "<"
     );
+
+    return () => {
+      tl.current?.kill();
+    };
   }, []);
 
   return (

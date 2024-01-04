@@ -12,6 +12,8 @@ export const Showreal = () => {
     height: 0,
   });
 
+  const tl = useRef<gsap.core.Timeline>();
+
   const { colors } = useColorContext();
 
   useEffect(() => {
@@ -20,7 +22,11 @@ export const Showreal = () => {
       height: videoContainer.current!.offsetHeight,
     });
 
-    gsap.to(videoContainer.current, {
+    gsap.set(videoContainer.current, {
+      clipPath: "polygon(5% 40%, 95% 40%, 95% 60%, 5% 60%)",
+    });
+
+    tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: mainContainer.current,
         start: "top bottom",
@@ -28,8 +34,15 @@ export const Showreal = () => {
         markers: true,
         scrub: 0.9,
       },
+    });
+
+    tl.current.to(videoContainer.current, {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
     });
+
+    return () => {
+      tl.current?.kill();
+    };
   }, []);
 
   return (
@@ -39,13 +52,15 @@ export const Showreal = () => {
         className="relative h-[90vh] aspect-video px-5"
         style={{
           background: colors.dark,
-          clipPath: "polygon(5% 20%, 95% 20%, 95% 80%, 5% 80%)",
+          // clipPath: "polygon(5% 40%, 95% 40%, 95% 60%, 5% 60%)",
         }}
       >
         <ReactPlayer
           url="https://player.vimeo.com/video/861989910?h=cd4ff54506"
           width={videoDimensions.width}
           height={videoDimensions.height}
+          playing={true}
+          loop={true}
         />
       </div>
     </div>
