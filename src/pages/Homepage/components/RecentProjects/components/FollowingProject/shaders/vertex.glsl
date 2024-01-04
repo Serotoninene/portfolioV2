@@ -20,29 +20,34 @@
       s, 0.0, c
     );
   }
+
+
   
 
-  void main() {
+ void main() {
     vUv = getResponsiveUV(uv, uTextureSize, uQuadSize);
 
-    float distanceFactor = pow(2. - distance(position, vec3(0.0)), 2.0);
+    float maxDistance = 0.5 * uQuadSize.x;
+    float distanceFactor = clamp( distance(position, vec3(0.0)) / maxDistance, 0.0, 1.0);
 
-    // waves
-    // vec3 newPosition = rotation3dY(uTime * 0.3 * distanceFactor) * position;
-    vec3 newPosition = position;
-    newPosition.z += sin(vUv.x * uWaveFrequency + uTime * 2.0) * uWaveIntensity;
+    vec3 wavyPosition = position;
 
-    // when mixFactor goes from 0 to 1, the quad will rotate 360 degrees
-    float angle = mix(0.0, 2.0 * 3.14159265359, uMixFactor);
-    newPosition = rotation3dY(angle) * newPosition;
+    // Smoothly transition the wave effect based on uMixFactor
+    float wave = sin(vUv.x * uWaveFrequency + uTime * 2.0) * uWaveIntensity;
+    wavyPosition.z += wave;
 
-    // when mixFactor goes from 0 to 1, the quad will rotate 90 degrees
-    // float angle = mix(0.0, 1.57079632679, mixFactor);
-    // newPosition.z = newPosition * rotation3dZ(angle).Z;
+    vec3 rotatyPosition = position;
+    // Calculate the rotation angle based on uMixFactor
+    float rotationAngle = uMixFactor * 2.0 * 3.14159;  // 2π radians for a full rotation
 
-    vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);  
+    rotationAngle *= distanceFactor;
+    rotatyPosition *= rotation3dY(rotationAngle);
+
+    vec3 newPosition = mix(wavyPosition, rotatyPosition, uMixFactor);
+
+    vec4 modelPosition = modelMatrix * vec4(wavyPosition, 1.0);  
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
 
     gl_Position = projectedPosition;   
-  }
+}

@@ -5,8 +5,9 @@ import { BlendFunction } from "postprocessing";
 import { MutableRefObject, useRef } from "react";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useColorContext } from "../../hooks/useColorContext";
-import { Navbar, ScrollIndicator } from "../molecules";
+import { CustomCursor, Navbar, ScrollIndicator } from "../molecules";
 import { Lights } from "../three/Lights/Lights";
+import { useControls } from "leva";
 
 type Props = {
   children: React.ReactNode;
@@ -15,6 +16,15 @@ type Props = {
 export const Layout = ({ children }: Props) => {
   const eventSource = useRef<HTMLDivElement>(null);
   const { colors } = useColorContext();
+
+  const { opacity } = useControls("noise", {
+    opacity: { value: 0.1, min: 0, max: 1, step: 0.01 },
+  });
+
+  const { wheelMultiplier, lerp } = useControls("smoothScroll", {
+    wheelMultiplier: { value: 0.8, min: 0, max: 5, step: 0.01 },
+    lerp: { value: 0.1, min: 0, max: 1, step: 0.01 },
+  });
 
   return (
     <ProjectProvider>
@@ -39,14 +49,21 @@ export const Layout = ({ children }: Props) => {
               scale={10.0} // scale of the dot pattern
             /> */}
             <Noise
-              blendFunction={BlendFunction.OVERLAY}
+              blendFunction={BlendFunction.DIFFERENCE}
               premultiply
-              opacity={0.5}
+              opacity={opacity}
             />
           </EffectComposer>
         </GlobalCanvas>
-        <SmoothScrollbar config={{ wheelMultiplier: 0.7 }} />
+        <SmoothScrollbar
+          config={{
+            wheelMultiplier: wheelMultiplier,
+            lerp: lerp,
+            autoResize: true,
+          }}
+        />
         <Navbar />
+        <CustomCursor />
         {children}
         <ScrollIndicator />
       </main>

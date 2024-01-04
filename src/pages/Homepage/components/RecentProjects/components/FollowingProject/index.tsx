@@ -102,6 +102,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
+        side={THREE.DoubleSide}
       />
     </mesh>
   );

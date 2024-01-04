@@ -51,10 +51,6 @@ export const useUpdateTexture = ({
       // Set the first texture to the second texture
       shader.uniforms.uTexture.value = texture2;
       setMixFactor({ value: 0 });
-
-      return () => {
-        gsap.killTweensOf(mixFactor);
-      };
     };
 
     updateTexture();
