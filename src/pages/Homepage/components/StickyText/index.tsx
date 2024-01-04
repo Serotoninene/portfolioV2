@@ -14,7 +14,7 @@ export const StickyText = () => {
 
   useEffect(() => {
     gsap.set(letters.current, { opacity: 0.1 });
-    gsap.set(block.current, { yPercent: -100, rotate: 45 });
+    gsap.set(block.current, { yPercent: -120, rotate: 45 });
     gsap.set(line.current, { scaleX: 0 });
     tl.current = gsap.timeline({
       scrollTrigger: {
@@ -36,7 +36,7 @@ export const StickyText = () => {
       {
         yPercent: 0,
         rotate: 0,
-        duration: 1,
+        duration: 5,
       },
       "<"
     );
@@ -75,7 +75,7 @@ export const StickyText = () => {
         </p>
       </div>
 
-      <div className="absolute bottom-0 left-0 flex items-end gap-6 w-screen pl-5 pr-20 pb-5 bg-red-400">
+      <div className="absolute bottom-0 left-0 flex items-end gap-6 w-screen pl-5 pr-20 pb-5">
         <div className="overflow-hidden">
           <div ref={block} className=" w-6 aspect-square bg-dark" />
         </div>

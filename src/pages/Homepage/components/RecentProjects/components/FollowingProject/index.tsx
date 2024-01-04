@@ -102,7 +102,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
-        needsUpdate={true}
       />
     </mesh>
   );

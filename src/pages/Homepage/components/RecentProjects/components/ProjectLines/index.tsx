@@ -22,7 +22,10 @@ export const ProjectLines = () => {
       </div>
 
       <UseCanvas>
-        <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>
+        <ScrollScene
+          track={ref as MutableRefObject<HTMLDivElement>}
+          inViewportMargin="400%"
+        >
           {(props) => <FollowingProject scrollScene={props} />}
         </ScrollScene>
       </UseCanvas>
