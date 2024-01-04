@@ -39,7 +39,7 @@ export const StickyText = () => {
         ref={container}
         className="h-screen flex justify-center items-center w-full max-w-none"
       >
-        <div className="text-4xl font-medium text-center leading-[150%] w-[640px]">
+        <div className="text-2xl font-medium text-center leading-[150%] w-[640px]">
           {splitWords(phrase, letters)}
         </div>
       </div>

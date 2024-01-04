@@ -4,6 +4,7 @@ import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 import {
   Contact,
   Footer,
+  Showreal,
   Hero,
   RecentProjects,
   StickyText,
@@ -56,6 +57,7 @@ export default function Homepage() {
     <div id="Homepage" className="overflow-hidden">
       <Loader />
       <Hero />
+      <Showreal />
       <StickyText />
       <RecentProjects />
       <Contact />
