@@ -1,5 +1,5 @@
+import gsap, { Power4 } from "gsap";
 import { RefObject, useLayoutEffect, useRef } from "react";
-import gsap, { Power3, Power4 } from "gsap";
 
 export const useHoverMenu = (
   menuRef: RefObject<HTMLSpanElement[]>,

@@ -1,6 +1,7 @@
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import { MutableRefObject, useLayoutEffect, useRef } from "react";
 import Lines from "../../../../components/three/Lines";
+import { AnimLink } from "../../../../components/atoms";
 
 export const Footer = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -29,9 +30,9 @@ export const Footer = () => {
         <p>51 T Rue Piat, 75020, PARIS</p>
         <p>(+ 33) 6 03 53 11 63</p>
         <ul className="flex gap-[80px]">
-          <a>Instagram</a>
-          <a>Linkedin</a>
-          <a>Behance</a>
+          <AnimLink href="instagram.com">Instagram</AnimLink>
+          <AnimLink href="linkedin">Linkedin</AnimLink>
+          <AnimLink href="behance">Behance</AnimLink>
         </ul>
       </div>
 
