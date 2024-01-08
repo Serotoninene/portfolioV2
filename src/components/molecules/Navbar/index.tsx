@@ -1,8 +1,7 @@
 import { useRef } from "react";
 import { getFormattedDate, splitWords } from "../../../utils";
 import { AnimLetters } from "../../atoms";
-import { useAlexReveal, useIntro } from "./animations";
-import gsap, { Power3 } from "gsap";
+import { useAlexReveal, useHoverMenu, useIntro } from "./animations";
 
 export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,33 +18,14 @@ export const Navbar = () => {
     middleRef,
     menuRef,
   });
+  const hoverMenuTl = useHoverMenu(menuRef, menuShadowRef);
 
   const handleMouseEnter = () => {
-    gsap.to(menuRef.current, {
-      yPercent: -100,
-      stagger: 0.05,
-      ease: Power3.easeOut,
-    });
-
-    gsap.to(menuShadowRef.current, {
-      yPercent: -100,
-      stagger: 0.05,
-      ease: Power3.easeOut,
-    });
+    hoverMenuTl.current?.play();
   };
 
   const handleMouseLeave = () => {
-    gsap.to(menuRef.current, {
-      yPercent: 0,
-      stagger: 0.05,
-      ease: Power3.easeOut,
-    });
-
-    gsap.to(menuShadowRef.current, {
-      yPercent: 0,
-      stagger: 0.05,
-      ease: Power3.easeOut,
-    });
+    hoverMenuTl.current?.reverse();
   };
 
   return (
