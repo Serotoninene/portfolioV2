@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { getFormattedDate, splitWords } from "../../../utils";
 import { AnimLetters } from "../../atoms";
 import { useAlexReveal, useHoverMenu, useIntro } from "./animations";
@@ -8,7 +8,7 @@ type Props = {
   setMenuOpen: (arg: boolean) => void;
 };
 
-export const Navbar = ({ isMenuOpen, setMenuOpen }: Props) => {
+export const Navbar = ({ setMenuOpen }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
