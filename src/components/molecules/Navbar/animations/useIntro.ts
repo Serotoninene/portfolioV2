@@ -6,7 +6,7 @@ type Props = {
   containerRef: React.RefObject<HTMLElement>;
   logoRef: React.RefObject<HTMLElement>;
   middleRef: React.RefObject<HTMLElement>;
-  menuRef: React.RefObject<HTMLElement>;
+  menuRef: React.RefObject<HTMLSpanElement[]>;
 };
 
 export const useIntro = ({

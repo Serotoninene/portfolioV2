@@ -10,7 +10,6 @@ import TouchTexture from "../TouchTexture";
 import { useStripesUVMapping } from "./hooks/useStripesUVMapping";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
-import { useControls } from "leva";
 
 const disp_src = "/assets/DisplacementMaps/logo-displacement_map.jpg";
 
@@ -35,12 +34,7 @@ const Lines = ({ scrollScene }: Props) => {
 
   // -------------------- SETTING TEXTURES -------------------- //
   const texture = useTexture(disp_src);
-  const touchTexture = useMemo(() => new TouchTexture(true), []);
-
-  const { dispZ, dispY } = useControls({
-    dispZ: { value: 0, min: 0, max: 100, step: 0.1 },
-    dispY: { value: 20, min: 0, max: 100, step: 0.1 },
-  });
+  const touchTexture = useMemo(() => new TouchTexture(), []);
 
   const { colors } = useColorContext();
 
@@ -56,8 +50,8 @@ const Lines = ({ scrollScene }: Props) => {
         value: new THREE.Vector2(scrollScene.scale.x, scrollScene.scale.y),
       },
       uColor: { value: new THREE.Color(colors.light) },
-      uDispZ: { value: dispZ },
-      uDispY: { value: dispY },
+      uDispZ: { value: 0 },
+      uDispY: { value: 20 },
       uMouse: { value: new THREE.Vector2(0, 0) },
     }),
     []
@@ -88,8 +82,6 @@ const Lines = ({ scrollScene }: Props) => {
     const time = clock.getElapsedTime();
     //  updating the uniforms
     shaderRef.current.uniforms.uTime.value = time;
-    shaderRef.current.uniforms.uDispZ.value = dispZ;
-    shaderRef.current.uniforms.uDispY.value = dispY;
   });
 
   return (

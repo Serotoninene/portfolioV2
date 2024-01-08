@@ -1,13 +1,15 @@
 import { useRef } from "react";
-import { getFormattedDate } from "../../../utils";
+import { getFormattedDate, splitWords } from "../../../utils";
 import { AnimLetters } from "../../atoms";
 import { useAlexReveal, useIntro } from "./animations";
+import gsap, { Power3 } from "gsap";
 
 export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLSpanElement[]>([]);
+  const menuShadowRef = useRef<HTMLSpanElement[]>([]);
 
   const formattedDate = getFormattedDate();
   const hasScrolled = useAlexReveal();
@@ -17,6 +19,34 @@ export const Navbar = () => {
     middleRef,
     menuRef,
   });
+
+  const handleMouseEnter = () => {
+    gsap.to(menuRef.current, {
+      yPercent: -100,
+      stagger: 0.05,
+      ease: Power3.easeOut,
+    });
+
+    gsap.to(menuShadowRef.current, {
+      yPercent: -100,
+      stagger: 0.05,
+      ease: Power3.easeOut,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    gsap.to(menuRef.current, {
+      yPercent: 0,
+      stagger: 0.05,
+      ease: Power3.easeOut,
+    });
+
+    gsap.to(menuShadowRef.current, {
+      yPercent: 0,
+      stagger: 0.05,
+      ease: Power3.easeOut,
+    });
+  };
 
   return (
     <div
@@ -58,10 +88,15 @@ export const Navbar = () => {
         />
       </div>
       <button
-        ref={menuRef}
-        className="font-extrabold text-lg cursor-pointer leading-5"
+        className=" relative font-extrabold text-lg cursor-pointer leading-5 overflow-hidden"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        menu
+        <p> {splitWords("menu", menuRef, "visible")}</p>
+
+        <p className="absolute leading-5 top-full">
+          {splitWords("menu", menuShadowRef, "visible")}
+        </p>
       </button>
     </div>
   );
