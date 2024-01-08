@@ -55,13 +55,13 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-hidden">
-      <Loader />
+      {/* <Loader />
       <Hero />
       <Showreal />
-      <StickyText />
+      <StickyText /> */}
       <RecentProjects />
-      <Contact />
-      <Footer />
+      {/* <Contact />
+      <Footer /> */}
     </div>
   );
 }

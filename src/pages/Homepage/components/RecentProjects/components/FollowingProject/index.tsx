@@ -23,12 +23,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
 
-  // const controls = useControls({
-  //   rotationIntensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
-  //   waveFrequency: { value: 10, min: 0, max: 100, step: 0.1 },
-  //   waveIntensity: { value: 100, min: 0, max: 500, step: 0.1 },
-  // });
-
   useUpdateTexture({
     shader: shader.current,
     textures,
