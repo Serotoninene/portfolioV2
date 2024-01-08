@@ -1,6 +1,5 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import { useControls } from "leva";
 import { MutableRefObject, useRef } from "react";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useColorContext } from "../../hooks/useColorContext";
@@ -15,10 +14,10 @@ export const Layout = ({ children }: Props) => {
   const eventSource = useRef<HTMLDivElement>(null);
   const { colors } = useColorContext();
 
-  const { wheelMultiplier, lerp } = useControls("smoothScroll", {
-    wheelMultiplier: { value: 0.8, min: 0, max: 5, step: 0.01 },
-    lerp: { value: 0.1, min: 0, max: 1, step: 0.01 },
-  });
+  // const { wheelMultiplier, lerp } = useControls("smoothScroll", {
+  //   wheelMultiplier: { value: 1.3, min: 0, max: 5, step: 0.01 },
+  //   lerp: { value: 0.1, min: 0, max: 1, step: 0.01 },
+  // });
 
   return (
     <ProjectProvider>
@@ -39,8 +38,8 @@ export const Layout = ({ children }: Props) => {
         </GlobalCanvas>
         <SmoothScrollbar
           config={{
-            wheelMultiplier: wheelMultiplier,
-            lerp: lerp,
+            wheelMultiplier: 1.3,
+            lerp: 0.1,
             autoResize: true,
           }}
         />

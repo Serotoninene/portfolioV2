@@ -16,7 +16,7 @@ export const ProjectLines = () => {
         <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
           <div
             ref={ref}
-            className="w-[70%] aspect-[16/9] pointer-events-none"
+            className="w-[50%] min-w-[576px] aspect-[16/9] pointer-events-none"
           />
         </div>
       </div>

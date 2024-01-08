@@ -63,7 +63,7 @@ export const StickyText = () => {
   return (
     <div
       ref={container}
-      className="relative flex items-center w-full h-screen max-w-none  px-5"
+      className="relative flex items-center w-full h-screen px-5"
     >
       <div className="grid grid-cols-6 w-full">
         <p className="pt-6 font-thin italic text-sm col-span-2">Lorem Ipsum</p>

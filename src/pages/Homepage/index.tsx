@@ -4,9 +4,9 @@ import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 import {
   Contact,
   Footer,
-  Showreal,
   Hero,
   RecentProjects,
+  Showreal,
   StickyText,
 } from "./components";
 

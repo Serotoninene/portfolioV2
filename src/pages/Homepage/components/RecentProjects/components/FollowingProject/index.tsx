@@ -7,9 +7,9 @@ import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { projects } from "../../data";
 import { useUpdateTexture } from "./animations";
 
-import vertex from "./shaders/vertex.glsl";
+import { lerp } from "three/src/math/MathUtils.js";
 import fragment from "./shaders/fragment.glsl";
-import { useControls } from "leva";
+import vertex from "./shaders/vertex.glsl";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
@@ -23,11 +23,11 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
 
-  const controls = useControls({
-    rotationIntensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
-    waveFrequency: { value: 10, min: 0, max: 100, step: 0.1 },
-    waveIntensity: { value: 100, min: 0, max: 500, step: 0.1 },
-  });
+  // const controls = useControls({
+  //   rotationIntensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
+  //   waveFrequency: { value: 10, min: 0, max: 100, step: 0.1 },
+  //   waveIntensity: { value: 100, min: 0, max: 500, step: 0.1 },
+  // });
 
   useUpdateTexture({
     shader: shader.current,
@@ -44,8 +44,8 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       uMixFactor: { value: mixFactor.value },
       uTime: { value: 0 },
       uIntensity: { value: 0.2 },
-      uWaveFrequency: { value: controls.waveFrequency },
-      uWaveIntensity: { value: controls.waveIntensity },
+      uWaveFrequency: { value: 10 },
+      uWaveIntensity: { value: 100 },
       uTextureSize: {
         value: new THREE.Vector2(
           textures[0].image.width,
@@ -68,7 +68,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       ((pointer.x + 1) / 2) * window.innerWidth - scrollScene.scale.x / 2;
     targetX *= 0.1;
     let targetY = pointer.y * window.innerHeight;
-    targetY *= 0.1;
+    targetY *= 0.5;
     // adding lerp effect to the position
     ref.current.position.x = THREE.MathUtils.lerp(
       ref.current.position.x,
@@ -82,16 +82,18 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     );
 
     // ----------- UPDATING THE ROTATION ----------- //
-    const rotationX = -pointer.x * 0.05;
-    ref.current.rotation.z = rotationX;
+    const rotationY = -pointer.x * 0.76;
+    const rotationZ = -pointer.x * 0.08;
+    ref.current.rotation.y = lerp(ref.current.rotation.y, rotationY, 0.06);
+    ref.current.rotation.z = lerp(ref.current.rotation.z, rotationZ, 0.6);
 
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
     shader.current.uniforms.uTime.value = time;
 
     // ----------- UPDATING THE CONTROLS ----------- //
-    shader.current.uniforms.uWaveIntensity.value = controls.waveIntensity;
-    shader.current.uniforms.uWaveFrequency.value = controls.waveFrequency;
+    // shader.current.uniforms.uWaveIntensity.value = controls.waveIntensity;
+    // shader.current.uniforms.uWaveFrequency.value = controls.waveFrequency;
   });
 
   return (

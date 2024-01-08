@@ -46,7 +46,11 @@ export const Showreal = () => {
   }, []);
 
   return (
-    <div ref={mainContainer} className="flex justify-center items-center">
+    <div
+      ref={mainContainer}
+      className="flex justify-center items-center pointer-events-none"
+      onMouseEnter={() => console.log("enter")}
+    >
       <div
         ref={videoContainer}
         className="relative h-[90vh] aspect-video px-5"
