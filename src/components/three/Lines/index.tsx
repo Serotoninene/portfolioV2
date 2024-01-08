@@ -10,6 +10,7 @@ import TouchTexture from "../TouchTexture";
 import { useStripesUVMapping } from "./hooks/useStripesUVMapping";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
+import { useControls } from "leva";
 
 const disp_src = "/assets/DisplacementMaps/logo-displacement_map.jpg";
 
@@ -28,13 +29,18 @@ const Lines = ({ scrollScene }: Props) => {
   const HEIGHT = scrollScene.scale.y;
 
   // -------------------- SETTING REFS -------------------- //
-  const refs = useRef<THREE.ShaderMaterial>(null);
+  const shaderRef = useRef<THREE.ShaderMaterial>(null);
   const stripeGeometries = useRef<THREE.PlaneGeometry[]>([]);
   const planeGeometry = useRef<THREE.PlaneGeometry>(null);
 
   // -------------------- SETTING TEXTURES -------------------- //
   const texture = useTexture(disp_src);
-  const touchTexture = useMemo(() => new TouchTexture(), []);
+  const touchTexture = useMemo(() => new TouchTexture(true), []);
+
+  const { dispZ, dispY } = useControls({
+    dispZ: { value: 0, min: 0, max: 100, step: 0.1 },
+    dispY: { value: 20, min: 0, max: 100, step: 0.1 },
+  });
 
   const { colors } = useColorContext();
 
@@ -46,17 +52,24 @@ const Lines = ({ scrollScene }: Props) => {
         value: new THREE.Vector2(texture.image.width, texture.image.height),
       },
       uTouchTexture: { value: touchTexture.texture },
+      uQuadSize: {
+        value: new THREE.Vector2(scrollScene.scale.x, scrollScene.scale.y),
+      },
       uColor: { value: new THREE.Color(colors.light) },
+      uDispZ: { value: dispZ },
+      uDispY: { value: dispY },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uQuadSize: { value: new THREE.Vector2(HEIGHT, WIDTH) },
     }),
     []
   );
 
+  const yRatio = scrollScene.scale.y / window.innerHeight;
+  const xRatio = scrollScene.scale.x / window.innerWidth;
+
   const handleMouseMove = (e: ThreeEvent<MouseEvent>) => {
     const mappedMouse = {
-      x: THREE.MathUtils.mapLinear(e.pointer.x, -1, 1, 0, 1),
-      y: THREE.MathUtils.mapLinear(e.pointer.y, -1, 1, 0, 1), // <-- PROBLEM HERE !
+      x: THREE.MathUtils.mapLinear(e.pointer.x, -xRatio, xRatio, 0, 1),
+      y: THREE.MathUtils.mapLinear(e.pointer.y, -yRatio, yRatio, 0, 1), // <-- PROBLEM HERE !
     };
     touchTexture.addTouch(mappedMouse);
   };
@@ -67,9 +80,16 @@ const Lines = ({ scrollScene }: Props) => {
     nbStripes: NB_STRIPES,
   });
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (!touchTexture) return;
     touchTexture.update();
+
+    if (!shaderRef.current) return;
+    const time = clock.getElapsedTime();
+    //  updating the uniforms
+    shaderRef.current.uniforms.uTime.value = time;
+    shaderRef.current.uniforms.uDispZ.value = dispZ;
+    shaderRef.current.uniforms.uDispY.value = dispY;
   });
 
   return (
@@ -97,7 +117,7 @@ const Lines = ({ scrollScene }: Props) => {
               args={[WIDTH, stripeHeight, VERTICES, VERTICES]}
             />
             <shaderMaterial
-              ref={refs}
+              ref={shaderRef}
               side={THREE.DoubleSide}
               uniforms={uniforms}
               vertexShader={vertexShader}

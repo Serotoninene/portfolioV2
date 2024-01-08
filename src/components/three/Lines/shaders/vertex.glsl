@@ -7,30 +7,41 @@ uniform float uTime;
 uniform sampler2D uDisp;
 uniform sampler2D uTouchTexture;
 uniform vec2 uDispSize;
-
 uniform vec2 uQuadSize;
+uniform float uDispY;
+uniform float uDispZ;
 
-const float PI = 3.1415;
+vec2 getResponsiveUV(vec2 uv, vec2 textureSize, vec2 quadSize){
+  vec2 tempUV = uv - vec2(0.5);
 
-vec3 deformationCurve(vec3 position, vec2 uv, vec2 offset){
-  position.x = position.x + (sin(uv.y * PI) * offset.x);
-  position.y = position.y + (sin(uv.x * PI) * offset.y);
-  return position;
+  float quadAspect = quadSize.x / quadSize.y;
+  float textureAspect = textureSize.x / textureSize.y;
+
+  if(quadAspect < textureAspect){
+    tempUV *= vec2(quadAspect / textureAspect, 1.);
+  }else{
+    tempUV*= vec2(1., textureAspect / quadAspect);
+  }
+
+  tempUV += vec2(0.5);
+  return tempUV;
 }
 
-float circle(vec2 uv, vec2 disc_center, float disc_radius, float border_size) {
-  float dist = distance(uv, disc_center);
-  return step(disc_radius, dist);
-}
 
 void main() {
-  vUv = uv;
+
+
+  vUv = getResponsiveUV(uv,uDispSize, uQuadSize);
   vec3 pos = position;
   float disp = texture2D(uDisp, uv).r;
   float mouse = texture2D(uTouchTexture, vUv).r;
   vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
-  modelPosition.z += 100. * disp;
-  modelPosition.z += 50. * mouse;
+  modelPosition.y += 10. * disp;
+  modelPosition.y += uDispY * mouse ;
+
+  float wave = sin(vUv.x * 10. + uTime * 2.) * 4.;
+
+  modelPosition.y += wave;
 
 
 

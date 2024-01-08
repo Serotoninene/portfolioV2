@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
-import gsap from "gsap";
+import gsap, { Power3 } from "gsap";
 
 type Props = {
   title: string;
@@ -46,44 +46,59 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
       opacity: 0,
     });
     gsap.set(arrow.current, {
-      yPercent: 100,
+      yPercent: -100,
       xPercent: 100,
-      opacity: 0,
     });
   };
 
   useLayoutEffect(() => {
     setInitialPositions();
     introTL.current = gsap.timeline({
-      // scrollTrigger: {
-      //   trigger: line.current,
-      //   start: "top top",
-      //   markers: true,
-      // },
+      scrollTrigger: {
+        trigger: line.current,
+        start: "top 90%",
+        // markers: true,
+      },
+      defaults: { ease: Power3.easeOut },
     });
 
-    introTL.current.to(line.current, {
-      scaleX: 1,
-    });
-    introTL.current.to(numRef.current, {
-      yPercent: 0,
-      opacity: 1,
-      stagger: 0.1,
-    });
-    introTL.current.to(titleRef.current, {
-      yPercent: 0,
-      opacity: 1,
-      stagger: 0.1,
-    });
-    introTL.current.to(subtitleRef.current, {
-      yPercent: 0,
-      opacity: 1,
-      stagger: 0.1,
-    });
+    introTL.current.to(
+      line.current,
+      {
+        scaleX: 1,
+      },
+      "<0.1"
+    );
+    introTL.current.to(
+      numRef.current,
+      {
+        yPercent: 0,
+        opacity: 1,
+        stagger: 0.1,
+      },
+      "<0.1"
+    );
+    introTL.current.to(
+      titleRef.current,
+      {
+        yPercent: 0,
+        opacity: 1,
+        stagger: 0.01,
+      },
+      "<0.01"
+    );
+    introTL.current.to(
+      subtitleRef.current,
+      {
+        yPercent: 0,
+        opacity: 1,
+        stagger: 0.005,
+      },
+      "<0.2"
+    );
     introTL.current.to(arrow.current, {
       yPercent: 0,
       xPercent: 0,
-      opacity: 1,
     });
   }, []);
 
@@ -105,7 +120,7 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
         <p className="text-[20px] col-span-2">
           {splitWords(subtitle, subtitleRef)}
         </p>
-        <div className="flex justify-end pr-4">
+        <div className="flex justify-end pr-4 overflow-hidden">
           <img
             ref={arrow}
             className="w-6 aspect-square"

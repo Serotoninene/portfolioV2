@@ -31,7 +31,6 @@ export const Showreal = () => {
         trigger: mainContainer.current,
         start: "top bottom",
         end: "bottom bottom",
-        markers: true,
         scrub: 0.9,
       },
     });

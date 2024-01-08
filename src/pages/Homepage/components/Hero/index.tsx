@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { AnimLetters, AnimWords } from "../../../../components/atoms";
 import { HeroThree } from "./components";

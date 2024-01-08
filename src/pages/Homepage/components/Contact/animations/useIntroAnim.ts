@@ -7,9 +7,7 @@ export const useIntroAnim = () => {
   useLayoutEffect(() => {
     const headerTitle = gsap.utils.toArray("#ContactHeader_Title span");
     const headerParagraph = gsap.utils.toArray("#ContactHeader_Paragraph span");
-    const formInputs = gsap.utils.toArray(
-      "#ContactForm input, #ContactForm textarea"
-    );
+    const formInputs = gsap.utils.toArray("#ContactForm input");
 
     // Initialisation
     gsap.set("#ContactImage", {
@@ -27,6 +25,12 @@ export const useIntroAnim = () => {
     gsap.set(formInputs, {
       opacity: 0,
       rotate: 10,
+      y: 50,
+    });
+
+    gsap.set("#Contact textarea", {
+      opacity: 0,
+      rotate: 5,
       y: 50,
     });
 
@@ -66,6 +70,15 @@ export const useIntroAnim = () => {
         rotate: 0,
         y: 0,
         stagger: 0.05,
+      },
+      "<0.1"
+    );
+    tl.current.to(
+      "#Contact textarea",
+      {
+        opacity: 1,
+        rotate: 0,
+        y: 0,
       },
       "<0.1"
     );
