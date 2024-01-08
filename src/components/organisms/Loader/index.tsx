@@ -1,5 +1,6 @@
-import { useProgress } from "@react-three/drei";
 import { useRef, useLayoutEffect, RefObject } from "react";
+import { useProgress } from "@react-three/drei";
+import gsap from "gsap";
 
 export const Loader = () => {
   const ref = useRef<HTMLElement>();

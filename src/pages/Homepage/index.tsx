@@ -1,6 +1,4 @@
-import { useProgress } from "@react-three/drei";
-import gsap from "gsap";
-import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   Contact,
   Footer,
@@ -9,6 +7,7 @@ import {
   Showreal,
   StickyText,
 } from "./components";
+import { Loader } from "../../components/organisms";
 
 export default function Homepage() {
   useEffect(() => {
@@ -25,13 +24,13 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-hidden ">
-      {/* <Loader /> */}
-      {/* <Hero /> */}
-      {/* <Showreal /> */}
-      {/* <StickyText />
+      <Loader />
+      <Hero />
+      <Showreal />
+      <StickyText />
       <RecentProjects />
       <Contact />
-      <Footer /> */}
+      <Footer />
     </div>
   );
 }

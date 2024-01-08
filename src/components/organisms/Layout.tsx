@@ -14,7 +14,7 @@ type Props = {
 export const Layout = ({ children }: Props) => {
   const { colors } = useColorContext();
   const eventSource = useRef<HTMLDivElement>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   // const { wheelMultiplier, lerp } = useControls("smoothScroll", {
   //   wheelMultiplier: { value: 1.3, min: 0, max: 5, step: 0.01 },
@@ -31,6 +31,7 @@ export const Layout = ({ children }: Props) => {
           color: colors.dark,
         }}
       >
+        {/* --------------- R3F-SCROLL-RIG PART --------------- */}
         <GlobalCanvas
           globalRender={false}
           eventSource={eventSource as MutableRefObject<HTMLElement>}
@@ -45,6 +46,7 @@ export const Layout = ({ children }: Props) => {
             autoResize: true,
           }}
         />
+        {/* --------------- R3F-SCROLL-RIG PART --------------- */}
         <Navbar isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
         <Menu isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
         <CustomCursor />

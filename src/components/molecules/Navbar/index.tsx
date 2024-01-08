@@ -43,7 +43,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
       ref={containerRef}
       className="fixed top-0 left-0 right-0 flex items-end justify-between mt-3 mx-5 pb-1 z-10 border-b border-black origin-left"
     >
-      <h1
+      <h2
         ref={logoRef}
         className="bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
       >
@@ -54,7 +54,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
           stagger={0.01}
           start={hasScrolled}
         />
-      </h1>
+      </h2>
 
       <div
         ref={middleRef}
@@ -77,7 +77,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
         />
       </div>
       <button
-        className=" relative font-extrabold text-lg cursor-pointer leading-5 overflow-hidden"
+        className="relative font-extrabold text-lg cursor-pointer leading-5 overflow-hidden"
         onClick={openMenu}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

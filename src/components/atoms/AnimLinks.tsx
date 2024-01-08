@@ -4,10 +4,11 @@ import { splitWords } from "../../utils";
 
 type Props = {
   children: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
 };
 
-export const AnimLink = ({ children, href }: Props) => {
+export const AnimLink = ({ children, href, onClick }: Props) => {
   const ref = useRef<HTMLSpanElement[]>([]);
   const shadowRef = useRef<HTMLSpanElement[]>([]);
   const tl = useRef<gsap.core.Timeline>();
@@ -47,6 +48,21 @@ export const AnimLink = ({ children, href }: Props) => {
       tl.current?.kill();
     };
   });
+
+  if (!href)
+    return (
+      <button
+        className="relative overflow-hidden"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={onClick}
+      >
+        {splitWords(children, ref)}
+        <span className="absolute top-0 left-0">
+          {splitWords(children, shadowRef, "visible")}
+        </span>
+      </button>
+    );
 
   return (
     <a
