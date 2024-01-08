@@ -66,5 +66,5 @@ export const useIntro = ({
     }
   }, [progress]);
 
-  return { isRevealCenter };
+  return { tl, isRevealCenter };
 };

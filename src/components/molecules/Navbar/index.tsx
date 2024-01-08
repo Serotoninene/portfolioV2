@@ -1,9 +1,14 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { getFormattedDate, splitWords } from "../../../utils";
 import { AnimLetters } from "../../atoms";
 import { useAlexReveal, useHoverMenu, useIntro } from "./animations";
 
-export const Navbar = () => {
+type Props = {
+  isMenuOpen: boolean;
+  setMenuOpen: (arg: boolean) => void;
+};
+
+export const Navbar = ({ isMenuOpen, setMenuOpen }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
@@ -26,6 +31,10 @@ export const Navbar = () => {
 
   const handleMouseLeave = () => {
     hoverMenuTl.current?.reverse();
+  };
+
+  const openMenu = () => {
+    setMenuOpen(true);
   };
 
   return (
@@ -69,6 +78,7 @@ export const Navbar = () => {
       </div>
       <button
         className=" relative font-extrabold text-lg cursor-pointer leading-5 overflow-hidden"
+        onClick={openMenu}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >

@@ -5,9 +5,10 @@ import { splitWords } from "../../utils";
 
 interface Props {
   children: string;
+  onClick?: () => void;
 }
 
-export const Button = ({ children }: Props) => {
+export const Button = ({ children, onClick }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
   const { colors } = useColorContext();
 
@@ -79,6 +80,7 @@ export const Button = ({ children }: Props) => {
       className={`button relative overflow-hidden inline-block border border-[${colors.light}] rounded-lg`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
     >
       <div
         ref={whiteBackground}
