@@ -61,7 +61,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
         className="flex gap-10 text-sm font-medium overflow-hidden"
       >
         <AnimLetters
-          string="Portfolio 2004"
+          string="Portfolio 2024"
           delay={0}
           ease="easeOut"
           stagger={0.005}

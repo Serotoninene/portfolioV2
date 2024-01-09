@@ -19,9 +19,10 @@ export const StickyText = () => {
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
-        start: "top top",
-        end: "bottom top",
+        start: "bottom bottom",
+        end: "bottom center",
         pin: true,
+        markers: true,
         pinSpacing: true,
         scrub: 0.7,
       },
@@ -63,16 +64,13 @@ export const StickyText = () => {
   return (
     <div
       ref={container}
-      className="relative flex items-center w-full h-screen px-5"
+      className="relative flex items-center w-full h-[50vh] px-5 sm:mt-10 mb-[20vh]"
     >
-      <div className="grid grid-cols-6 w-full">
-        <p className="pt-6 font-thin italic text-sm col-span-2">Lorem Ipsum</p>
-        <div className="text-xl font-medium text-center leading-[150%] col-span-2 ">
+      <div className="flex justify-between items-end w-full">
+        <p className="self-end font-thin italic text-sm">Lorem Ipsum</p>
+        <div className="text-xl font-medium text-right leading-[150%] w-[400px]">
           {splitWords(phrase, letters)}
         </div>
-        <p className="pt-6 font-thin italic text-sm text-end col-span-2">
-          Lorem Ipsum
-        </p>
       </div>
 
       <div className="absolute bottom-0 left-0 flex items-end gap-6 w-screen pl-5 pr-20 pb-5">

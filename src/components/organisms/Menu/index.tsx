@@ -35,8 +35,8 @@ type SectionProps = {
 
 const Section = ({ idx, name, href }: SectionProps) => {
   return (
-    <li className="relative flex justify-between w-2/6 pb-[24px]">
-      <div className="flex gap-[96px] pl-2">
+    <li className="relative flex justify-between max-w-[480px] pb-[20px]">
+      <div className="flex gap-[80px] pl-2">
         <p className="italic font-thin pt-[0.5px]">
           {idx.toString().padStart(2, "0")}
         </p>
@@ -45,6 +45,7 @@ const Section = ({ idx, name, href }: SectionProps) => {
       <div className="pt-[5px]">
         <Arrow />
       </div>
+      {/* line */}
       <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-secondary-400" />
     </li>
   );
@@ -55,6 +56,22 @@ const sections = [
   { idx: 2, name: "EXPERIMENTS" },
   { idx: 3, name: "ABOUT" },
   { idx: 4, name: "CONTACT ME" },
+];
+
+const coordonnees = [
+  {
+    name: "mail",
+    value: "pujol.alexandre@hotmail.fr",
+  },
+  {
+    name: "phone",
+    value: "+ 33 6 03 53 11 63",
+  },
+  {
+    name: "address",
+    value: "51 TER rue Piat",
+    extra: "75020 - Paris",
+  },
 ];
 
 export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
@@ -96,11 +113,24 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
             <AnimLink onClick={closeMenu}>Close</AnimLink>
           </div>
         </div>
-        <div>
-          {/* une ligne  */}
-          <ul className="flex flex-col gap-4">
+        {/* une ligne  */}
+        <div className="grid sm:grid-cols-3 gap-5">
+          {/* sections */}
+          <ul className="flex flex-col gap-6 sm:col-span-2">
             {sections.map((section, idx) => (
               <Section {...section} key={idx} />
+            ))}
+          </ul>
+          {/* coordonnées */}
+          <ul>
+            {coordonnees.map((coord, idx) => (
+              <li key={idx} className="mb-2 font-medium">
+                <h5 className="font-light italic text-sm mb-0.5">
+                  {coord.name}
+                </h5>
+                <p>{coord.value} </p>
+                <p>{coord.extra}</p>
+              </li>
             ))}
           </ul>
         </div>
