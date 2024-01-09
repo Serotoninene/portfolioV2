@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { AnimLetters, AnimLink } from "../../atoms";
 import { useIntro } from "./animations";
-import { getFormattedDate } from "../../../utils";
+import { getFormattedDate, splitWords } from "../../../utils";
 
 type Props = {
   isMenuOpen: boolean;
@@ -20,9 +20,9 @@ const Arrow = () => (
     <path
       d="M1 16L16 1M16 1H4.75M16 1V12.25"
       stroke="#ebe9e5"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -34,19 +34,30 @@ type SectionProps = {
 };
 
 const Section = ({ idx, name, href }: SectionProps) => {
+  const redirectToSection = () => {
+    console.log(href);
+  };
+
   return (
-    <li className="relative flex justify-between max-w-[480px] pb-[20px]">
+    <li
+      className="menu-section relative flex justify-between max-w-[480px] pb-[20px]"
+      onClick={redirectToSection}
+    >
       <div className="flex gap-[80px] pl-2">
-        <p className="italic font-thin pt-[0.5px]">
+        <p className="menu-section__idx italic font-thin pt-[0.5px] overflow-hidden">
           {idx.toString().padStart(2, "0")}
         </p>
-        <h3 className="text-[36px] font-medium leading-[100%]">{name}</h3>
+        <h3 className="menu-section__title text-[36px] font-medium leading-[100%]">
+          {splitWords(name)}
+        </h3>
       </div>
-      <div className="pt-[5px]">
-        <Arrow />
+      <div className="overflow-hidden">
+        <div className="menu-section__arrow pt-[5px]">
+          <Arrow />
+        </div>
       </div>
       {/* line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-secondary-400" />
+      <div className="menu-section__line absolute bottom-0 left-0 right-0 h-[0.5px] bg-secondary-400 origin-left" />
     </li>
   );
 };
@@ -87,12 +98,13 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
   // trigger the animation when the menu open/ close
   useEffect(() => {
     if (isMenuOpen) introTl.current?.play();
-    else introTl.current?.reverse();
+    else introTl.current?.timeScale(2).reverse();
   }, [isMenuOpen]);
 
   return (
     <div
       ref={container}
+      id="Menu"
       className="fixed inset-0 flex flex-col justify-between px-5 py-3 text-[#ebe9e5] bg-dark bg-opacity-70 backdrop-blur z-20"
       style={{ pointerEvents: isMenuOpen ? "all" : "none" }}
     >
@@ -109,7 +121,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
             <li>{formattedDate}</li>
           </ul>
 
-          <div className="font-medium text-lg">
+          <div className="font-medium ">
             <AnimLink onClick={closeMenu}>Close</AnimLink>
           </div>
         </div>
@@ -124,7 +136,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
           {/* coordonnées */}
           <ul>
             {coordonnees.map((coord, idx) => (
-              <li key={idx} className="mb-2 font-medium">
+              <li key={idx} className="menu-coordinate mb-2 font-medium">
                 <h5 className="font-light italic text-sm mb-0.5">
                   {coord.name}
                 </h5>
@@ -135,8 +147,8 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
           </ul>
         </div>
       </div>
-      <div>
-        <img src="./assets/Icons/Menu_Text.svg" className="w-full" />
+      <div className="menu-tagline">
+        <img src="./assets/Icons/Menu_Text.svg" className=" w-full" />
       </div>
     </div>
   );
