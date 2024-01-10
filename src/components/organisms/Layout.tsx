@@ -14,7 +14,7 @@ type Props = {
 export const Layout = ({ children }: Props) => {
   const { colors } = useColorContext();
   const eventSource = useRef<HTMLDivElement>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // const { wheelMultiplier, lerp } = useControls("smoothScroll", {
   //   wheelMultiplier: { value: 1.3, min: 0, max: 5, step: 0.01 },

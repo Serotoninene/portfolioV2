@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { AnimLetters, AnimLink } from "../../atoms";
 import { useIntro } from "./animations";
 import { getFormattedDate, splitWords } from "../../../utils";
+import { useScrollbar } from "@14islands/r3f-scroll-rig";
 
 type Props = {
   isMenuOpen: boolean;
@@ -90,6 +91,18 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
   const logoRef = useRef<HTMLHeadingElement>(null);
   const formattedDate = getFormattedDate();
 
+  const scroll = useScrollbar();
+
+  const disableScroll = () => {
+    document.body.classList.add("stop-scrolling");
+    scroll.__lenis?.stop();
+  };
+
+  const enableScroll = () => {
+    document.body.classList.remove("stop-scrolling");
+    scroll.__lenis?.start();
+  };
+
   const closeMenu = () => {
     setMenuOpen(false);
   };
@@ -97,9 +110,14 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
 
   // trigger the animation when the menu open/ close
   useEffect(() => {
-    if (isMenuOpen) introTl.current?.play();
-    else introTl.current?.timeScale(2).reverse();
-  }, [isMenuOpen]);
+    if (isMenuOpen) {
+      introTl.current?.play();
+      disableScroll();
+    } else {
+      introTl.current?.timeScale(2).reverse();
+      enableScroll();
+    }
+  }, [isMenuOpen, scroll.__lenis]);
 
   return (
     <div
