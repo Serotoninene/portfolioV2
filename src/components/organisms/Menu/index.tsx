@@ -2,65 +2,13 @@ import { useEffect, useRef } from "react";
 
 import { AnimLetters, AnimLink } from "../../atoms";
 import { useIntro } from "./animations";
-import { getFormattedDate, splitWords } from "../../../utils";
+import { getFormattedDate } from "../../../utils";
 import { useScrollbar } from "@14islands/r3f-scroll-rig";
+import { Section } from "./components/Section";
 
 type Props = {
   isMenuOpen: boolean;
   setMenuOpen: (arg: boolean) => void;
-};
-
-const Arrow = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 17 17"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M1 16L16 1M16 1H4.75M16 1V12.25"
-      stroke="#ebe9e5"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-type SectionProps = {
-  idx: number;
-  name: string;
-  href?: string;
-};
-
-const Section = ({ idx, name, href }: SectionProps) => {
-  const redirectToSection = () => {
-    console.log(href);
-  };
-
-  return (
-    <li
-      className="menu-section relative flex justify-between max-w-[480px] pb-[20px]"
-      onClick={redirectToSection}
-    >
-      <div className="flex gap-[80px] pl-2">
-        <p className="menu-section__idx italic font-thin pt-[0.5px] overflow-hidden">
-          {idx.toString().padStart(2, "0")}
-        </p>
-        <h3 className="menu-section__title text-[36px] font-medium leading-[100%]">
-          {splitWords(name)}
-        </h3>
-      </div>
-      <div className="overflow-hidden">
-        <div className="menu-section__arrow pt-[5px]">
-          <Arrow />
-        </div>
-      </div>
-      {/* line */}
-      <div className="menu-section__line absolute bottom-0 left-0 right-0 h-[0.5px] bg-secondary-400 origin-left" />
-    </li>
-  );
 };
 
 const sections = [
@@ -139,7 +87,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
             <li>{formattedDate}</li>
           </ul>
 
-          <div className="font-medium">
+          <div className="font-medium overflow-hidden">
             <AnimLink onClick={closeMenu}>Close</AnimLink>
           </div>
         </div>
