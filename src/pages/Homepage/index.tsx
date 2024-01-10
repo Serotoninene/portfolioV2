@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Loader } from "../../components/organisms";
 import {
   Contact,
   Footer,
@@ -7,7 +8,7 @@ import {
   Showreal,
   StickyText,
 } from "./components";
-import { Loader } from "../../components/organisms";
+
 
 export default function Homepage() {
   useEffect(() => {

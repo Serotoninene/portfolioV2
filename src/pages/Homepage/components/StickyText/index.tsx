@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { useEffect, useRef } from "react";
 import { splitWords } from "../../../../utils";
 
 export const StickyText = () => {
@@ -22,7 +22,6 @@ export const StickyText = () => {
         start: "bottom bottom",
         end: "bottom center",
         pin: true,
-        markers: true,
         pinSpacing: true,
         scrub: 0.7,
       },
@@ -55,10 +54,6 @@ export const StickyText = () => {
       duration: 2,
       xPercent: 100,
     });
-
-    return () => {
-      tl.current?.kill();
-    };
   }, []);
 
   return (

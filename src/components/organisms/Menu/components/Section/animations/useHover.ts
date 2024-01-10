@@ -6,7 +6,6 @@ export const useHover = (
   lineShadow: RefObject<HTMLDivElement>
 ) => {
   const tl = useRef<gsap.core.Timeline>();
-  console.log(lineShadow.current);
 
   useEffect(() => {
     tl.current = gsap.timeline({
