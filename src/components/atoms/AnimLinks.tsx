@@ -21,6 +21,11 @@ export const AnimLink = ({ children, href, onClick }: Props) => {
     tl.current?.reverse();
   };
 
+  const handleClick = () => {
+    onClick?.();
+    tl.current?.seek(0);
+  };
+
   useLayoutEffect(() => {
     gsap.set(shadowRef.current, {
       yPercent: 120,
@@ -52,12 +57,12 @@ export const AnimLink = ({ children, href, onClick }: Props) => {
   if (!href)
     return (
       <button
-        className="relative overflow-hidden"
+        className="relative"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={onClick}
+        onClick={handleClick}
       >
-        {splitWords(children, ref)}
+        {splitWords(children, ref, "visible")}
         <span className="absolute top-0 left-0">
           {splitWords(children, shadowRef, "visible")}
         </span>
@@ -71,7 +76,7 @@ export const AnimLink = ({ children, href, onClick }: Props) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {splitWords(children, ref)}
+      {splitWords(children, ref, "visible")}
       <span className="absolute top-0 left-0">
         {splitWords(children, shadowRef, "visible")}
       </span>

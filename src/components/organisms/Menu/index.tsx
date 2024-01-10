@@ -139,7 +139,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
             <li>{formattedDate}</li>
           </ul>
 
-          <div className="font-medium ">
+          <div className="font-medium">
             <AnimLink onClick={closeMenu}>Close</AnimLink>
           </div>
         </div>
