@@ -1,7 +1,7 @@
 import gsap, { Power4 } from "gsap";
 import { memo, useLayoutEffect, useRef } from "react";
-import { splitWords } from "../../utils";
 import { useCursorStore } from "../../store/useCursorStyle";
+import { splitWords } from "../../utils";
 
 type Props = {
   children: string;
@@ -15,8 +15,11 @@ const HoverSpace = () => {
   return (
     <div
       id="HoverSpace"
-      onMouseEnter={() => setCursorStyle("pointer")}
-      className="absolute inset-0"
+      onMouseEnter={() => {
+        setCursorStyle("pointer");
+      }}
+      onMouseLeave={() => setCursorStyle("default")}
+      className="absolute  inset-0"
     />
   );
 };
