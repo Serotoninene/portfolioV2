@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 
 import gsap from "gsap";
+import { useCursorStore } from "../../../store/useCursorStyle";
 
 export const CustomCursor = () => {
   const cursor = useRef(null);
+  const { cursorStyle } = useCursorStore();
 
   const moveCursor = (e: MouseEvent) => {
     gsap.to(cursor.current, {

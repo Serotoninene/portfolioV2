@@ -1,12 +1,11 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
+import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useColorContext } from "../../hooks/useColorContext";
 import { CustomCursor, Navbar, ScrollIndicator } from "../molecules";
 import { Lights } from "../three/Lights/Lights";
-import { Menu } from ".";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type Props = {
   children: React.ReactNode;
@@ -16,12 +15,6 @@ export const Layout = ({ children }: Props) => {
   const { colors } = useColorContext();
   const eventSource = useRef<HTMLDivElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      ScrollTrigger.refresh();
-    });
-  }, []);
 
   return (
     <ProjectProvider>

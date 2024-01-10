@@ -1,6 +1,7 @@
-import { useLayoutEffect, useRef } from "react";
 import gsap, { Power4 } from "gsap";
+import { memo, useLayoutEffect, useRef } from "react";
 import { splitWords } from "../../utils";
+import { useCursorStore } from "../../store/useCursorStyle";
 
 type Props = {
   children: string;
@@ -8,7 +9,19 @@ type Props = {
   onClick?: () => void;
 };
 
-export const AnimLink = ({ children, href, onClick }: Props) => {
+const HoverSpace = () => {
+  const { setCursorStyle } = useCursorStore();
+
+  return (
+    <div
+      id="HoverSpace"
+      onMouseEnter={() => setCursorStyle("pointer")}
+      className="absolute inset-0"
+    />
+  );
+};
+
+export const AnimLink = memo(({ children, href, onClick }: Props) => {
   const ref = useRef<HTMLSpanElement[]>([]);
   const shadowRef = useRef<HTMLSpanElement[]>([]);
   const tl = useRef<gsap.core.Timeline>();
@@ -66,6 +79,7 @@ export const AnimLink = ({ children, href, onClick }: Props) => {
         <span className="absolute top-0 left-0">
           {splitWords(children, shadowRef, "visible")}
         </span>
+        <HoverSpace />
       </button>
     );
 
@@ -80,6 +94,7 @@ export const AnimLink = ({ children, href, onClick }: Props) => {
       <span className="absolute top-0 left-0">
         {splitWords(children, shadowRef, "visible")}
       </span>
+      <HoverSpace />
     </a>
   );
-};
+});

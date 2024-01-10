@@ -1,7 +1,7 @@
 import { useRef } from "react";
-import { getFormattedDate, splitWords } from "../../../utils";
-import { AnimLetters } from "../../atoms";
-import { useAlexReveal, useHoverMenu, useIntro } from "./animations";
+import { getFormattedDate } from "../../../utils";
+import { AnimLetters, AnimLink } from "../../atoms";
+import { useAlexReveal } from "./animations";
 
 type Props = {
   isMenuOpen: boolean;
@@ -12,26 +12,16 @@ export const Navbar = ({ setMenuOpen }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLSpanElement[]>([]);
-  const menuShadowRef = useRef<HTMLSpanElement[]>([]);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const formattedDate = getFormattedDate();
   const hasScrolled = useAlexReveal();
-  const { isRevealCenter } = useIntro({
-    containerRef,
-    logoRef,
-    middleRef,
-    menuRef,
-  });
-  const hoverMenuTl = useHoverMenu(menuRef, menuShadowRef);
-
-  const handleMouseEnter = () => {
-    hoverMenuTl.current?.play();
-  };
-
-  const handleMouseLeave = () => {
-    hoverMenuTl.current?.reverse();
-  };
+  // const { isRevealCenter } = useIntro({
+  //   containerRef,
+  //   logoRef,
+  //   middleRef,
+  //   menuRef,
+  // });
 
   const openMenu = () => {
     setMenuOpen(true);
@@ -65,7 +55,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
           delay={0}
           ease="easeOut"
           stagger={0.005}
-          start={isRevealCenter}
+          // start={isRevealCenter}
         />
         <AnimLetters
           string={formattedDate}
@@ -73,21 +63,15 @@ export const Navbar = ({ setMenuOpen }: Props) => {
           ease="easeOut"
           stagger={0.005}
           staggerStart="end"
-          start={isRevealCenter}
+          // start={isRevealCenter}
         />
       </div>
-      <button
-        className="relative font-extrabold text-lg cursor-pointer leading-5 overflow-hidden"
-        onClick={openMenu}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+      <div
+        ref={menuRef}
+        className="text-lg font-extrabold leading-5 pointer-events-auto overflow-hidden"
       >
-        <p> {splitWords("menu", menuRef, "visible")}</p>
-
-        <p className="absolute leading-5 top-full">
-          {splitWords("menu", menuShadowRef, "visible")}
-        </p>
-      </button>
+        <AnimLink onClick={openMenu}>Menu</AnimLink>
+      </div>
     </div>
   );
 };
