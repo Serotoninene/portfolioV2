@@ -19,7 +19,7 @@
     "@types/node": "^20.7.0",
     "@types/three": "^0.156.0",
     "glsl-rotate": "^2.0.0",
-    "gsap": "./gsap-bonus.tgz",
+    "gsap": "^3.12.4",
     "leva": "^0.9.35",
     "r3f-perf": "^7.1.2",
     "raw-loader": "^4.0.2",

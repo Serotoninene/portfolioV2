@@ -34,7 +34,10 @@ const Lines = ({ scrollScene }: Props) => {
 
   // -------------------- SETTING TEXTURES -------------------- //
   const texture = useTexture(disp_src);
-  const touchTexture = useMemo(() => new TouchTexture(), []);
+  const touchTexture = useMemo(
+    () => new TouchTexture(false, 128, 120, 0.1),
+    []
+  );
 
   const { colors } = useColorContext();
 

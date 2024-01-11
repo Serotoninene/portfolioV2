@@ -1,6 +1,8 @@
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import { splitWords } from "../../../../utils";
+import { useWindowSize } from "../../../../hooks";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export const StickyText = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -9,6 +11,9 @@ export const StickyText = () => {
   const line = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline>();
 
+  const { width } = useWindowSize();
+  ScrollTrigger.refresh();
+
   const phrase =
     "Creative developer driven by a love for crafting digital magic. With a passion for innovative solutions, I transform ideas into captivating online experiences. ";
 
@@ -16,6 +21,7 @@ export const StickyText = () => {
     gsap.set(letters.current, { opacity: 0.1 });
     gsap.set(block.current, { yPercent: -120, rotate: 45 });
     gsap.set(line.current, { scaleX: 0 });
+
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
@@ -54,12 +60,17 @@ export const StickyText = () => {
       duration: 2,
       xPercent: 100,
     });
+
+    return () => {
+      tl.current?.kill();
+    };
   }, []);
 
   return (
     <div
       ref={container}
-      className="relative flex items-center w-full h-[50vh] px-5 sm:mt-10 mb-[20vh]"
+      className="relative flex items-center h-[50vh] px-5 sm:mt-10 mb-[20vh]"
+      style={{ width }}
     >
       <div className="flex justify-between items-end w-full">
         <p className="self-end font-thin italic text-sm">Lorem Ipsum</p>

@@ -9,15 +9,19 @@ export const ProjectLines = () => {
 
   return (
     <>
-      <div className="relative mt-[64px] ml-5 overflow-hidden">
-        {projects.map((item, index) => (
-          <ProjectLine key={item.title} {...item} num={index + 1} />
-        ))}
-        <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-          <div
-            ref={ref}
-            className="w-[50%] min-w-[576px] aspect-[16/9] pointer-events-none"
-          />
+      <div className="relative grid grid-cols-5 gap-10 mt-[64px] ml-5 overflow-hidden">
+        <div className="col-span-2 flex flex-col">
+          {projects.map((item, index) => (
+            <ProjectLine
+              key={item.title}
+              {...item}
+              num={index + 1}
+              isLast={index === projects.length - 1}
+            />
+          ))}
+        </div>
+        <div className="col-span-3 pointer-events-none pr-5">
+          <div ref={ref} className="w-full h-full pointer-events-none" />
         </div>
       </div>
 

@@ -8,9 +8,10 @@ type Props = {
   subtitle: string;
   num: number;
   img: string;
+  isLast: boolean;
 };
 
-export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
+export const ProjectLine = ({ title, subtitle, num, img, isLast }: Props) => {
   const formattedNum = num.toString().padStart(2, "0");
   const line = useRef<HTMLDivElement>(null);
   const numRef = useRef<HTMLSpanElement[]>([]);
@@ -31,32 +32,28 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
     setSelectedProject({ title, subtitle, img });
   }, [setSelectedProject, title, subtitle, img]);
 
-  const handleLeave = useCallback(() => {
-    setSelectedProject(null);
-  }, [setSelectedProject]);
-
   return (
-    <div onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-      <div className="relative pt-6 pb-10 grid grid-cols-6 mr-[160px]">
+    <div onMouseEnter={handleHover} className={isLast ? "pb-2" : "pb-10"}>
+      <div className="relative pt-6 grid grid-cols-6 gap-6">
         <div
           ref={line}
           className="absolute top-0 bg-dark h-[1px] w-full origin-left"
         />
-        <div className="flex gap-5 col-span-3">
-          <div className="font-medium mt-2">
+        <div className="col-span-3 grid grid-cols-6">
+          <div className="font-medium mt-1 text-[12px] ">
             {splitWords(formattedNum, numRef)}
           </div>
-          <h3 className="text-[32px] font-bold">
+          <h3 className="col-span-5 text-[20px] font-bold">
             {splitWords(title, titleRef)}
           </h3>
         </div>
-        <p className="text-[20px] col-span-2">
+        <p className="text-[16px] col-span-2">
           {splitWords(subtitle, subtitleRef)}
         </p>
-        <div className="flex justify-end pr-4 overflow-hidden">
+        <div className="flex justify-end pr-4 overflow-hidden ">
           <img
             ref={arrow}
-            className="w-6 aspect-square"
+            className="w-4 h-4"
             src="/assets/Icons/Arrow.svg"
             alt="Arrow"
           />

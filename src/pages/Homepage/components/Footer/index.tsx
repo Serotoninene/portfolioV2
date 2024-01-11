@@ -14,7 +14,6 @@ export const Footer = () => {
     //     trigger: footer.current,
     //     start: "top bottom",
     //     end: "bottom bottom",
-    //     markers: true,
     //   },
     //   xPercent: 0,
     // });

@@ -34,7 +34,7 @@
 
     // Smoothly transition the wave effect based on uMixFactor
     float wave = sin(vUv.x * uWaveFrequency + uTime * 2.0) * uWaveIntensity;
-    wavyPosition.z += wave;
+    // wavyPosition.z += wave;
 
     vec3 rotatyPosition = position;
     // Calculate the rotation angle based on uMixFactor

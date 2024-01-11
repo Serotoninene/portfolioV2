@@ -45,7 +45,6 @@ export const useProjectLineIntro = ({
       scrollTrigger: {
         trigger: line.current,
         start: "top 90%",
-        // markers: true,
       },
       defaults: { ease: Power3.easeOut },
     });

@@ -2124,10 +2124,10 @@
   "resolved" "https://registry.npmjs.org/graphemer/-/graphemer-1.4.0.tgz"
   "version" "1.4.0"
 
-"gsap@./gsap-bonus.tgz":
-  "integrity" "sha512-oVb3bmAYyPHbLOksA8udaj3t3yAI3iKpkEfYdah5iSlOfEfqH23ot5s7PZjH6NXF8wZxAxMwkmrMRCPUQQlOtw=="
-  "resolved" "file:gsap-bonus.tgz"
-  "version" "3.8.0"
+"gsap@^3.12.4":
+  "integrity" "sha512-1ByAq8dD0W4aBZ/JArgaQvc0gyUfkGkP8mgAQa0qZGdpOKlSOhOf+WNXjoLimKaKG3Z4Iu6DKZtnyszqQeyqWQ=="
+  "resolved" "https://registry.npmjs.org/gsap/-/gsap-3.12.4.tgz"
+  "version" "3.12.4"
 
 "has-flag@^3.0.0":
   "integrity" "sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw=="
