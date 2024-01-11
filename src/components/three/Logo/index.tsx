@@ -1,8 +1,8 @@
-import { useGLTF } from "@react-three/drei";
+import { Float, useGLTF } from "@react-three/drei";
 
-import { useEffect, useRef } from "react";
-import { Mesh, MathUtils } from "three";
 import { useFrame } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
+import { MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
 
@@ -25,7 +25,7 @@ export const Logo = ({ scale, inViewport }: Props) => {
   useEffect(() => {
     if (!ref.current) return;
     tl.current = gsap.timeline({ delay: 0.2 });
-    ref.current.rotation.set(-0.2, 1.6, 0);
+    ref.current.rotation.set(-0.2, 2, 0);
 
     tl.current.from(ref.current.rotation, { x: 1 });
     tl.current.from(ref.current.position, { y: -300, z: -600 }, "<");
@@ -33,13 +33,12 @@ export const Logo = ({ scale, inViewport }: Props) => {
 
   useFrame(({ pointer }) => {
     if (!ref.current || !inViewport) return;
-    // i need to map pointer.x to be in between -1 and 0
 
     const mappedX = (pointer.x - 1) / 2;
-    const mappedY = (pointer.y - 1) / 2;
+    const mappedY = MathUtils.mapLinear(pointer.y, 0, 1, -1, 1.6);
 
     targetRotationY.current = 1.6 + mappedX * 0.5;
-    targetRotationX.current = -0.2 + mappedY * 0.1;
+    targetRotationX.current = -0.2 + mappedY * 0.05;
 
     ref.current.rotation.y = MathUtils.lerp(
       ref.current.rotation.y,
@@ -56,12 +55,19 @@ export const Logo = ({ scale, inViewport }: Props) => {
   if (!scale) return null;
 
   return (
-    <mesh
-      ref={ref}
-      geometry={geometry}
-      scale={[scale?.x * 0.6, scale?.x * 0.6, scale?.x]}
+    <Float
+      speed={3.85}
+      rotationIntensity={0.8} // XYZ rotation intensity, defaults to 1
+      floatIntensity={2.05} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+      floatingRange={[1, 10]}
     >
-      <meshStandardMaterial />
-    </mesh>
+      <mesh
+        ref={ref}
+        geometry={geometry}
+        scale={[scale?.x * 0.6, scale?.x * 0.6, scale?.x]}
+      >
+        <meshStandardMaterial />
+      </mesh>
+    </Float>
   );
 };

@@ -7,7 +7,7 @@ import * as THREE from "three";
 
 import { useColorContext } from "../../../hooks/useColorContext";
 import TouchTexture from "../TouchTexture";
-import { useStripesUVMapping } from "./hooks/useStripesUVMapping";
+import { useStripesUVMapping } from "../utils/useStripesUVMapping";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
 

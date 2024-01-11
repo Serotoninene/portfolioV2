@@ -28,7 +28,7 @@ export const useStripesUVMapping = ({
         stripeUV[i + 1] = THREE.MathUtils.lerp(
           startV,
           endV,
-          planeUV.array[i * 2 + 1] // Lerp the V coordinate based on the original V coordinate
+          planeUV.array[i + 1] // Lerp the V coordinate based on the original V coordinate
         );
       }
       stripeGeometry.setAttribute("uv", new THREE.BufferAttribute(stripeUV, 2));

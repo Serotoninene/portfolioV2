@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState } from "react";
 import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
