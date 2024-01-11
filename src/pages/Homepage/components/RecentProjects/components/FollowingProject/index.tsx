@@ -1,4 +1,4 @@
-import { useTexture } from "@react-three/drei";
+import { Float, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
@@ -62,7 +62,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       ((pointer.x + 1) / 2) * window.innerWidth - scrollScene.scale.x / 2;
     targetX *= 0.1;
     let targetY = pointer.y * window.innerHeight;
-    targetY *= 0.5;
+    targetY *= 0.2;
     // adding lerp effect to the position
     ref.current.position.x = THREE.MathUtils.lerp(
       ref.current.position.x,
@@ -91,15 +91,22 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   });
 
   return (
-    <mesh ref={ref} scale={scrollScene.scale.xyz}>
-      <planeGeometry args={[1, 1, 16, 16]} />
-      <shaderMaterial
-        ref={shader}
-        vertexShader={vertex}
-        fragmentShader={fragment}
-        uniforms={uniforms}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <Float
+      speed={3} // Animation speed, defaults to 1
+      rotationIntensity={2} // XYZ rotation intensity, defaults to 1
+      floatIntensity={3} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+      floatingRange={[1, 10]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
+    >
+      <mesh ref={ref} scale={scrollScene.scale.xyz}>
+        <planeGeometry args={[1, 1, 16, 16]} />
+        <shaderMaterial
+          ref={shader}
+          vertexShader={vertex}
+          fragmentShader={fragment}
+          uniforms={uniforms}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </Float>
   );
 };

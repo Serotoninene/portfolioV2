@@ -1,7 +1,7 @@
-import { useCallback, useLayoutEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
-import gsap, { Power3 } from "gsap";
+import { useProjectLineIntro } from "./animations/useProjectLineIntro";
 
 type Props = {
   title: string;
@@ -17,9 +17,15 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
   const titleRef = useRef<HTMLSpanElement[]>([]);
   const subtitleRef = useRef<HTMLSpanElement[]>([]);
   const arrow = useRef<HTMLImageElement>(null);
-  const introTL = useRef<gsap.core.Timeline>();
 
   const { setSelectedProject } = useProjectContext();
+  useProjectLineIntro({
+    line,
+    numRef,
+    titleRef,
+    subtitleRef,
+    arrow,
+  });
 
   const handleHover = useCallback(() => {
     setSelectedProject({ title, subtitle, img });
@@ -28,79 +34,6 @@ export const ProjectLine = ({ title, subtitle, num, img }: Props) => {
   const handleLeave = useCallback(() => {
     setSelectedProject(null);
   }, [setSelectedProject]);
-
-  const setInitialPositions = () => {
-    gsap.set(line.current, {
-      scaleX: 0,
-    });
-    gsap.set(numRef.current, {
-      yPercent: -100,
-      opacity: 0,
-    });
-    gsap.set(titleRef.current, {
-      yPercent: -100,
-      opacity: 0,
-    });
-    gsap.set(subtitleRef.current, {
-      yPercent: -100,
-      opacity: 0,
-    });
-    gsap.set(arrow.current, {
-      yPercent: -100,
-      xPercent: 100,
-    });
-  };
-
-  useLayoutEffect(() => {
-    setInitialPositions();
-    introTL.current = gsap.timeline({
-      scrollTrigger: {
-        trigger: line.current,
-        start: "top 90%",
-        // markers: true,
-      },
-      defaults: { ease: Power3.easeOut },
-    });
-
-    introTL.current.to(
-      line.current,
-      {
-        scaleX: 1,
-      },
-      "<0.1"
-    );
-    introTL.current.to(
-      numRef.current,
-      {
-        yPercent: 0,
-        opacity: 1,
-        stagger: 0.1,
-      },
-      "<0.1"
-    );
-    introTL.current.to(
-      titleRef.current,
-      {
-        yPercent: 0,
-        opacity: 1,
-        stagger: 0.01,
-      },
-      "<0.01"
-    );
-    introTL.current.to(
-      subtitleRef.current,
-      {
-        yPercent: 0,
-        opacity: 1,
-        stagger: 0.005,
-      },
-      "<0.2"
-    );
-    introTL.current.to(arrow.current, {
-      yPercent: 0,
-      xPercent: 0,
-    });
-  }, []);
 
   return (
     <div onMouseEnter={handleHover} onMouseLeave={handleLeave}>
