@@ -49,14 +49,12 @@ export const Showreal = () => {
     <div
       ref={mainContainer}
       className="flex justify-center items-center pointer-events-none"
-      onMouseEnter={() => console.log("enter")}
     >
       <div
         ref={videoContainer}
         className="relative h-[90vh] aspect-video px-5"
         style={{
           background: colors.dark,
-          // clipPath: "polygon(5% 40%, 95% 40%, 95% 60%, 5% 60%)",
         }}
       >
         <ReactPlayer
