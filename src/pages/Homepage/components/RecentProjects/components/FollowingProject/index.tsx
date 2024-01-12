@@ -95,6 +95,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         ref={shader}
         vertexShader={vertex}
         fragmentShader={fragment}
+        transparent={true}
         uniforms={uniforms}
         side={THREE.DoubleSide}
       />

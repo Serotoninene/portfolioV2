@@ -6,7 +6,9 @@ uniform sampler2D uTexture2;
 uniform float uIntensity;
 uniform float uMixFactor;
 uniform float uResolution;
+uniform float uTime;
 uniform sampler2D uMouse;
+
 
 // #define HASHSCALE3 vec3(.1031, .1030, .0973)
 float hash12(vec2 p) {
@@ -22,6 +24,8 @@ float circle(vec2 uv, vec2 disc_center, float disc_radius, float border_size) {
   return smoothstep(disc_radius+border_size, disc_radius-border_size, dist);
 }
 
+float uVelo = 1.;
+
 void main() {
   vec4 d1 = texture2D(uTexture, vUv);
   vec4 d2 = texture2D(uTexture2, vUv);
@@ -31,16 +35,16 @@ void main() {
 
   vec2 touch = texture2D(uMouse, vUv).rg;
 
-  float hash = hash12(vUv*10.);
+  float hash = hash12(vUv * 10. * uTime * 0.00000000000001);
   // float c = circle(vUv, uMouse, 0.0, 0.1+1.*0.01)*10.*1.;
   vec2 offsetVector = normalize(touch - vUv);
   vec2 warpedUV = vUv + vec2(hash - 0.5) * touch; //power
   
-  // vec4 t1 = texture2D(uTexture, vec2(vUv.x, vUv.y + uMixFactor * (displace2 * uIntensity)));
-  vec4 t1 = texture2D(uTexture,warpedUV);
+  // vec4 t1 = texture2D(uTexture, vec2(warpedUV.x, warpedUV.y + (1.0 - uMixFactor) * (displace2 * uIntensity)));
+  vec4 t1 = texture2D(uTexture, vec2(warpedUV.x, warpedUV.y));
 
   vec4 t2 = texture2D(uTexture2, vec2(vUv.x, vUv.y + (1.0 - uMixFactor) * (displace1 * uIntensity)));
 
-  // gl_FragColor = mix(t1, t2, uMixFactor);
+  gl_FragColor = mix(t1, t2, uMixFactor);
   gl_FragColor = t1;
 }
