@@ -7,9 +7,10 @@ import * as THREE from "three";
 
 import { useColorContext } from "../../../hooks/useColorContext";
 import TouchTexture from "../TouchTexture";
-import { useStripesUVMapping } from "../utils/useStripesUVMapping";
+
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
+import { useStripesUVMapping } from "../utils/useStripesUVMapping";
 
 const disp_src = "/assets/DisplacementMaps/logo-displacement_map.jpg";
 
