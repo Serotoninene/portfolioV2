@@ -1,21 +1,23 @@
 import { useTexture } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { projects } from "../../data";
 import { useUpdateTexture } from "./animations";
 
+import TouchTexture from "../../../../../../components/three/TouchTexture";
+import { useWindowSize } from "../../../../../../hooks";
+import { useGap } from "../ProjectLines/hooks/useGap";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
-import TouchTexture from "../../../../../../components/three/TouchTexture";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
 };
 
-export const FollowingProject = ({ scrollScene, isPinned }: Props) => {
+export const FollowingProject = ({ scrollScene }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
   const [mixFactor, setMixFactor] = useState({ value: 0 });
@@ -24,7 +26,9 @@ export const FollowingProject = ({ scrollScene, isPinned }: Props) => {
   // const textures = useTexture(projects.map((project) => project.img));
   const textures = useTexture([projects[0].img]);
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
-  console.log(isPinned);
+  const { width } = useWindowSize();
+
+  const GAP = useGap();
 
   useUpdateTexture({
     shader: shader.current,
@@ -69,8 +73,11 @@ export const FollowingProject = ({ scrollScene, isPinned }: Props) => {
     };
     touchTexture.addTouch(mappedMouse);
   };
-  let previousScrollPos = 0;
-  const epsilon = 0.0001; // Tolerance value
+
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.position.x = scrollScene.scale.x / 2 + GAP / 2;
+  }, [width]);
 
   useFrame(({ clock }) => {
     if (!ref.current || !shader.current) return;
@@ -79,15 +86,6 @@ export const FollowingProject = ({ scrollScene, isPinned }: Props) => {
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
     shader.current.uniforms.uTime.value = time;
-    const trackedDiv = scrollScene.track.current;
-    const rect = trackedDiv.getBoundingClientRect();
-
-    const scrollPos = rect.top / window.innerHeight;
-
-    ref.current.position.y = scrollPos;
-
-    // Set the mesh position
-    // console.log(rect.top / window.innerHeight);
 
     // ----------- UPDATING THE CONTROLS ----------- //
     // shader.current.uniforms.uWaveIntensity.value = controls.waveIntensity;
@@ -98,11 +96,7 @@ export const FollowingProject = ({ scrollScene, isPinned }: Props) => {
   });
 
   return (
-    <mesh
-      ref={ref}
-      scale={scrollScene.scale.xyz}
-      onPointerMove={handleMouseMove}
-    >
+    <mesh ref={ref} {...scrollScene} onPointerMove={handleMouseMove}>
       <planeGeometry args={[1, 1, 16, 16]} />
       <shaderMaterial
         ref={shader}

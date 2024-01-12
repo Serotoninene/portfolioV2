@@ -28,9 +28,7 @@ export const Layout = ({ children }: Props) => {
       >
         {/* --------------- R3F-SCROLL-RIG PART --------------- */}
         <GlobalCanvas
-          globalRender={false}
-          eventSource={eventSource as MutableRefObject<HTMLElement>}
-          eventPrefix="client"
+          eventSource={eventSource as MutableRefObject<HTMLDivElement>}
         >
           <Lights />
         </GlobalCanvas>

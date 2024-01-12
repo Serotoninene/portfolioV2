@@ -20,10 +20,7 @@ export const Footer = () => {
   }, []);
 
   return (
-    <div
-      ref={footer}
-      className="sticky bottom-0 px-[32px] flex flex-col gap-[56px] m-[80px]"
-    >
+    <div ref={footer} className=" px-[32px] flex flex-col gap-[56px] pb-[80px]">
       <div className="flex justify-between">
         <a>pujol.alexandre@hotmail.fr</a>
         <p>51 T Rue Piat, 75020, PARIS</p>

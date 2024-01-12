@@ -1,39 +1,24 @@
-import { MutableRefObject, useLayoutEffect, useRef, useState } from "react";
-import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
-import gsap from "gsap";
+import { UseCanvas } from "@14islands/r3f-scroll-rig";
+import { StickyScrollScene } from "@14islands/r3f-scroll-rig/powerups";
+import { useRef } from "react";
 
 import { FollowingProject, ProjectLine } from "..";
 import { projects } from "../../data";
+import { useGap } from "./hooks/useGap";
 
 export const ProjectLines = () => {
-  const container = useRef<HTMLDivElement>(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const tl = useRef<gsap.core.Timeline>();
-
-  useLayoutEffect(() => {
-    tl.current = gsap.timeline({
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top top",
-        end: "bottom center",
-        pin: true,
-        markers: true,
-      },
-    });
-
-    return () => {
-      tl.current?.kill();
-    };
-  }, []);
+  const container = useRef(null);
+  const ref = useRef(null);
+  const GAP = useGap();
 
   return (
     <>
       <div
         ref={container}
-        className="relative grid grid-cols-5 gap-10 xl:gap-28 mt-[64px] mx-5 overflow-hidden"
+        className="mt-[64px] mx-5 grid grid-cols-4 h-[200vh] md"
+        style={{ gap: GAP }}
       >
-        <div className="col-span-2 flex flex-col pt-[80px]">
+        <div className="sticky top-0 h-fit col-span-2 flex flex-col pt-[80px]">
           {projects.map((item, index) => (
             <ProjectLine
               key={item.title}
@@ -43,15 +28,22 @@ export const ProjectLines = () => {
             />
           ))}
         </div>
-        <div className="col-span-3 pointer-events-none pr-5 pt-[80px] h-[calc(100vh-20px)]">
-          <div ref={ref} className="w-full h-full pointer-events-none" />
+        <div
+          ref={ref}
+          className="sticky top-[80px] col-span-2 pointer-events-none pt-[80px] h-[calc(70vh-20px)] bg-red-200 opacity-25"
+        >
+          <div className="w-full h-full pointer-events-none" />
         </div>
       </div>
 
       <UseCanvas>
-        <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>
-          {(props) => <FollowingProject scrollScene={props} />}
-        </ScrollScene>
+        <StickyScrollScene track={ref}>
+          {(props) => (
+            <>
+              <FollowingProject scrollScene={props} />
+            </>
+          )}
+        </StickyScrollScene>
       </UseCanvas>
     </>
   );

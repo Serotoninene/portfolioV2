@@ -14,3 +14,5 @@ declare global {
     }
   }
 }
+
+declare module "@14islands/r3f-scroll-rig/powerups";
