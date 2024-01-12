@@ -15,14 +15,16 @@ type Props = {
   scrollScene: ScrollSceneChildProps;
 };
 
-export const FollowingProject = ({ scrollScene }: Props) => {
+export const FollowingProject = ({ scrollScene, isPinned }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
   const [mixFactor, setMixFactor] = useState({ value: 0 });
   const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
 
-  const textures = useTexture(projects.map((project) => project.img));
+  // const textures = useTexture(projects.map((project) => project.img));
+  const textures = useTexture([projects[0].img]);
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
+  console.log(isPinned);
 
   useUpdateTexture({
     shader: shader.current,
@@ -67,6 +69,8 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     };
     touchTexture.addTouch(mappedMouse);
   };
+  let previousScrollPos = 0;
+  const epsilon = 0.0001; // Tolerance value
 
   useFrame(({ clock }) => {
     if (!ref.current || !shader.current) return;
@@ -75,6 +79,15 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
     shader.current.uniforms.uTime.value = time;
+    const trackedDiv = scrollScene.track.current;
+    const rect = trackedDiv.getBoundingClientRect();
+
+    const scrollPos = rect.top / window.innerHeight;
+
+    ref.current.position.y = scrollPos;
+
+    // Set the mesh position
+    // console.log(rect.top / window.innerHeight);
 
     // ----------- UPDATING THE CONTROLS ----------- //
     // shader.current.uniforms.uWaveIntensity.value = controls.waveIntensity;
