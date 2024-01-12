@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -9,9 +9,9 @@ import { useUpdateTexture } from "./animations";
 
 import TouchTexture from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
-import { useGap } from "../ProjectLines/hooks/useGap";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
+import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
@@ -20,22 +20,15 @@ type Props = {
 export const FollowingProject = ({ scrollScene }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
+  const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
+
   const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
 
-  // const textures = useTexture(projects.map((project) => project.img));
-  const textures = useTexture([projects[0].img]);
+  const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
+
   const { width } = useWindowSize();
-
-  const GAP = useGap();
-
-  useUpdateTexture({
-    shader: shader.current,
-    textures,
-    mixFactor,
-    setMixFactor,
-  });
 
   const uniforms = useMemo(
     () => ({
@@ -64,24 +57,42 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     [scrollScene]
   );
 
-  const handleMouseMove = (e: ThreeEvent<MouseEvent>) => {
-    const r = scrollScene.scale.y / window.innerHeight;
+  const handleMousePosition = (e: MouseEvent) => {
+    if (!ref.current || !rect) return;
+    const x = rect.x;
+    const y = rect.y;
+    const width = rect.width;
+    const height = rect.height;
 
-    const mappedMouse = {
-      x: e.pointer.x,
-      y: THREE.MathUtils.mapLinear(e.pointer.y, -1 * r, r, 0, 1),
-    };
-    touchTexture.addTouch(mappedMouse);
+    const mappedX = THREE.MathUtils.mapLinear(e.clientX, x, width + x, 0, 1);
+    const mappedY = THREE.MathUtils.mapLinear(e.clientY, y, height + y, 1, 0);
+    // if (mappedX < 0 || mappedX > 1 || mappedY < 0 || mappedY > 1) return;
+
+    const mousePosition = new THREE.Vector2(mappedX, mappedY);
+    touchTexture.addTouch(mousePosition);
   };
+
+  useUpdateTexture({
+    shader: shader.current,
+    textures,
+    mixFactor,
+    setMixFactor,
+  });
 
   useEffect(() => {
     if (!ref.current) return;
-    ref.current.position.x = scrollScene.scale.x / 2 + GAP / 2;
-  }, [width]);
+
+    window.addEventListener("mousemove", handleMousePosition);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMousePosition);
+    };
+  }, [width, rect]);
 
   useFrame(({ clock }) => {
     if (!ref.current || !shader.current) return;
     const time = clock.getElapsedTime();
+    ref.current.position.x = rect.x / 2 - 10;
 
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
@@ -96,7 +107,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   });
 
   return (
-    <mesh ref={ref} {...scrollScene} onPointerMove={handleMouseMove}>
+    <mesh ref={ref} {...scrollScene}>
       <planeGeometry args={[1, 1, 16, 16]} />
       <shaderMaterial
         ref={shader}
