@@ -1,4 +1,4 @@
-import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
+import { UseCanvas } from "@14islands/r3f-scroll-rig";
 import { StickyScrollScene } from "@14islands/r3f-scroll-rig/powerups";
 import { useEffect, useRef } from "react";
 
@@ -37,7 +37,7 @@ export const ProjectLines = () => {
     <>
       <div
         ref={container}
-        className="mt-[64px] mx-5 grid grid-cols-4 h-[200vh] md"
+        className="mt-[64px] mx-5 grid grid-cols-5 h-[200vh] md"
         style={{ gap: GAP }}
       >
         <div className="sticky top-0 h-fit col-span-2 flex flex-col pt-[80px]">
@@ -52,7 +52,7 @@ export const ProjectLines = () => {
         </div>
         <div
           ref={ref}
-          className="sticky top-[80px] left-0 col-span-2 pointer-events-none pt-[80px] h-[calc(70vh-20px)] bg-red-200 opacity-25"
+          className="sticky top-[80px] left-0 col-span-3 pointer-events-none pt-[80px] h-[calc(90vh-20px)] bg-red-200 opacity-25"
         >
           <div className="w-full h-full pointer-events-none" />
         </div>

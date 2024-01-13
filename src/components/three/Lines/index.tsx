@@ -1,16 +1,16 @@
-import { RefObject, useMemo, useRef } from "react";
+import { RefObject, useEffect, useMemo, useRef } from "react";
 
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { useTexture } from "@react-three/drei";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 import { useColorContext } from "../../../hooks/useColorContext";
 import TouchTexture from "../TouchTexture";
 
+import { useStripesUVMapping } from "../utils/useStripesUVMapping";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
-import { useStripesUVMapping } from "../utils/useStripesUVMapping";
 
 const disp_src = "/assets/DisplacementMaps/logo-displacement_map.jpg";
 
@@ -61,13 +61,12 @@ const Lines = ({ scrollScene }: Props) => {
     []
   );
 
-  const yRatio = scrollScene.scale.y / window.innerHeight;
-  const xRatio = scrollScene.scale.x / window.innerWidth;
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = scrollScene.track.current.getBoundingClientRect();
 
-  const handleMouseMove = (e: ThreeEvent<MouseEvent>) => {
     const mappedMouse = {
-      x: THREE.MathUtils.mapLinear(e.pointer.x, -xRatio, xRatio, 0, 1),
-      y: THREE.MathUtils.mapLinear(e.pointer.y, -yRatio, yRatio, 0, 1), // <-- PROBLEM HERE !
+      x: THREE.MathUtils.mapLinear(e.clientX, rect.left, rect.right, 0, 1),
+      y: THREE.MathUtils.mapLinear(e.clientY, rect.top, rect.bottom, 1, 0),
     };
     touchTexture.addTouch(mappedMouse);
   };
@@ -88,15 +87,12 @@ const Lines = ({ scrollScene }: Props) => {
     shaderRef.current.uniforms.uTime.value = time;
   });
 
+  useEffect(() => {
+    addEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <>
-      <mesh onPointerMove={handleMouseMove}>
-        <planeGeometry
-          ref={planeGeometry}
-          args={[WIDTH, HEIGHT, VERTICES, VERTICES]}
-        />
-        <meshStandardMaterial transparent opacity={0} />
-      </mesh>
       {ARRAY_STRIPES.map((_, index) => {
         const stripeHeight =
           (HEIGHT - GAP * (ARRAY_STRIPES.length - 1)) / ARRAY_STRIPES.length;
@@ -122,6 +118,13 @@ const Lines = ({ scrollScene }: Props) => {
           </mesh>
         );
       })}
+      <mesh position={[0, 0, 50]}>
+        <planeGeometry
+          ref={planeGeometry}
+          args={[WIDTH, HEIGHT, VERTICES, VERTICES]}
+        />
+        <meshStandardMaterial transparent opacity={0} />
+      </mesh>
     </>
   );
 };

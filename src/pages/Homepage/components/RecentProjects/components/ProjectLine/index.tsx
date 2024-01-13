@@ -1,7 +1,8 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
 import { useProjectLineIntro } from "./animations/useProjectLineIntro";
+import gsap, { Power3 } from "gsap";
 
 type Props = {
   title: string;
@@ -13,11 +14,15 @@ type Props = {
 
 export const ProjectLine = ({ title, subtitle, num, img, isLast }: Props) => {
   const formattedNum = num.toString().padStart(2, "0");
+  const container = useRef<HTMLDivElement>(null);
   const line = useRef<HTMLDivElement>(null);
+  const shadowLine = useRef<HTMLDivElement>(null);
   const numRef = useRef<HTMLSpanElement[]>([]);
   const titleRef = useRef<HTMLSpanElement[]>([]);
   const subtitleRef = useRef<HTMLSpanElement[]>([]);
   const arrow = useRef<HTMLImageElement>(null);
+
+  const tl = useRef<gsap.core.Timeline>();
 
   const { setSelectedProject } = useProjectContext();
   useProjectLineIntro({
@@ -28,16 +33,52 @@ export const ProjectLine = ({ title, subtitle, num, img, isLast }: Props) => {
     arrow,
   });
 
+  useEffect(() => {
+    tl.current = gsap.timeline({
+      scrollTrigger: {
+        trigger: container.current,
+        start: num === 1 ? "top" : "bottom" + " top",
+        end: "200% top",
+        markers: true,
+        toggleActions: "play reverse play reverse",
+        onEnter: () => {
+          setSelectedProject({ title, subtitle, img });
+        },
+        onEnterBack: () => {
+          setSelectedProject({ title, subtitle, img });
+        },
+      },
+    });
+
+    tl.current.to(shadowLine.current, {
+      scaleX: 1,
+      duration: 0.5,
+      ease: Power3.easeOut,
+    });
+
+    return () => {
+      tl.current?.kill();
+    };
+  }, []);
+
   const handleHover = useCallback(() => {
     setSelectedProject({ title, subtitle, img });
   }, [setSelectedProject, title, subtitle, img]);
 
   return (
-    <div onMouseEnter={handleHover} className={isLast ? "pb-2" : "pb-10"}>
+    <div
+      ref={container}
+      onMouseEnter={handleHover}
+      className={isLast ? "pb-2" : "pb-10"}
+    >
       <div className="relative pt-6 grid grid-cols-6 gap-6">
         <div
           ref={line}
-          className="absolute top-0 bg-dark h-[1px] w-full origin-left"
+          className="absolute top-0 bg-dark h-[1px] w-full origin-left opacity-30"
+        />
+        <div
+          ref={shadowLine}
+          className="absolute top-0 bg-dark h-[1px] w-full origin-left scale-x-0"
         />
         <div className="col-span-3 grid grid-cols-6">
           <div className="font-medium mt-1 text-[12px] ">
