@@ -22,6 +22,7 @@ export const useUpdateTexture = ({
 
   useEffect(() => {
     if (!shader) return;
+
     const updateTexture = async () => {
       if (!shader) return;
       // Use the index to get the corresponding texture
@@ -31,6 +32,9 @@ export const useUpdateTexture = ({
 
       // Get the next texture
       const texture2 = selectedProject ? textures[index] : null;
+
+      // If the current texture is the same as the selected texture, return early
+      if (shader.uniforms.uTexture.value === texture2) return;
 
       // Set the uniforms
       shader.uniforms.uTexture2.value = texture2;
@@ -53,6 +57,6 @@ export const useUpdateTexture = ({
       setMixFactor({ value: 0 });
     };
 
-    updateTexture();
+    if (shader.uniforms.uTexture.value) updateTexture();
   }, [selectedProject]);
 };
