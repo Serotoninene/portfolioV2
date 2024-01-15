@@ -19,7 +19,7 @@ type Props = {
 
 export const ProjectLine = ({ project, num, isLast }: Props) => {
   const formattedNum = num.toString().padStart(2, "0");
-  const container = useRef<HTMLDivElement>(null);
+
   const line = useRef<HTMLDivElement>(null);
   const shadowLine = useRef<HTMLDivElement>(null);
   const numRef = useRef<HTMLSpanElement[]>([]);
@@ -41,12 +41,11 @@ export const ProjectLine = ({ project, num, isLast }: Props) => {
     arrow,
   });
 
-  useProjectLineScrollAnimation(container, shadowLine, project, num - 1);
+  useProjectLineScrollAnimation(shadowLine, project, num - 1);
   const hoverTl = useProjectLineHover(arrow, shadowArrow);
 
   return (
     <div
-      ref={container}
       onMouseEnter={() => {
         setCursorStyle("none");
         setSelectedProject(project);
