@@ -89,6 +89,9 @@ const Lines = ({ scrollScene }: Props) => {
 
   useEffect(() => {
     addEventListener("mousemove", handleMouseMove);
+    return () => {
+      removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   return (

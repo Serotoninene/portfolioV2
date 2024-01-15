@@ -23,7 +23,7 @@ export const Showreal = () => {
     });
 
     gsap.set(videoContainer.current, {
-      clipPath: "polygon(5% 40%, 95% 40%, 95% 60%, 5% 60%)",
+      clipPath: "polygon(20% 40%, 80% 40%, 95% 60%, 5% 60%)",
     });
 
     tl.current = gsap.timeline({

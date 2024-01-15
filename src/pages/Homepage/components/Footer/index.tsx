@@ -20,7 +20,10 @@ export const Footer = () => {
   }, []);
 
   return (
-    <div ref={footer} className="px-[32px] flex flex-col gap-[56px] pb-[80px]">
+    <div
+      ref={footer}
+      className="mt-[20vh] px-[32px] flex flex-col gap-[56px] pb-[80px] z-10"
+    >
       <div className="flex justify-between">
         <a>pujol.alexandre@hotmail.fr</a>
         <p>51 T Rue Piat, 75020, PARIS</p>
@@ -32,7 +35,7 @@ export const Footer = () => {
         </ul>
       </div>
 
-      <div ref={ref} className="h-[40vh] pointer-events-none" />
+      <div ref={ref} className="h-[60vh] pointer-events-none" />
       <UseCanvas>
         <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>
           {(props) => <Lines scrollScene={props} trackedDiv={ref} />}

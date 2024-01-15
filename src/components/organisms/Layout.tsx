@@ -6,6 +6,7 @@ import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useColorContext } from "../../hooks/useColorContext";
 import { CustomCursor, Navbar, ScrollIndicator } from "../molecules";
 import { Lights } from "../three/Lights/Lights";
+import { Noise } from "../three";
 
 type Props = {
   children: React.ReactNode;
@@ -27,11 +28,7 @@ export const Layout = ({ children }: Props) => {
         }}
       >
         {/* --------------- R3F-SCROLL-RIG PART --------------- */}
-        <GlobalCanvas
-          eventSource={eventSource as MutableRefObject<HTMLDivElement>}
-        >
-          <Lights />
-        </GlobalCanvas>
+
         <SmoothScrollbar
           config={{
             wheelMultiplier: 1.3,
@@ -40,10 +37,19 @@ export const Layout = ({ children }: Props) => {
           }}
         />
         {/* --------------- R3F-SCROLL-RIG PART --------------- */}
-        <Navbar isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
-        <Menu isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
         <CustomCursor />
-        {children}
+        <div>
+          <Menu isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
+          <Navbar isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
+          {children}
+          <GlobalCanvas
+            className="z-10"
+            eventSource={eventSource as MutableRefObject<HTMLDivElement>}
+          >
+            <Lights />
+            <Noise />
+          </GlobalCanvas>
+        </div>
         <ScrollIndicator />
       </main>
     </ProjectProvider>

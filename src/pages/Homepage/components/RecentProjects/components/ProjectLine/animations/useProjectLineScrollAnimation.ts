@@ -21,7 +21,6 @@ export const useProjectLineScrollAnimation = (
         trigger: "#ProjectLines",
         start: `${(idx / (projects.length + 1)) * 100}% top`,
         end: `${((idx + 1) / (projects.length + 1)) * 100}% top`,
-        markers: true,
         toggleActions: "play reverse play reverse",
         onEnter: handleSelectProject,
         onEnterBack: handleSelectProject,

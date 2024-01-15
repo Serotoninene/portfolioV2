@@ -87,7 +87,7 @@ export const Hero = () => {
     <div
       id="Hero"
       ref={container}
-      className="relative h-[--fullScreen] flex flex-col gap-6 justify-center items-center text-black "
+      className="relative h-[--fullScreen] z-20 flex flex-col gap-6 justify-center items-center text-black "
     >
       <HeroThree />
       <HeroText />

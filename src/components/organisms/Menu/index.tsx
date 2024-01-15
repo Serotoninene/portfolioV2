@@ -71,7 +71,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
     <div
       ref={container}
       id="Menu"
-      className="fixed inset-0 flex flex-col justify-between px-5 py-3 text-[#ebe9e5] bg-dark bg-opacity-70 backdrop-blur z-20"
+      className="fixed inset-0 flex flex-col justify-between px-5 py-3 text-[#ebe9e5] bg-dark bg-opacity-70 backdrop-blur z-30"
       style={{ pointerEvents: isMenuOpen ? "all" : "none" }}
     >
       <div>
