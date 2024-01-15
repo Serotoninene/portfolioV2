@@ -37,14 +37,14 @@ export const ProjectLines = () => {
     <>
       <div
         ref={container}
-        className="mt-[64px] mx-5 grid grid-cols-5 h-[200vh] md"
+        className="mt-[64px] mx-5 grid grid-cols-5 h-[300vh] md"
         style={{ gap: GAP }}
       >
         <div className="sticky top-0 h-fit col-span-2 flex flex-col pt-[80px]">
           {projects.map((item, index) => (
             <ProjectLine
               key={item.title}
-              {...item}
+              project={item}
               num={index + 1}
               isLast={index === projects.length - 1}
             />
@@ -59,7 +59,7 @@ export const ProjectLines = () => {
       </div>
 
       <UseCanvas>
-        <StickyScrollScene track={ref} scissor={false} inViewportMargin="400%">
+        <StickyScrollScene track={ref} scissor={false} inViewportMargin="1000%">
           {(props) => <FollowingProject scrollScene={props} />}
         </StickyScrollScene>
       </UseCanvas>
