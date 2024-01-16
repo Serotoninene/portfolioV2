@@ -34,12 +34,12 @@ export const Marquee = () => {
   }, []);
 
   return (
-    <div className="relative text-[80px] italic w-fit font-bold">
+    <div className="relative  italic w-fit font-semibold text-[32px] md:text-[64px] lg:text-[80px]">
       <h2 ref={(e) => e && slider.current.push(e)}>RECENT PROJECTS -&nbsp;</h2>
 
       <p
         ref={(e) => e && slider.current.push(e)}
-        className={`absolute left-[100%] top-0 w-full whitespace-nowrap`}
+        className="absolute left-[100%] top-0 w-full whitespace-nowrap"
       >
         RECENT PROJECTS - RECENT PROJECTS - RECENT PROJECTS - RECENT PROJECTS
       </p>

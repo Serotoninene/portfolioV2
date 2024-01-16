@@ -39,9 +39,9 @@ export const ProjectLines = () => {
       <div
         ref={container}
         id="ProjectLines"
-        className="h-[300vh] mt-[64px] mx-5 grid grid-cols-5 gap-0 md:gap-10 xl:gap-[112px] "
+        className="h-[300vh] mt-0 mx-5 grid grid-cols-5 gap-0 md:gap-10 lg:mt-[64px] xl:gap-[112px] "
       >
-        <div className="sticky top-0 h-fit col-span-2 flex flex-col pt-[80px]">
+        <div className="sticky justify-between top-[64px] h-screen md:h-fit col-span-5 lg:col-span-2 flex flex-col z-10 md:pt-[80px] md:top-0">
           {projects.map((item, index) => (
             <ProjectLine
               key={item.title}
@@ -50,14 +50,20 @@ export const ProjectLines = () => {
               isLast={index === projects.length - 1}
             />
           ))}
+          <div className="block mt-10 h-full md:hidden">
+            <img
+              className="w-full h-[calc(100%-84px)] object-cover self-end pointer-events-none"
+              src={selectedProject?.img}
+            />
+          </div>
         </div>
         <div
           ref={ref}
-          className="sticky top-[80px] left-0 col-span-3 pointer-events-none pt-[80px] h-[calc(90vh-20px)]"
+          className="hidden md:block sticky top-[64px] left-0 col-span-3 pointer-events-none pt-[80px] h-[calc(90vh-20px)] lg:top-[80px]"
           style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
         >
           <img
-            className="w-full h-full pointer-events-none"
+            className="w-full h-[90%] self-end pointer-events-none"
             src={selectedProject?.img}
           />
         </div>

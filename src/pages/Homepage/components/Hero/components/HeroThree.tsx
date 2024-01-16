@@ -1,9 +1,5 @@
 import { MutableRefObject, useRef } from "react";
-import {
-  ScrollScene,
-  UseCanvas,
-  useScrollRig,
-} from "@14islands/r3f-scroll-rig";
+import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 
 import { Logo } from "../../../../../components/three";
 import { FallingLogos } from "../../../../../components/three/FallingLogos";
@@ -12,18 +8,12 @@ export const HeroThree = () => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { hasSmoothScrollbar } = useScrollRig();
-
   return (
     <div
       ref={containerRef}
       className="absolute inset-0 flex justify-center items-center"
     >
-      <div
-        ref={ref}
-        className="h-[65vh] aspect-[2/4] "
-        style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
-      />
+      <div ref={ref} className="h-[65vh] aspect-[2/4] opacity-0" />
 
       <UseCanvas>
         <ScrollScene
@@ -33,7 +23,7 @@ export const HeroThree = () => {
           {({ scale, inViewport }) => {
             return (
               <>
-                {hasSmoothScrollbar && <FallingLogos />}
+                <FallingLogos />
                 <Logo scale={scale} inViewport={inViewport} />
               </>
             );

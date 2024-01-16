@@ -53,7 +53,7 @@ const HeroText = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 justify-between items-center h-full pt-[64px] pb-5 md:px-0 md:justify-center">
+    <div className="flex flex-col gap-6 justify-between items-center h-full pt-[128px] pb-[64px] md:px-0 md:justify-center">
       <h1
         ref={title}
         className="font-extrabold text-[56px] leading-[100%] text-center z-10 md:block md:text-[160px]"

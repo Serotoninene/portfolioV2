@@ -1,8 +1,8 @@
 import gsap from "gsap";
+import _ScrollTrigger, { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { splitWords } from "../../../../utils";
 import { useWindowSize } from "../../../../hooks";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export const StickyText = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -12,6 +12,7 @@ export const StickyText = () => {
   const tl = useRef<gsap.core.Timeline>();
 
   const { width } = useWindowSize();
+
   ScrollTrigger.refresh();
 
   const phrase =
@@ -27,8 +28,6 @@ export const StickyText = () => {
         trigger: container.current,
         start: "bottom bottom",
         end: "bottom center",
-        pin: true,
-        pinSpacing: true,
         scrub: 0.7,
       },
     });
@@ -69,17 +68,15 @@ export const StickyText = () => {
   return (
     <div
       ref={container}
-      className="relative flex items-center h-[50vh] px-5 sm:mt-10 mb-[20vh]"
-      style={{ width }}
+      className="relative h-[50vh] px-5 mt-24 mb-[20vh] md:h-[70vh]"
     >
-      <div className="flex justify-between items-end w-full">
-        <p className="self-end font-thin italic text-sm">Lorem Ipsum</p>
+      <div className="sticky top-[64px] flex justify-end items-end w-full">
         <div className="text-xl font-medium text-right leading-[150%] w-[400px]">
           {splitWords(phrase, letters)}
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 flex items-end gap-6 w-screen pl-5 pr-20 pb-5">
+      <div className="hidden absolute bottom-0 left-0 items-end gap-6 w-screen pl-5 pr-20 pb-5 md:flex ">
         <div className="overflow-hidden">
           <div ref={block} className=" w-6 aspect-square bg-dark" />
         </div>

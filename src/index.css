@@ -32,3 +32,7 @@ body {
 .enable-scrolling {
   overflow: auto;
 }
+
+.pin-spacer {
+  width: 100%;
+}

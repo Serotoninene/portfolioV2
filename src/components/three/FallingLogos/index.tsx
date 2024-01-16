@@ -4,12 +4,14 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import { useWindowSize } from "../../../hooks";
+import { useScrollRig } from "@14islands/r3f-scroll-rig";
 
 type Tuple = [number, number, number];
 
 export const FallingLogos = () => {
   const COUNT = 5;
   const ARR = new Array(COUNT).fill(0);
+  const { hasSmoothScrollbar } = useScrollRig();
 
   const { width, height } = useWindowSize();
   const { geometry } = useLogo();
@@ -36,7 +38,7 @@ export const FallingLogos = () => {
     });
   });
 
-  if (!width || !height) return null;
+  if (!width || !height || !hasSmoothScrollbar) return null;
 
   return (
     <>

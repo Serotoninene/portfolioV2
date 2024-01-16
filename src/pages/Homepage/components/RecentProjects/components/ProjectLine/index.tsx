@@ -67,18 +67,18 @@ export const ProjectLine = ({ project, num, isLast }: Props) => {
           className="absolute top-0 bg-dark h-[1px] w-full origin-left scale-x-0"
         />
         <div className="col-span-3 grid grid-cols-6">
-          <div className="font-medium text-[12px] ">
+          <div className="font-medium text-xs ">
             {splitWords(formattedNum, numRef)}
           </div>
           <h3
-            className={`col-span-5 font-bold transition-opacity duration-300 leading-[110%] ${
+            className={`col-span-5 text-[14px] font-bold transition-opacity duration-300 leading-[110%]  md:text-base ${
               isSelected ? "" : "opacity-50"
             }`}
           >
             {splitWords(project.title, titleRef)}
           </h3>
         </div>
-        <p className="text-[16px] col-span-2 leading-[110%]">
+        <p className="text-[14px] col-span-2 leading-[110%] md:text-[16px]">
           {splitWords(project.subtitle, subtitleRef)}
         </p>
         <div className="flex justify-end pr-4">
