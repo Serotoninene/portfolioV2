@@ -28,13 +28,18 @@ export const Footer = () => {
   return (
     <div
       ref={footer}
-      className="mt-[20vh] px-[32px] flex flex-col gap-[56px] pb-[80px] z-10"
+      className="mt-[20vh] px-[32px] flex flex-col gap-[12px] md:gap-[56px] pb-[80px] z-10"
     >
-      <div className="flex justify-between">
+      <div className="flex flex-col gap-1 justify-between md:flex-row">
         <a>pujol.alexandre@hotmail.fr</a>
         <p>51 T Rue Piat, 75020, PARIS</p>
-        <p>(+ 33) 6 03 53 11 63</p>
-        <ul className="flex gap-[80px]">
+        <div className="flex justify-between">
+          <p>(+ 33) 6 03 53 11 63</p>{" "}
+          <div className="block md:hidden overflow-hidden">
+            <AnimLink href="instagram.com">Instagram</AnimLink>
+          </div>
+        </div>
+        <ul className="hidden md:flex items-center md:gap-[16px] lggap-[80px]">
           <AnimLink href="instagram.com">Instagram</AnimLink>
           <AnimLink href="linkedin">Linkedin</AnimLink>
           <AnimLink href="behance">Behance</AnimLink>
@@ -43,9 +48,11 @@ export const Footer = () => {
 
       <div
         ref={ref}
-        className="h-[60vh] pointer-events-none bg-red-400"
+        className="h-[60vh] pointer-events-none flex justify-center items-center"
         style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
-      />
+      >
+        <img src="/assets/Photos/logo_lines-light.png" className="h-full" />
+      </div>
       {hasSmoothScrollbar && (
         <UseCanvas>
           <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>

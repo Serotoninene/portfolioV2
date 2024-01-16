@@ -114,7 +114,7 @@ export const Contact = () => {
         </div>
         {/* right part */}
         <div
-          className="relative px-2 flex flex-col sm:justify-center sm:items-center sm:px-20"
+          className="relative px-2 flex flex-col sm:justify-center sm:items-center sm:px-4 md:px-20"
           style={{ color: colors.light }}
         >
           <div className="w-fit">
@@ -125,7 +125,10 @@ export const Contact = () => {
               >
                 {splitWords("Let's work together !")}
               </h2>
-              <div id="ContactHeader_Paragraph" className="font-thin">
+              <div
+                id="ContactHeader_Paragraph"
+                className="font-thin leading-[110%]"
+              >
                 {splitWords(
                   "Drop me a message, and let's turn your ideas into reality. Excited to collaborate on your next creative project!"
                 )}

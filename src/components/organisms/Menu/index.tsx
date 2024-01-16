@@ -75,6 +75,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
       style={{ pointerEvents: isMenuOpen ? "all" : "none" }}
     >
       <div>
+        {/* HEADER */}
         <div className="flex justify-between items-end pb-1 mb-[120px]">
           <h2
             ref={logoRef}
@@ -82,7 +83,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
           >
             <AnimLetters string="ALEX" y="120%" delay={0} stagger={0.01} />
           </h2>
-          <ul className="flex gap-10">
+          <ul className="hidden sm:flex gap-10">
             <li>Portfolio 2024</li>
             <li>{formattedDate}</li>
           </ul>
@@ -103,7 +104,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
             ))}
           </ul>
           {/* coordonnées */}
-          <ul>
+          <ul className="mt-[64px]">
             {coordonnees.map((coord, idx) => (
               <li key={idx} className="menu-coordinate mb-2 font-medium">
                 <h5 className="font-light italic text-sm mb-0.5">

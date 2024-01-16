@@ -1,8 +1,6 @@
 import gsap from "gsap";
-import _ScrollTrigger, { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { splitWords } from "../../../../utils";
-import { useWindowSize } from "../../../../hooks";
 
 export const StickyText = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -10,10 +8,6 @@ export const StickyText = () => {
   const block = useRef<HTMLDivElement>(null);
   const line = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline>();
-
-  const { width } = useWindowSize();
-
-  ScrollTrigger.refresh();
 
   const phrase =
     "Creative developer driven by a love for crafting digital magic. With a passion for innovative solutions, I transform ideas into captivating online experiences. ";

@@ -42,23 +42,23 @@ export const Section = ({ idx, name, href }: SectionProps) => {
       onMouseEnter={() => hoverTl.current?.play()}
       onMouseLeave={() => hoverTl.current?.reverse()}
     >
-      <div className="flex gap-[80px] pl-2">
-        <p className="menu-section__idx italic font-thin pt-[0.5px] overflow-hidden">
+      <div className="flex pl-2 gap-[32px] md:gap-[80px]">
+        <p className="menu-section__idx italic font-thin overflow-hidden text-[12px] md:text-base md:pt-[0.5px]">
           {idx.toString().padStart(2, "0")}
         </p>
-        <h3 className="menu-section__title text-[36px] font-medium leading-[100%]">
+        <h3 className="menu-section__title font-medium leading-[100%] text-[20px] md:text-[36px]">
           {splitWords(name)}
         </h3>
       </div>
       <div className="relative h-fit overflow-hidden">
         <div
-          ref={(e) => arrows.current.push(e)}
+          ref={(e) => arrows.current.push(e as HTMLDivElement)}
           className="menu-section__arrow pt-[5px]"
         >
           <Arrow />
         </div>
         <div
-          ref={(e) => arrows.current.push(e)}
+          ref={(e) => arrows.current.push(e as HTMLDivElement)}
           className="absolute top-full right-full menu-section__arrow pt-[5px]"
         >
           <Arrow />
