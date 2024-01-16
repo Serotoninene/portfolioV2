@@ -1,4 +1,8 @@
-import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
+import {
+  ScrollScene,
+  UseCanvas,
+  useScrollRig,
+} from "@14islands/r3f-scroll-rig";
 import { MutableRefObject, useLayoutEffect, useRef } from "react";
 import Lines from "../../../../components/three/Lines";
 import { AnimLink } from "../../../../components/atoms";
@@ -6,6 +10,8 @@ import { AnimLink } from "../../../../components/atoms";
 export const Footer = () => {
   const ref = useRef<HTMLDivElement>(null);
   const footer = useRef<HTMLDivElement>(null);
+
+  const { hasSmoothScrollbar } = useScrollRig();
 
   useLayoutEffect(() => {
     // gsap.set(ref.current, { xPercent: -100 });
@@ -35,12 +41,18 @@ export const Footer = () => {
         </ul>
       </div>
 
-      <div ref={ref} className="h-[60vh] pointer-events-none" />
-      <UseCanvas>
-        <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>
-          {(props) => <Lines scrollScene={props} trackedDiv={ref} />}
-        </ScrollScene>
-      </UseCanvas>
+      <div
+        ref={ref}
+        className="h-[60vh] pointer-events-none bg-red-400"
+        style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
+      />
+      {hasSmoothScrollbar && (
+        <UseCanvas>
+          <ScrollScene track={ref as MutableRefObject<HTMLDivElement>}>
+            {(props) => <Lines scrollScene={props} trackedDiv={ref} />}
+          </ScrollScene>
+        </UseCanvas>
+      )}
 
       <div className="grid grid-cols-3">
         <a>Privacy Policy</a>

@@ -1,15 +1,18 @@
-import { UseCanvas } from "@14islands/r3f-scroll-rig";
+import { UseCanvas, useScrollRig } from "@14islands/r3f-scroll-rig";
 import { StickyScrollScene } from "@14islands/r3f-scroll-rig/powerups";
 import { useEffect, useRef } from "react";
 
 import { FollowingProject, ProjectLine } from "..";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import { projects } from "../../data";
+import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 
 export const ProjectLines = () => {
   const container = useRef(null);
   const ref = useRef<HTMLDivElement>(null);
   const { setRect } = useProjectMeshRect();
+  const { hasSmoothScrollbar } = useScrollRig();
+  const { selectedProject } = useProjectContext();
 
   const handleSetRect = () => {
     const rect = ref.current?.getBoundingClientRect();
@@ -50,17 +53,27 @@ export const ProjectLines = () => {
         </div>
         <div
           ref={ref}
-          className="sticky top-[80px] left-0 col-span-3 pointer-events-none pt-[80px] h-[calc(90vh-20px)] bg-red-200 opacity-25"
+          className="sticky top-[80px] left-0 col-span-3 pointer-events-none pt-[80px] h-[calc(90vh-20px)]"
+          style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
         >
-          <div className="w-full h-full pointer-events-none" />
+          <img
+            className="w-full h-full pointer-events-none"
+            src={selectedProject?.img}
+          />
         </div>
       </div>
 
-      <UseCanvas>
-        <StickyScrollScene track={ref} scissor={false} inViewportMargin="1000%">
-          {(props) => <FollowingProject scrollScene={props} />}
-        </StickyScrollScene>
-      </UseCanvas>
+      {hasSmoothScrollbar && (
+        <UseCanvas>
+          <StickyScrollScene
+            track={ref}
+            scissor={false}
+            inViewportMargin="1000%"
+          >
+            {(props) => <FollowingProject scrollScene={props} />}
+          </StickyScrollScene>
+        </UseCanvas>
+      )}
     </>
   );
 };
