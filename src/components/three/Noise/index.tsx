@@ -1,17 +1,16 @@
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
-import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
 
 import { useWindowSize } from "../../../hooks";
+import TouchTexture from "../TouchTexture";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
-import TouchTexture from "../TouchTexture";
 
 export const Noise = () => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { width, height } = useWindowSize();
-  const touchTexture = useMemo(() => new TouchTexture(true), []);
+  const touchTexture = useMemo(() => new TouchTexture(), []);
 
   const uniforms = useMemo(
     () => ({
@@ -36,13 +35,6 @@ export const Noise = () => {
       1,
       0
     );
-
-    touchTexture.addTouch(new THREE.Vector2(mappedX, mappedY));
-  };
-
-  const handleMouseMoveWithPointer = ({ pointer }: ThreeEvent<MouseEvent>) => {
-    const mappedX = (pointer.x + 1) / 2;
-    const mappedY = THREE.MathUtils.mapLinear(pointer.y, -1, 1, 0, 1);
 
     touchTexture.addTouch(new THREE.Vector2(mappedX, mappedY));
   };
