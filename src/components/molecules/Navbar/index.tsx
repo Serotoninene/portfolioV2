@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { getFormattedDate } from "../../../utils";
 import { AnimLetters, AnimLink } from "../../atoms";
-import { useAlexReveal } from "./animations";
+import { useAlexReveal, useIntro } from "./animations";
 
 type Props = {
   isMenuOpen: boolean;
@@ -16,12 +16,12 @@ export const Navbar = ({ setMenuOpen }: Props) => {
 
   const formattedDate = getFormattedDate();
   const hasScrolled = useAlexReveal();
-  // const { isRevealCenter } = useIntro({
-  //   containerRef,
-  //   logoRef,
-  //   middleRef,
-  //   menuRef,
-  // });
+  const { isRevealCenter } = useIntro({
+    containerRef,
+    logoRef,
+    middleRef,
+    menuRef,
+  });
 
   const openMenu = () => {
     setMenuOpen(true);
@@ -31,7 +31,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
     <div
       id="Navbar"
       ref={containerRef}
-      className="fixed top-0 left-0 right-0 flex items-end justify-between mt-3 mx-5 pb-1 z-30 border-b border-black origin-left"
+      className="fixed top-0 left-0 right-0 flex items-end justify-between mx-3 mt-3 pb-1 z-30 border-b border-black origin-left md:mx-5"
     >
       <h2
         ref={logoRef}
@@ -48,14 +48,14 @@ export const Navbar = ({ setMenuOpen }: Props) => {
 
       <div
         ref={middleRef}
-        className="flex gap-10 text-sm font-medium overflow-hidden"
+        className="hidden gap-10 text-sm font-medium overflow-hidden md:flex"
       >
         <AnimLetters
           string="Portfolio 2024"
           delay={0}
           ease="easeOut"
           stagger={0.005}
-          // start={isRevealCenter}
+          start={isRevealCenter}
         />
         <AnimLetters
           string={formattedDate}
@@ -63,12 +63,12 @@ export const Navbar = ({ setMenuOpen }: Props) => {
           ease="easeOut"
           stagger={0.005}
           staggerStart="end"
-          // start={isRevealCenter}
+          start={isRevealCenter}
         />
       </div>
       <div
         ref={menuRef}
-        className="text-lg font-extrabold leading-5 pointer-events-auto overflow-hidden"
+        className="text-lg font-medium leading-5 pointer-events-auto overflow-hidden"
       >
         <span className="italic">{"( "}</span>
         <AnimLink onClick={openMenu}>Menu</AnimLink>

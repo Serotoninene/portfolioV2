@@ -21,27 +21,25 @@ export const HeroThree = () => {
     >
       <div
         ref={ref}
-        className="h-[65vh] aspect-[2/4] bg-gray-400"
+        className="h-[65vh] aspect-[2/4] "
         style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
       />
 
-      {hasSmoothScrollbar && (
-        <UseCanvas>
-          <ScrollScene
-            track={ref as MutableRefObject<HTMLElement>}
-            inViewportMargin="400%"
-          >
-            {({ scale, inViewport }) => {
-              return (
-                <>
-                  <FallingLogos />
-                  <Logo scale={scale} inViewport={inViewport} />
-                </>
-              );
-            }}
-          </ScrollScene>
-        </UseCanvas>
-      )}
+      <UseCanvas>
+        <ScrollScene
+          track={ref as MutableRefObject<HTMLElement>}
+          inViewportMargin="400%"
+        >
+          {({ scale, inViewport }) => {
+            return (
+              <>
+                {hasSmoothScrollbar && <FallingLogos />}
+                <Logo scale={scale} inViewport={inViewport} />
+              </>
+            );
+          }}
+        </ScrollScene>
+      </UseCanvas>
     </div>
   );
 };

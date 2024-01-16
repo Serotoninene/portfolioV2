@@ -11,7 +11,7 @@ export function ScrollIndicator() {
   return (
     <div
       id="ScrollIndicator"
-      className="fixed bottom-3 right-5 flex flex-col align-center gap-2"
+      className="hidden fixed bottom-3 right-5 flex-col align-center gap-2 md:flex"
     >
       <div
         ref={lineRef}

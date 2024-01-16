@@ -73,7 +73,7 @@ export const AnimLink = memo(({ children, href, onClick }: Props) => {
   if (!href)
     return (
       <button
-        className="relative"
+        className="relative cursor-pointer"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}

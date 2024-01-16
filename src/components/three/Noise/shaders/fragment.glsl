@@ -18,5 +18,5 @@ void main() {
     float rnd = random( st * 0.01 );
     rnd +=  -mouse / 1.;
 
-    gl_FragColor = vec4(vec3(rnd),0.1);
+    gl_FragColor = vec4(vec3(rnd,rnd,rnd),0.1);
 }

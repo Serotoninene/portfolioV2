@@ -53,20 +53,24 @@ const HeroText = () => {
   }, []);
 
   return (
-    <>
-      {" "}
-      <div className="relative">
-        <h1
-          ref={title}
-          className="font-extrabold text-[160px] leading-[80%] text-center z-10"
-        >
-          <AnimLetters string="ALEX" start={hasLoaded} /> <br />{" "}
-          <AnimLetters string="PUJOL" start={hasLoaded} />
-        </h1>
-      </div>
+    <div className="flex flex-col gap-6 justify-between items-center h-full pt-[64px] pb-5 md:px-0 md:justify-center">
+      <h1
+        ref={title}
+        className="font-extrabold text-[56px] leading-[100%] text-center z-10 md:block md:text-[160px]"
+      >
+        <div className="hidden md:block">
+          <AnimLetters string="HI, I'M" start={hasLoaded} />
+          <br />
+          <AnimLetters string=" ALEX" start={hasLoaded} />
+        </div>
+        <div className="block md:hidden">
+          <AnimLetters string="HI, I'M ALEX" start={hasLoaded} />
+        </div>
+      </h1>
+
       <p
         ref={paragraph}
-        className="text-center text-base font-base leading-[130%] sm:w-[360px] z-10"
+        className="text-center text-base font-base leading-[130%] px-6 sm:w-[360px] z-10"
       >
         <AnimWords
           string="I'm a passionate creative developer dedicated to turning ideas into
@@ -76,7 +80,7 @@ const HeroText = () => {
           start={hasLoaded}
         />
       </p>
-    </>
+    </div>
   );
 };
 
@@ -87,11 +91,11 @@ export const Hero = () => {
     <div
       id="Hero"
       ref={container}
-      className="relative h-[--fullScreen] z-20 flex flex-col gap-6 justify-center items-center text-black"
+      className="relative h-[--fullScreen] z-20 text-black"
     >
       <HeroThree />
       <HeroText />
-      <div className="absolute bottom-3 left-5 w-5 aspect-square bg-dark" />
+      <div className="absolute bottom-3 left-3  w-5 aspect-square bg-dark md:left-5" />
     </div>
   );
 };
