@@ -5,12 +5,10 @@ import { useEffect, useRef } from "react";
 import { FollowingProject, ProjectLine } from "..";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import { projects } from "../../data";
-import { useGap } from "./hooks/useGap";
 
 export const ProjectLines = () => {
   const container = useRef(null);
   const ref = useRef<HTMLDivElement>(null);
-  const GAP = useGap();
   const { setRect } = useProjectMeshRect();
 
   const handleSetRect = () => {
@@ -38,8 +36,7 @@ export const ProjectLines = () => {
       <div
         ref={container}
         id="ProjectLines"
-        className="mt-[64px] mx-5 grid grid-cols-5 h-[300vh]"
-        style={{ gap: GAP }}
+        className="h-[300vh] mt-[64px] mx-5 grid grid-cols-5 gap-0 md:gap-10 xl:gap-[112px] "
       >
         <div className="sticky top-0 h-fit col-span-2 flex flex-col pt-[80px]">
           {projects.map((item, index) => (

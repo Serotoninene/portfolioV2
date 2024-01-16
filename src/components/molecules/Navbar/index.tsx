@@ -70,7 +70,9 @@ export const Navbar = ({ setMenuOpen }: Props) => {
         ref={menuRef}
         className="text-lg font-extrabold leading-5 pointer-events-auto overflow-hidden"
       >
+        <span className="italic">{"( "}</span>
         <AnimLink onClick={openMenu}>Menu</AnimLink>
+        <span className="italic">{" )"}</span>
       </div>
     </div>
   );

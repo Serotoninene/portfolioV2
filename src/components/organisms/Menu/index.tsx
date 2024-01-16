@@ -88,7 +88,10 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
           </ul>
 
           <div className="font-medium overflow-hidden">
+            <span className="italic">{"( "}</span>
+
             <AnimLink onClick={closeMenu}>Close</AnimLink>
+            <span className="italic">{" )"}</span>
           </div>
         </div>
         {/* une ligne  */}
