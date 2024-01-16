@@ -15,8 +15,8 @@ void main() {
     vec2 st = gl_FragCoord.xy/vUv;
     float mouse = texture2D(uTouchTexture, vUv).r;
 
-    float rnd = random( st * uTime );
-    rnd = rnd + (1. - mouse) * 1.;
+    float rnd = random( st * 0.01 );
+    rnd +=  -mouse / 1.;
 
     gl_FragColor = vec4(vec3(rnd),0.1);
 }

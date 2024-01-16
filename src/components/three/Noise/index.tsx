@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
 
 import { useWindowSize } from "../../../hooks";
@@ -63,15 +64,16 @@ export const Noise = () => {
 
   if (!width || !height) return null;
   return (
-    <mesh scale={[1, 1, 1]} position={[0, 0, 100]}>
-      <planeGeometry args={[width, height]} />
+    <mesh scale={[1, 1, 1]} position={[0, 0, -800]}>
+      <planeGeometry args={[width * 3, height * 3]} />
       <shaderMaterial
         ref={shader}
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
         transparent={true}
-        // blending={THREE.MultiplyBlending}
+        blending={THREE.CustomBlending}
+        // blendEquation={THREE.AddEquation}
       />
     </mesh>
   );

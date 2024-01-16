@@ -43,7 +43,6 @@ export const Layout = ({ children }: Props) => {
           <Navbar isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
           {children}
           <GlobalCanvas
-            className="z-10"
             eventSource={eventSource as MutableRefObject<HTMLDivElement>}
           >
             <Lights />

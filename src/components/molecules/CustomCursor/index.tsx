@@ -42,7 +42,7 @@ export const CustomCursor = () => {
   return (
     <div
       ref={cursor}
-      className="fixed top-0 left-0 aspect-square border-2 border-white rounded-full mix-blend-difference pointer-events-none z-30"
+      className="fixed top-0 left-0 aspect-square border-2 border-white rounded-full mix-blend-difference pointer-events-none z-50"
       style={{ opacity: cursorStyle === "none" ? 0 : 1 }}
     ></div>
   );
