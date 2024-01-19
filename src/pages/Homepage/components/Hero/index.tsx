@@ -1,8 +1,8 @@
-import { useProgress } from "@react-three/drei";
-import gsap from "gsap";
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 import { AnimLetters, AnimWords } from "../../../../components/atoms";
+import { useHasLoadedStore } from "../../../../store/useHasLoaded";
 import { HeroThree } from "./components";
 
 const HeroText = () => {
@@ -11,11 +11,14 @@ const HeroText = () => {
   const paragraph = useRef<HTMLParagraphElement>(null);
 
   const tl = useRef<gsap.core.Timeline>();
-  const { progress } = useProgress();
-  const hasLoaded = progress === 100;
+  const { hasLoaded } = useHasLoadedStore();
 
   // scroll anim
   useEffect(() => {
+    if (!paragraph.current || !title.current) return;
+    gsap.set(title.current, { yPercent: 0 });
+    gsap.set(paragraph.current, { yPercent: 0 });
+
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
@@ -24,15 +27,13 @@ const HeroText = () => {
         scrub: true,
       },
     });
-    tl.current.fromTo(
+    tl.current.to(
       title.current,
-      { yPercent: 0 },
+
       {
         yPercent: -100,
       }
     );
-
-    if (!paragraph.current) return;
 
     const paragraphWords = paragraph.current?.querySelectorAll("span");
     tl.current.fromTo(

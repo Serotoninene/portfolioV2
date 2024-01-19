@@ -24,7 +24,7 @@ export const Logo = ({ scale, inViewport }: Props) => {
 
   useEffect(() => {
     if (!ref.current) return;
-    tl.current = gsap.timeline({ delay: 0.2 });
+    tl.current = gsap.timeline({ delay: 2.2 });
     ref.current.rotation.set(-0.2, 2, 0);
 
     tl.current.from(ref.current.rotation, { x: 1 });

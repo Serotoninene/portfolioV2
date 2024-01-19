@@ -25,9 +25,9 @@ const HoverSpace = () => {
 };
 
 export const AnimLink = memo(({ children, href, onClick }: Props) => {
+  const tl = useRef<gsap.core.Timeline>();
   const ref = useRef<HTMLSpanElement[]>([]);
   const shadowRef = useRef<HTMLSpanElement[]>([]);
-  const tl = useRef<gsap.core.Timeline>();
 
   const handleMouseEnter = () => {
     tl.current?.play();
