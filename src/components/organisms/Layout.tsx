@@ -29,6 +29,16 @@ export const Layout = ({ children }: Props) => {
           color: colors.dark,
         }}
       >
+        <div className="fixed inset-0 grid grid-cols-8 gap-5 mx-5">
+          {new Array(8).fill(0).map((_, i) => (
+            <div key={i}>
+              <div className="h-full w-[0.5px] bg-secondary-700" />
+              {i === 8 - 1 && (
+                <div className="absolute right-0 top-0 h-full w-[0.5px] bg-secondary-700" />
+              )}
+            </div>
+          ))}
+        </div>
         {/* --------------- R3F-SCROLL-RIG PART --------------- */}
 
         <SmoothScrollbar
