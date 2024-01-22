@@ -34,6 +34,12 @@ body {
     font-size: 19.692307692307693px;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
 /* Container Max Width */
 .container {
   max-width: 1920px;
