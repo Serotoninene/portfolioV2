@@ -13,6 +13,9 @@ interface InputProps {
   // hasSubmit: boolean;
 }
 
+const FORM_ENDPOINT =
+  "https://public.herotofu.com/v1/9f625ad0-bbc4-11ec-8bd8-6d49e4d0c791";
+
 const Input = ({ type = "text", field }: InputProps) => {
   const [value, setValue] = useState("");
 
@@ -33,30 +36,58 @@ const Input = ({ type = "text", field }: InputProps) => {
 
 const Form = () => {
   const formRef = useRef() as RefObject<HTMLFormElement>;
+  const [submitted, setSubmitted] = useState(false);
 
   // const [feedback, setFeedback] = useState<string>("");
   // const [hasSubmit, setHasSubmit] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // emailjs
-    //   .sendForm(
-    //     process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-    //     process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-    //     formRef.current!,
-    //     process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-    //   )
-    //   .then(() => {
-    //     setFeedback("Votre message a bien été envoyé");
-    //     setHasSubmit(true);
-    //   });
+
+    const inputs = e.target.elements;
+    const data = {};
+
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].name) {
+        data[inputs[i].name] = inputs[i].value;
+      }
+
+      fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Form response was not ok");
+          }
+
+          setSubmitted(true);
+        })
+        .catch((err) => {
+          // Submit the form manually
+          e.target.submit();
+        });
+    }
   };
+
+  if (submitted) {
+    return (
+      <>
+        <div className="text-2xl">Thank you!</div>
+        <div className="text-md">We'll be in touch soon.</div>
+      </>
+    );
+  }
 
   return (
     <form
       id="ContactForm"
       ref={formRef}
-      onSubmit={(e) => handleSubmit(e)}
+      onSubmit={handleSubmit}
       className="sm:grid sm:grid-cols-2 sm:gap-4 sm:w-full"
     >
       <Input field="Prenom" />

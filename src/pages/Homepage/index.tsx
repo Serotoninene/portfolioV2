@@ -10,7 +10,6 @@ import {
 import { Loader } from "../../components/organisms";
 
 export default function Homepage() {
-  const [hasLoaded, setHasLoaded] = useState(false);
   useEffect(() => {
     const handleBeforeUnload = () => {
       window.scrollTo(0, 0);
@@ -24,13 +23,14 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-clip">
-      <Loader setHasLoaded={setHasLoaded} />
-      <Hero hasLoaded={hasLoaded} />
+      <Contact />
+      {/* <Loader />
+      <Hero />
       <Showreal />
       <StickyText />
       <RecentProjects />
       <Contact />
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }

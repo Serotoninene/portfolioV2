@@ -13,14 +13,14 @@ export const StickyText = () => {
     "Creative developer driven by a love for crafting digital magic. With a passion for innovative solutions, I transform ideas into captivating online experiences. ";
 
   useEffect(() => {
-    gsap.set(letters.current, { opacity: 0.1 });
+    gsap.set(letters.current, { opacity: 0.3 });
     gsap.set(block.current, { yPercent: -120, rotate: 45 });
     gsap.set(line.current, { scaleX: 0 });
 
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
-        start: "bottom bottom",
+        start: "top center",
         end: "bottom center",
         scrub: 0.7,
       },
@@ -62,7 +62,7 @@ export const StickyText = () => {
   return (
     <div
       ref={container}
-      className="relative h-[80vh] px-5 mt-24 mb-[20vh] md:h-[70vh]"
+      className="relative h-[80vh] px-5 mt-24 mb-[20vh] md:h-[200vh]"
     >
       <div className="sticky top-[64px] flex justify-end items-end w-full">
         <div className="text-[32px] font-medium text-right leading-[150%] w-[640px]">

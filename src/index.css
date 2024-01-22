@@ -24,6 +24,21 @@ body {
   height: 100%;
 }
 
+body {
+  font-size: 1.0256410256410258vw;
+}
+
+/* Max Font Size */
+@media screen and (min-width: 1920px) {
+  body {
+    font-size: 19.692307692307693px;
+  }
+}
+/* Container Max Width */
+.container {
+  max-width: 1920px;
+}
+
 .stop-scrolling {
   height: 100%;
   overflow: hidden;
