@@ -1,35 +1,20 @@
+import { MutableRefObject, useRef } from "react";
 import {
   ScrollScene,
   UseCanvas,
   useScrollRig,
 } from "@14islands/r3f-scroll-rig";
-import { MutableRefObject, useLayoutEffect, useRef } from "react";
+
 import Lines from "../../../../components/three/Lines";
 import { AnimLink } from "../../../../components/atoms";
 
 export const Footer = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const footer = useRef<HTMLDivElement>(null);
 
   const { hasSmoothScrollbar } = useScrollRig();
 
-  useLayoutEffect(() => {
-    // gsap.set(ref.current, { xPercent: -100 });
-    // gsap.to(ref.current, {
-    //   scrollTrigger: {
-    //     trigger: footer.current,
-    //     start: "top bottom",
-    //     end: "bottom bottom",
-    //   },
-    //   xPercent: 0,
-    // });
-  }, []);
-
   return (
-    <div
-      ref={footer}
-      className="mt-[20vh] px-[32px] flex flex-col gap-[12px] md:gap-[56px] pb-[80px] z-10"
-    >
+    <div className="mt-[20vh] px-[32px] flex flex-col gap-[12px] md:gap-[56px] pb-[80px] z-10">
       <div className="flex flex-col gap-1 justify-between md:flex-row">
         <a>pujol.alexandre@hotmail.fr</a>
         <p>51 T Rue Piat, 75020, PARIS</p>
@@ -40,9 +25,12 @@ export const Footer = () => {
           </div>
         </div>
         <ul className="hidden md:flex items-center md:gap-[16px] lggap-[80px]">
-          <AnimLink href="instagram.com">Instagram</AnimLink>
-          <AnimLink href="linkedin">Linkedin</AnimLink>
-          <AnimLink href="behance">Behance</AnimLink>
+          <AnimLink href="https://www.instagram.com/serotoninene/?hl=fr">
+            Instagram
+          </AnimLink>
+          <AnimLink href="https://www.malt.fr/profile/alexandrepujol?q=alexandre+pujol&sourceComponent=home_unlogged&searchid=65aea466d6258e0da5f71775">
+            Malt
+          </AnimLink>
         </ul>
       </div>
 
