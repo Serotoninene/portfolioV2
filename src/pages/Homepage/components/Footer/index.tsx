@@ -7,14 +7,18 @@ import {
 
 import Lines from "../../../../components/three/Lines";
 import { AnimLink } from "../../../../components/atoms";
+import { useColorContext } from "../../../../hooks/useColorContext";
 
 export const Footer = () => {
+  const { colors } = useColorContext();
   const ref = useRef<HTMLDivElement>(null);
-
   const { hasSmoothScrollbar } = useScrollRig();
 
   return (
-    <div className="mt-[20vh] px-[32px] flex flex-col gap-[12px] md:gap-[56px] pb-[80px] z-10">
+    <div
+      className="relative pt-[20vh] px-[32px] flex flex-col gap-[12px] md:gap-[56px] pb-[80px]"
+      style={{ backgroundColor: colors.dark }}
+    >
       <div className="flex flex-col gap-1 justify-between md:flex-row">
         <a>pujol.alexandre@hotmail.fr</a>
         <p>51 T Rue Piat, 75020, PARIS</p>
