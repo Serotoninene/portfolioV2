@@ -21,8 +21,8 @@ export const Button = ({ children, onClick }: Props) => {
   useEffect(() => {
     hoveredTl.current = gsap.timeline({ paused: true });
 
-    gsap.set(buttonLetters.current, {
-      y: "120%",
+    gsap.set(buttonLettersShadow.current, {
+      yPercent: 120,
     });
     gsap.set(whiteBackground.current, {
       rotate: 45,
@@ -39,7 +39,7 @@ export const Button = ({ children, onClick }: Props) => {
     hoveredTl.current.to(
       buttonLettersShadow.current,
       {
-        y: "-120%",
+        yPercent: 0,
         stagger: 0.005,
         ease: Power3.easeOut,
       },
@@ -89,10 +89,7 @@ export const Button = ({ children, onClick }: Props) => {
       />
       <button className="relative my-2 mx-4">
         {splitWords(children, buttonLetters, "visible")}
-        <span
-          className="absolute top-[120%] left-0"
-          style={{ color: colors.dark }}
-        >
+        <span className="absolute left-0" style={{ color: colors.dark }}>
           {splitWords(children, buttonLettersShadow, "visible")}
         </span>
       </button>

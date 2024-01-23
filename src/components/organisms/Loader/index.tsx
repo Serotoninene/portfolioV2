@@ -31,7 +31,6 @@ export const Loader = () => {
         ref={ref as RefObject<HTMLDivElement>}
         className="h-[1px] w-[50vw] origin-left scale-x-0 bg-dark"
       />
-      {/* <div>{progress}</div> */}
     </div>
   );
 };
