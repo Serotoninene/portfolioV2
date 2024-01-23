@@ -45,7 +45,8 @@ export const ProjectLine = ({ project, num, isLast }: Props) => {
   const hoverTl = useProjectLineHover(arrow, shadowArrow);
 
   return (
-    <div
+    <a
+      href={project.href}
       onMouseEnter={() => {
         setCursorStyle("none");
         setSelectedProject(project);
@@ -98,6 +99,6 @@ export const ProjectLine = ({ project, num, isLast }: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 };

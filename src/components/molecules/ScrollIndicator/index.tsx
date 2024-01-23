@@ -15,9 +15,9 @@ export function ScrollIndicator() {
     >
       <div
         ref={lineRef}
-        className="h-20 w-[1px] self-center bg-dark origin-bottom"
+        className="h-14 w-[1px] self-center bg-dark origin-bottom"
       />
-      <p className="font-medium overflow-hidden">
+      <p className="font-medium overflow-hidden text-sm">
         {splitLetters("Scroll", textRef)}
       </p>
     </div>

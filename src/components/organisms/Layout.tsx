@@ -16,7 +16,7 @@ type Props = {
 export const Layout = ({ children }: Props) => {
   const { colors } = useColorContext();
   const eventSource = useRef<HTMLDivElement>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const isMobile = useMediaQuery(768);
 
   return (

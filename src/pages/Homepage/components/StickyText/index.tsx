@@ -10,7 +10,7 @@ export const StickyText = () => {
   const tl = useRef<gsap.core.Timeline>();
 
   const phrase =
-    "Creative developer driven by a love for crafting digital magic. With a passion for innovative solutions, I transform ideas into captivating online experiences. ";
+    "From Paris, France. Creative developer driven by a love for crafting digital magic. With a passion for innovative solutions, I transform ideas into captivating online experiences. ";
 
   useEffect(() => {
     gsap.set(letters.current, { opacity: 0.3 });

@@ -13,9 +13,9 @@ type Props = {
 
 const sections = [
   { idx: 1, name: "WORK" },
-  { idx: 2, name: "EXPERIMENTS" },
-  { idx: 3, name: "ABOUT" },
-  { idx: 4, name: "CONTACT ME" },
+  { idx: 2, name: "EXPERIMENTS", isIncoming: true },
+  { idx: 3, name: "ABOUT", isIncoming: true },
+  { idx: 4, name: "CONTACT ME", isIncoming: true },
 ];
 
 const coordonnees = [
@@ -60,6 +60,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
   useEffect(() => {
     if (isMenuOpen) {
       introTl.current?.play();
+      // introTl.current?.progress(1);
       disableScroll();
     } else {
       introTl.current?.timeScale(2).reverse();
@@ -100,7 +101,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
           {/* sections */}
           <ul className="flex flex-col gap-6 sm:col-span-2">
             {sections.map((section, idx) => (
-              <Section {...section} key={idx} />
+              <Section {...section} setMenuOpen={setMenuOpen} key={idx} />
             ))}
           </ul>
           {/* coordonnées */}

@@ -5,7 +5,9 @@ import { useHover } from "./animations/useHover";
 type SectionProps = {
   idx: number;
   name: string;
+  setMenuOpen: (arg: boolean) => void;
   href?: string;
+  isIncoming?: boolean;
 };
 
 const Arrow = () => (
@@ -26,13 +28,28 @@ const Arrow = () => (
   </svg>
 );
 
-export const Section = ({ idx, name, href }: SectionProps) => {
+export const Section = ({
+  idx,
+  name,
+  href,
+  isIncoming,
+  setMenuOpen,
+}: SectionProps) => {
   const arrows = useRef<HTMLDivElement[]>([]);
   const lineShadow = useRef<HTMLDivElement>(null);
   const hoverTl = useHover(arrows, lineShadow);
 
-  const redirectToSection = () => {
-    console.log(href);
+  const redirectToSection = (e) => {
+    e.preventDefault();
+    if (isIncoming) return;
+
+    if (name === "WORK") {
+      setMenuOpen(false);
+      const element = document.querySelector("#RecentProjects");
+      element?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = href || "/";
+    }
   };
 
   return (
@@ -42,12 +59,17 @@ export const Section = ({ idx, name, href }: SectionProps) => {
       onMouseEnter={() => hoverTl.current?.play()}
       onMouseLeave={() => hoverTl.current?.reverse()}
     >
-      <div className="flex pl-2 gap-[32px] md:gap-[80px]">
+      <div className="flex pl-2 gap-[24px] md:gap-[80px]">
         <p className="menu-section__idx italic font-thin overflow-hidden text-[12px] md:text-base md:pt-[0.5px]">
           {idx.toString().padStart(2, "0")}
         </p>
-        <h3 className="menu-section__title font-medium leading-[100%] text-[20px] md:text-[36px]">
+        <h3 className="relative menu-section__title font-medium leading-[100%] text-[20px] md:text-[36px]">
           {splitWords(name)}
+          {isIncoming && (
+            <span className="text-xs absolute left-full bottom-0 ml-2 md:bottom-2">
+              (INCOMING)
+            </span>
+          )}
         </h3>
       </div>
       <div className="relative h-fit overflow-hidden">
