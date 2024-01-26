@@ -39,7 +39,7 @@ export const Section = ({
   const lineShadow = useRef<HTMLDivElement>(null);
   const hoverTl = useHover(arrows, lineShadow);
 
-  const redirectToSection = (e) => {
+  const redirectToSection = (e: React.MouseEvent) => {
     e.preventDefault();
     if (isIncoming) return;
 

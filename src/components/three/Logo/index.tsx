@@ -16,8 +16,8 @@ type Props = {
 export const Logo = ({ scale, inViewport }: Props) => {
   const ref = useRef<Mesh>(null);
   const tl = useRef<gsap.core.Timeline>();
-  const model = useGLTF(LOGO_SRC);
-  const geometry = model.nodes.Plane.geometry;
+  const { nodes } = useGLTF(LOGO_SRC) as any;
+  const geometry = nodes.Plane.geometry;
 
   const targetRotationY = useRef(1.6);
   const targetRotationX = useRef(-0.2);

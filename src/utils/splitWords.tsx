@@ -13,7 +13,7 @@ export const splitWords = (
     body.push(
       <Fragment key={word + i}>
         <span
-          ref={(e) => ref?.current?.push(e)}
+          ref={(e) => e && ref?.current?.push(e)}
           className={`inline-block overflow-${overflow}`}
         >
           {letters}
