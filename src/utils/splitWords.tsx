@@ -12,12 +12,12 @@ export const splitWords = (
     const letters = splitLetters(word, ref);
     body.push(
       <Fragment key={word + i}>
-        <p
+        <span
           ref={(e) => ref?.current?.push(e)}
           className={`inline-block overflow-${overflow}`}
         >
           {letters}
-        </p>{" "}
+        </span>{" "}
       </Fragment>
     );
   });
