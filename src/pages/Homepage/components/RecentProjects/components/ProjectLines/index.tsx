@@ -76,7 +76,7 @@ export const ProjectLines = () => {
             scissor={false}
             inViewportMargin="1000%"
           >
-            {(props) => <FollowingProject scrollScene={props} />}
+            {(props: any) => <FollowingProject scrollScene={props} />}
           </StickyScrollScene>
         </UseCanvas>
       )}
