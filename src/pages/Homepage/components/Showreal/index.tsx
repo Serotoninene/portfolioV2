@@ -3,8 +3,12 @@ import { useColorContext } from "../../../../hooks/useColorContext";
 
 import gsap from "gsap";
 import ReactPlayer from "react-player";
+import { useCursorStore } from "../../../../store/useCursorStyle";
 
 export const Showreal = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const { setCursorStyle, setCursorText } = useCursorStore();
+
   const mainContainer = useRef<HTMLDivElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const [videoDimensions, setVideoDimensions] = useState({
@@ -15,6 +19,19 @@ export const Showreal = () => {
   const tl = useRef<gsap.core.Timeline>();
 
   const { colors } = useColorContext();
+
+  const togglePlay = () => {
+    setIsPlaying((prev) => !prev);
+  };
+
+  const handleMouseEnter = () => {
+    setCursorStyle("text");
+    setCursorText(isPlaying ? "pause" : "play");
+  };
+
+  const handleMouseLeave = () => {
+    setCursorStyle("default");
+  };
 
   useEffect(() => {
     setVideoDimensions({
@@ -47,23 +64,28 @@ export const Showreal = () => {
 
   return (
     <div
+      id="HEOH"
       ref={mainContainer}
-      className="flex justify-center items-center pointer-events-none"
+      className="flex justify-center items-center"
     >
       <div
         ref={videoContainer}
-        className="relative h-[90vh] aspect-video px-5"
+        onClick={togglePlay}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="relative h-[90vh] aspect-video px-5 cursor-none"
         style={{
           background: colors.dark,
         }}
       >
-        <ReactPlayer
-          url="https://player.vimeo.com/video/905141032?h=656193ece9"
-          width={videoDimensions.width}
-          height={videoDimensions.height}
-          playing={true}
-          loop={true}
-        />
+        <div className="pointer-events-none">
+          <ReactPlayer
+            url="https://player.vimeo.com/video/905141032?h=656193ece9"
+            width={videoDimensions.width}
+            height={videoDimensions.height}
+            playing={isPlaying}
+          />
+        </div>
       </div>
     </div>
   );
