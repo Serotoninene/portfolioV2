@@ -22,11 +22,12 @@ export const Showreal = () => {
 
   const togglePlay = () => {
     setIsPlaying((prev) => !prev);
+    setCursorText(isPlaying ? "play" : "pause");
   };
 
   const handleMouseEnter = () => {
-    setCursorStyle("text");
     setCursorText(isPlaying ? "pause" : "play");
+    setCursorStyle("text");
   };
 
   const handleMouseLeave = () => {
@@ -63,11 +64,7 @@ export const Showreal = () => {
   }, []);
 
   return (
-    <div
-      id="HEOH"
-      ref={mainContainer}
-      className="flex justify-center items-center"
-    >
+    <div ref={mainContainer} className="flex justify-center items-center">
       <div
         ref={videoContainer}
         onClick={togglePlay}

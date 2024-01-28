@@ -23,15 +23,13 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-clip">
-      <Showreal />
-
-      {/* <Loader />
+      <Loader />
       <Hero />
       <Showreal />
       <StickyText />
       <RecentProjects />
       <Contact />
-      <Footer /> */}
+      <Footer />
     </div>
   );
 }
