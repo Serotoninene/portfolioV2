@@ -4,6 +4,7 @@ import { useColorContext } from "../../../../hooks/useColorContext";
 import gsap from "gsap";
 import ReactPlayer from "react-player";
 import { useCursorStore } from "../../../../store/useCursorStyle";
+import { useWindowSize } from "../../../../hooks";
 
 export const Showreal = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,6 +16,8 @@ export const Showreal = () => {
     width: 0,
     height: 0,
   });
+  const { width } = useWindowSize();
+  const isMobile = width && width < 768;
 
   const tl = useRef<gsap.core.Timeline>();
 
@@ -39,7 +42,9 @@ export const Showreal = () => {
       width: videoContainer.current!.offsetWidth,
       height: videoContainer.current!.offsetHeight,
     });
+  }, [width]);
 
+  useEffect(() => {
     gsap.set(videoContainer.current, {
       clipPath: "polygon(20% 40%, 80% 40%, 95% 60%, 5% 60%)",
     });
@@ -70,17 +75,18 @@ export const Showreal = () => {
         onClick={togglePlay}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="relative h-[90vh] aspect-video px-5 cursor-none"
+        className="relative w-full xl:h-[90vh] aspect-video mx-10 cursor-none"
         style={{
           background: colors.dark,
         }}
       >
-        <div className="pointer-events-none">
+        <div className="pointer-events-none w-full h-full object-fill">
           <ReactPlayer
             url="https://player.vimeo.com/video/905141032?h=656193ece9"
+            playing={isMobile ? true : isPlaying}
             width={videoDimensions.width}
             height={videoDimensions.height}
-            playing={isPlaying}
+            loop
           />
         </div>
       </div>

@@ -65,7 +65,10 @@ const HeroText = () => {
           <AnimLetters string=" ALEX" start={hasLoaded} />
         </div>
         <div className="block md:hidden">
-          <AnimLetters string="HI, I'M ALEX" start={hasLoaded} />
+          <AnimLetters
+            string="HI, I'M ALEX"
+            // start={hasLoaded}
+          />
         </div>
       </h1>
 
