@@ -44,12 +44,12 @@ export const Loader = () => {
         {new Array(8).fill(0).map((_, i) => (
           <div key={i}>
             <div
-              ref={(e) => bgLines.current?.push(e)}
+              ref={(e) => e && bgLines.current?.push(e)}
               className="h-full w-[0.5px] bg-secondary-700 origin-top"
             />
             {i === 8 - 1 && (
               <div
-                ref={(e) => bgLines.current?.push(e)}
+                ref={(e) => e && bgLines.current?.push(e)}
                 className="absolute right-0 top-0 h-full w-[0.5px] bg-secondary-700 origin-top"
               />
             )}
