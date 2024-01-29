@@ -73,8 +73,9 @@ export const ProjectLines = () => {
         <UseCanvas>
           <StickyScrollScene
             track={ref}
-            scissor={false}
             inViewportMargin="1000%"
+            inViewport
+            hideOffscreen={false}
           >
             {(props: any) => <FollowingProject scrollScene={props} />}
           </StickyScrollScene>

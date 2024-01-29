@@ -34,7 +34,7 @@ export const Loader = () => {
     >
       {/* Multiple LoadingLoops */}
       {loadingArr.map((_, i) => (
-        <LoadingLoop key={i} className="text-[120px] leading-[100%]" />
+        <LoadingLoop key={i} className="text-[60px] leading-[100%]" />
       ))}
       <div
         ref={ref as RefObject<HTMLDivElement>}

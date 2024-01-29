@@ -60,7 +60,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
   useEffect(() => {
     if (isMenuOpen) {
       introTl.current?.play();
-      // introTl.current?.progress(1);
+
       disableScroll();
     } else {
       introTl.current?.timeScale(2).reverse();
@@ -89,7 +89,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
             <li>{formattedDate}</li>
           </ul>
 
-          <div className="font-medium overflow-hidden">
+          <div className="font-medium text-lg overflow-hidden">
             <span className="italic">{"( "}</span>
 
             <AnimLink onClick={closeMenu}>Close</AnimLink>

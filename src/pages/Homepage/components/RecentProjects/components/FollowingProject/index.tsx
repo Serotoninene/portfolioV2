@@ -9,9 +9,9 @@ import { useUpdateTexture } from "./animations";
 
 import TouchTexture from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
+import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
-import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
