@@ -1,11 +1,11 @@
-import { UseCanvas, useScrollRig, useTracker } from "@14islands/r3f-scroll-rig";
+import { UseCanvas, useScrollRig } from "@14islands/r3f-scroll-rig";
 import { StickyScrollScene } from "@14islands/r3f-scroll-rig/powerups";
-import { MutableRefObject, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { FollowingProject, ProjectLine } from "..";
+import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import { projects } from "../../data";
-import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 
 export const ProjectLines = () => {
   const container = useRef(null);
@@ -72,11 +72,7 @@ export const ProjectLines = () => {
 
       {hasSmoothScrollbar && (
         <UseCanvas>
-          <StickyScrollScene
-            track={ref}
-            inViewportMargin="1000%"
-            hideOffscreen={false}
-          >
+          <StickyScrollScene track={ref} inViewportMargin="1000%">
             {(props: any) => <FollowingProject scrollScene={props} />}
           </StickyScrollScene>
         </UseCanvas>
