@@ -23,7 +23,7 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-clip">
-      {/* <Loader /> */}
+      <Loader />
       <Hero />
       <Showreal />
       <StickyText />
