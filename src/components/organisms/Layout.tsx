@@ -1,6 +1,6 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useRef, useState, createContext } from "react";
 import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useMediaQuery } from "../../hooks";
@@ -16,7 +16,6 @@ type Props = {
 export const Layout = ({ children }: Props) => {
   const { colors } = useColorContext();
   const eventSource = useRef<HTMLDivElement>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useMediaQuery(768);
 
   return (
@@ -52,8 +51,8 @@ export const Layout = ({ children }: Props) => {
         {/* --------------- R3F-SCROLL-RIG PART --------------- */}
         <CustomCursor />
         <div>
-          <Menu isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
-          <Navbar isMenuOpen={isMenuOpen} setMenuOpen={setIsMenuOpen} />
+          <Menu />
+          <Navbar />
           {children}
           <GlobalCanvas
             eventSource={eventSource as MutableRefObject<HTMLDivElement>}

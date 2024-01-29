@@ -2,17 +2,15 @@ import { useRef } from "react";
 import { getFormattedDate } from "../../../utils";
 import { AnimLetters, AnimLink } from "../../atoms";
 import { useAlexReveal, useIntro } from "./animations";
+import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 
-type Props = {
-  isMenuOpen: boolean;
-  setMenuOpen: (arg: boolean) => void;
-};
-
-export const Navbar = ({ setMenuOpen }: Props) => {
+export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const { setIsMenuOpen } = useIsMenuOpen();
 
   const formattedDate = getFormattedDate();
   const hasScrolled = useAlexReveal();
@@ -24,7 +22,7 @@ export const Navbar = ({ setMenuOpen }: Props) => {
   });
 
   const openMenu = () => {
-    setMenuOpen(true);
+    setIsMenuOpen(true);
   };
 
   return (

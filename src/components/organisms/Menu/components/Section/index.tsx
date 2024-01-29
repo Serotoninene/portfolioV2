@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { splitWords } from "../../../../../utils";
 import { useHover } from "./animations/useHover";
+import { useIsMenuOpen } from "../../../../../store/useIsMenuOpen";
 
 type SectionProps = {
   idx: number;
   name: string;
-  setMenuOpen: (arg: boolean) => void;
   href?: string;
   isIncoming?: boolean;
 };
@@ -28,23 +28,18 @@ const Arrow = () => (
   </svg>
 );
 
-export const Section = ({
-  idx,
-  name,
-  href,
-  isIncoming,
-  setMenuOpen,
-}: SectionProps) => {
+export const Section = ({ idx, name, href, isIncoming }: SectionProps) => {
   const arrows = useRef<HTMLDivElement[]>([]);
   const lineShadow = useRef<HTMLDivElement>(null);
   const hoverTl = useHover(arrows, lineShadow);
+  const { setIsMenuOpen } = useIsMenuOpen();
 
   const redirectToSection = (e: React.MouseEvent) => {
     e.preventDefault();
     if (isIncoming) return;
 
     if (name === "WORK") {
-      setMenuOpen(false);
+      setIsMenuOpen(false);
       const element = document.querySelector("#RecentProjects");
       element?.scrollIntoView({ behavior: "smooth" });
     } else {

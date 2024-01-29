@@ -14,7 +14,7 @@ import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
 
 type Props = {
-  scrollScene: ScrollSceneChildProps;
+  scrollScene?: ScrollSceneChildProps;
 };
 
 export const FollowingProject = ({ scrollScene }: Props) => {
@@ -116,6 +116,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         transparent={true}
         uniforms={uniforms}
         side={THREE.DoubleSide}
+        needsUpdate={true}
       />
     </mesh>
   );

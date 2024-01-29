@@ -21,7 +21,6 @@ export const Loader = () => {
       scaleY: progress / 100,
       stagger: 0.01,
     });
-
     if (progress === 100 && tl.current) {
       tl.current.play();
     }

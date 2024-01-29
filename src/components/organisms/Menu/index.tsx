@@ -5,11 +5,7 @@ import { useIntro } from "./animations";
 import { getFormattedDate } from "../../../utils";
 import { useScrollbar } from "@14islands/r3f-scroll-rig";
 import { Section } from "./components/Section";
-
-type Props = {
-  isMenuOpen: boolean;
-  setMenuOpen: (arg: boolean) => void;
-};
+import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 
 const sections = [
   { idx: 1, name: "WORK" },
@@ -34,9 +30,11 @@ const coordonnees = [
   },
 ];
 
-export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
+export const Menu = () => {
   const container = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
+  const { isMenuOpen, setIsMenuOpen } = useIsMenuOpen();
+  console.log(isMenuOpen);
   const formattedDate = getFormattedDate();
 
   const scroll = useScrollbar();
@@ -52,15 +50,16 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
   };
 
   const closeMenu = () => {
-    setMenuOpen(false);
+    setIsMenuOpen(false);
   };
+
   const introTl = useIntro(container);
 
   // trigger the animation when the menu open/ close
   useEffect(() => {
     if (isMenuOpen) {
+      console.log("play");
       introTl.current?.play();
-
       disableScroll();
     } else {
       introTl.current?.timeScale(2).reverse();
@@ -101,7 +100,7 @@ export const Menu = ({ isMenuOpen, setMenuOpen }: Props) => {
           {/* sections */}
           <ul className="flex flex-col gap-6 sm:col-span-2">
             {sections.map((section, idx) => (
-              <Section {...section} setMenuOpen={setMenuOpen} key={idx} />
+              <Section {...section} key={idx} />
             ))}
           </ul>
           {/* coordonnées */}
