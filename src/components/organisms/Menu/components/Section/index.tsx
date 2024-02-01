@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { splitWords } from "../../../../../utils";
 import { useHover } from "./animations/useHover";
 import { useIsMenuOpen } from "../../../../../store/useIsMenuOpen";
@@ -33,23 +34,20 @@ export const Section = ({ idx, name, href, isIncoming }: SectionProps) => {
   const lineShadow = useRef<HTMLDivElement>(null);
   const hoverTl = useHover(arrows, lineShadow);
   const { setIsMenuOpen } = useIsMenuOpen();
+  const navigate = useNavigate();
 
   const redirectToSection = (e: React.MouseEvent) => {
     e.preventDefault();
     if (isIncoming) return;
 
-    if (name === "WORK") {
-      setIsMenuOpen(false);
-      const element = document.querySelector("#RecentProjects");
-      element?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = href || "/";
-    }
+    href && navigate(href);
+    setIsMenuOpen(false);
   };
 
   return (
     <li
       className="menu-section relative flex justify-between max-w-[480px] pb-[20px]"
+      style={{ cursor: isIncoming ? "not-allowed" : "pointer" }}
       onClick={redirectToSection}
       onMouseEnter={() => hoverTl.current?.play()}
       onMouseLeave={() => hoverTl.current?.reverse()}

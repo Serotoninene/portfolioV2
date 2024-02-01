@@ -8,8 +8,8 @@ import { Section } from "./components/Section";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 
 const sections = [
-  { idx: 1, name: "WORK" },
-  { idx: 2, name: "EXPERIMENTS", isIncoming: true },
+  { idx: 1, name: "WORK", href: "/#RecentProjects" },
+  { idx: 2, name: "EXPERIMENTS", href: "/experiments" },
   { idx: 3, name: "ABOUT", isIncoming: true },
   { idx: 4, name: "CONTACT ME", isIncoming: true },
 ];
@@ -34,7 +34,6 @@ export const Menu = () => {
   const container = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLHeadingElement>(null);
   const { isMenuOpen, setIsMenuOpen } = useIsMenuOpen();
-  console.log(isMenuOpen);
   const formattedDate = getFormattedDate();
 
   const scroll = useScrollbar();
@@ -71,7 +70,7 @@ export const Menu = () => {
     <div
       ref={container}
       id="Menu"
-      className="fixed inset-0 flex flex-col justify-between px-5 py-3 text-[#ebe9e5] bg-dark bg-opacity-70 backdrop-blur z-30"
+      className="fixed inset-0 flex flex-col justify-between px-5 py-3 text-[#ebe9e5] bg-dark bg-opacity-70 backdrop-blur z-30 "
       style={{ pointerEvents: isMenuOpen ? "all" : "none" }}
     >
       <div>
