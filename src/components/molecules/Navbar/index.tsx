@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
+import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 import { getFormattedDate } from "../../../utils";
 import { AnimLetters, AnimLink } from "../../atoms";
 import { useAlexReveal, useIntro } from "./animations";
-import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 
 export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
