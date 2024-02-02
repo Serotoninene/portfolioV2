@@ -10,21 +10,25 @@ const experimentsData = [
     title: "Experiments",
     description: "This is a description of the experiments page.",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    isIncomming: true,
   },
   {
     title: "Experiments",
     description: "This is a description of the experiments page.",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    isIncomming: true,
   },
   {
     title: "Experiments",
     description: "This is a description of the experiments page.",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    isIncomming: true,
   },
   {
     title: "Experiments",
     description: "This is a description of the experiments page.",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    isIncomming: true,
   },
 ];
 
@@ -32,8 +36,7 @@ const Experiments = () => {
   return (
     <div className="relative min-h-[--fullScreen] z-20 text-black pt-10 px-5">
       <div className="pt-40 grid grid-cols-8 gap-5 mb-40">
-        <div className="flex flex-col gap-10 justify-between col-span-6">
-          <p className="text-sm">Back Home</p>
+        <div className="flex flex-col mt-10 justify-between col-span-6">
           <h1 className="text-7xl font-medium"> EXPERIMENTATIONS</h1>
         </div>
 

@@ -11,10 +11,11 @@ const ExperimentDetail = () => {
   const ComponentToRender = id && componentMapping[id];
 
   return (
-    <div className="min-h-screen">
-      {" "}
-      <h1>{id}</h1>
-      {ComponentToRender && <ComponentToRender />}
+    <div className="h-screen pt-12 px-5">
+      <h1 className="text-4xl font-medium">{id}</h1>
+      <div className="border border-dark rounded h-full">
+        {ComponentToRender && <ComponentToRender />}
+      </div>
     </div>
   );
 };

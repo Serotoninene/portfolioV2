@@ -8,13 +8,16 @@ import { useControls } from "leva";
 import fragment from "./shader/fragment.glsl";
 import vertex from "./shader/vertex.glsl";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCursorStore } from "../../../../store/useCursorStyle";
+import { useNavigate } from "react-router-dom";
 
 const ThreeVignette = ({ scrollScene, img }) => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const texture = useTexture(img) as THREE.Texture;
+
   const controls = useControls({
     intensity: {
-      value: 81.0,
+      value: 45.0,
       min: 0,
       max: 100,
       step: 0.01,
@@ -60,6 +63,7 @@ const ThreeVignette = ({ scrollScene, img }) => {
     shader.current.uniforms.uIntensity.value = controls.intensity;
     shader.current.uniforms.uDelta.value = controls.delta;
   });
+
   return (
     <mesh {...scrollScene}>
       <planeGeometry args={[1, 1, 32, 32]} />
@@ -73,12 +77,27 @@ const ThreeVignette = ({ scrollScene, img }) => {
   );
 };
 
-export const ExperimentVignette = ({ title, img }) => {
+export const ExperimentVignette = ({ title, img, isIncomming }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const { setCursorStyle } = useCursorStore();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (isIncomming) return;
+    navigate(`/experiments/${title.toLowerCase()}`);
+  };
 
   return (
-    <div ref={ref} className="relative w-full aspect-square">
-      <h2 className="absolute top-0 left-0 z-10">{title}</h2>
+    <div
+      ref={ref}
+      className="relative w-full aspect-square"
+      onMouseEnter={() => setCursorStyle("pointer")}
+      onMouseLeave={() => setCursorStyle("default")}
+      onClick={handleClick}
+    >
+      <h2 className="absolute top-4 left-4 text-xl text-secondary-400 font-semibold z-10">
+        {title}
+      </h2>
       <img className="w-full object-cover opacity-5" src={img} />
 
       <UseCanvas>
