@@ -5,6 +5,13 @@ import { Layout } from "./components/organisms";
 import { ColorProvider } from "./contexts/ColorContext";
 import Experiments from "./pages/Experiments";
 import Homepage from "./pages/Homepage";
+import ExperimentDetail from "./pages/Experiments/components/ExperimentDetail";
+
+type Props = {
+  component: React.ReactNode;
+};
+
+const WithLayout = ({ component }: Props) => <Layout>{component}</Layout>;
 
 function App() {
   useEffect(() => {
@@ -15,19 +22,15 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
-        <Layout>
-          <Homepage />
-        </Layout>
-      ),
+      element: <WithLayout component={<Homepage />} />,
     },
     {
-      path: "experiments",
-      element: (
-        <Layout>
-          <Experiments />
-        </Layout>
-      ),
+      path: "/experiments",
+      element: <WithLayout component={<Experiments />} />,
+    },
+    {
+      path: "/experiments/:id",
+      element: <WithLayout component={<ExperimentDetail />} />,
     },
   ]);
 

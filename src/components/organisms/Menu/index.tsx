@@ -57,7 +57,6 @@ export const Menu = () => {
   // trigger the animation when the menu open/ close
   useEffect(() => {
     if (isMenuOpen) {
-      console.log("play");
       introTl.current?.play();
       disableScroll();
     } else {

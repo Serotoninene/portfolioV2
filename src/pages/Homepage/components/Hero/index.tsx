@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 import { AnimLetters, AnimWords } from "../../../../components/atoms";
 import { useHasLoadedStore } from "../../../../store/useHasLoaded";
@@ -11,7 +11,13 @@ const HeroText = () => {
   const paragraph = useRef<HTMLParagraphElement>(null);
 
   const tl = useRef<gsap.core.Timeline>();
-  const { hasLoaded } = useHasLoadedStore();
+  const { hasLoaded, setHasLoaded } = useHasLoadedStore();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("hasAlreadyLoaded") === "true") {
+      setHasLoaded(true);
+    }
+  }, []);
 
   // scroll anim
   useEffect(() => {
