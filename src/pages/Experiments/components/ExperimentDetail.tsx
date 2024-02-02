@@ -1,10 +1,8 @@
-import React from "react";
-import { Portal } from ".";
 import { useParams } from "react-router-dom";
+import { Portal } from ".";
 
 const componentMapping = {
   portal: Portal,
-  // Add other mappings here
 };
 
 const ExperimentDetail = () => {

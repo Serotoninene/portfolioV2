@@ -26,7 +26,7 @@ export const Contact = () => {
       >
         {/* left part */}
         <div className="overflow-hidden">
-          <div className="relative w-full h-[35vh] sm:h-full overflow-hidden">
+          <div className="relative w-full h-[35vh] sm:h-full overflow-hidden ">
             <img
               id="ContactImage"
               alt="placeholder"
