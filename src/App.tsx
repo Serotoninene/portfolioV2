@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { Layout } from "./components/organisms";
+import { useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Layout } from "./components/organisms";
 
-import Homepage from "./pages/Homepage";
-import Experiments from "./pages/Experiments";
 import { ColorProvider } from "./contexts/ColorContext";
+import Experiments from "./pages/Experiments";
+import Homepage from "./pages/Homepage";
 
 function App() {
   useEffect(() => {
