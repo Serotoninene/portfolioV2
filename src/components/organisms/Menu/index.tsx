@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { AnimLetters, AnimLink } from "../../atoms";
 import { useIntro } from "./animations";

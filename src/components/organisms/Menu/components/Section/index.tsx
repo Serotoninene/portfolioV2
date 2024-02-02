@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { splitWords } from "../../../../../utils";
 import { useHover } from "./animations/useHover";
+
 import { useIsMenuOpen } from "../../../../../store/useIsMenuOpen";
+import { splitWords } from "../../../../../utils";
 
 type SectionProps = {
   idx: number;
@@ -40,8 +41,8 @@ export const Section = ({ idx, name, href, isIncoming }: SectionProps) => {
     e.preventDefault();
     if (isIncoming) return;
 
-    href && navigate(href);
     setIsMenuOpen(false);
+    href && navigate(href);
   };
 
   return (

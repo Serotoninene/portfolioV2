@@ -1,3 +1,4 @@
+import React from "react";
 import { Marquee, ProjectLines } from "./components";
 
 export const RecentProjects = () => {

@@ -1,6 +1,6 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import { MutableRefObject, useRef } from "react";
+import React, { MutableRefObject, useRef } from "react";
 import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useMediaQuery } from "../../hooks";
