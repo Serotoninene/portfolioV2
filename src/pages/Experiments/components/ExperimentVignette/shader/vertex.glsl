@@ -13,7 +13,7 @@ void main() {
   vUv = getResponsiveUV(uv, uTextureSize, uQuadSize);
 
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);  
-  modelPosition.z += (sin(-modelPosition.y * 0.01)) * 38.1 * uSpeed;
+  modelPosition.z += (sin(-modelPosition.y * -uDelta)) * uIntensity * uSpeed;
 
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;

@@ -14,16 +14,16 @@ const ThreeVignette = ({ scrollScene, img }) => {
   const texture = useTexture(img) as THREE.Texture;
   const controls = useControls({
     intensity: {
-      value: 0.2,
+      value: 81.0,
       min: 0,
       max: 100,
       step: 0.01,
     },
     delta: {
-      value: 38.1,
+      value: 0.006,
       min: 0,
-      max: 100,
-      step: 0.01,
+      max: 1,
+      step: 0.001,
     },
   });
 
@@ -57,6 +57,8 @@ const ThreeVignette = ({ scrollScene, img }) => {
   useFrame(() => {
     // update the controls
     if (!shader.current) return;
+    shader.current.uniforms.uIntensity.value = controls.intensity;
+    shader.current.uniforms.uDelta.value = controls.delta;
   });
   return (
     <mesh {...scrollScene}>
