@@ -77,7 +77,17 @@ const ThreeVignette = ({ scrollScene, img }) => {
   );
 };
 
-export const ExperimentVignette = ({ title, img, isIncomming }) => {
+type ExperimentVignetteProps = {
+  title: string;
+  img: string;
+  isIncomming?: boolean;
+};
+
+export const ExperimentVignette = ({
+  title,
+  img,
+  isIncomming,
+}: ExperimentVignetteProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { setCursorStyle } = useCursorStore();
   const navigate = useNavigate();
