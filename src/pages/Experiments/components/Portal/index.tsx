@@ -12,12 +12,13 @@ import {
 import { useFrame } from "@react-three/fiber";
 
 import { useControls } from "leva";
-import { MutableRefObject, useMemo, useRef } from "react";
+import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 import headerVertex from "./shader/headerVertex.glsl";
 import projectVertex from "./shader/projectVertex.glsl";
+import gsap, { Power3 } from "gsap";
 
 type Props = {
   scrollScene: ScrollSceneChildProps;
@@ -65,67 +66,40 @@ const Boxes = () => {
   const grid = 55;
   const size = 0.5;
   const gridSize = grid * size;
-  let mouse = new THREE.Vector2();
-  let vel = new THREE.Vector2();
+
+  // const controls = useControls("Boxes controls", {
+  //   gap: { value: 0.1, min: 0, max: 10, step: 0.01 },
+  //   bevelSegments: { value: 1, min: 0, max: 10, step: 1 },
+  //   radius: { value: 0.06, min: 0, max: 1, step: 0.01 },
+  // });
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uPos0: { value: new THREE.Vector2() },
       uPos1: { value: new THREE.Vector2(0, 0) },
+      uProgress: { value: 0 },
     }),
     []
   );
 
   const meshRef = useRef<THREE.InstancedMesh>(null);
 
-  const controls = useControls("Boxes controls", {
-    gap: { value: 0.1, min: 0, max: 10, step: 0.01 },
-    bevelSegments: { value: 1, min: 0, max: 10, step: 1 },
-    radius: { value: 0.01, min: 0, max: 1, step: 0.01 },
-  });
-
-  const geometry = new RoundedBoxGeometry(
-    size,
-    4,
-    size,
-    controls.bevelSegments,
-    controls.radius
-  );
+  const geometry = new RoundedBoxGeometry(size, 4, size, 2, 0.06);
   if (meshRef.current) meshRef.current.instanceMatrix.needsUpdate = true;
 
-  const handlePointerMove = (e: THREE.Event) => {
-    let x = e.clientX / window.innerWidth - 0.5;
-    let y = e.clientY / window.innerHeight - 0.5;
-
-    mouse.x = x;
-    mouse.y = y;
-  };
+  useEffect(() => {
+    gsap.to(uniforms.uProgress, {
+      value: 1,
+      ease: Power3.easeOut,
+      duration: 1,
+    });
+  }, []);
 
   useFrame(({ clock }) => {
     let i = 0;
     const time = clock.getElapsedTime();
     uniforms.uTime.value = time;
-
-    // Lerp uPos0 to mouse
-    let v3 = new THREE.Vector2();
-    v3.copy(mouse);
-    v3.sub(uniforms.uPos0.value);
-    v3.multiplyScalar(0.08);
-    uniforms.uPos0.value.add(v3);
-
-    // Get uPos1 Lerp speed
-    v3.copy(uniforms.uPos0.value);
-    v3.sub(uniforms.uPos1.value);
-    v3.multiplyScalar(0.05);
-
-    // Lerp the speed
-    v3.sub(vel);
-    v3.multiplyScalar(0.05);
-    vel.add(v3);
-
-    // Add the lerped velocity
-    uniforms.uPos1.value.add(vel);
 
     for (let x = 0; x < grid; x++)
       for (let y = 0; y < grid; y++) {
@@ -144,7 +118,6 @@ const Boxes = () => {
 
     if (meshRef.current) {
       meshRef.current.instanceMatrix.needsUpdate = true;
-      // meshRef.current.customDepthMaterial = new THREE.MeshDepthMaterial();
       meshRef.current.material.onBeforeCompile = (shader) => {
         shader.vertexShader = shader.vertexShader.replace(
           "void main() {",
@@ -159,20 +132,12 @@ const Boxes = () => {
           ...uniforms,
         };
       };
-      // meshRef.current.customDepthMaterial.depthPacking = THREE.RGBADepthPacking;
     }
   });
 
   return (
-    <instancedMesh
-      ref={meshRef}
-      args={[geometry, undefined, grid * grid]}
-      onPointerMove={handlePointerMove}
-    >
-      <meshStandardMaterial
-        color="red"
-        // wireframe
-      />
+    <instancedMesh ref={meshRef} args={[geometry, undefined, grid * grid]}>
+      <meshStandardMaterial color="red" />
     </instancedMesh>
   );
 };
@@ -192,7 +157,7 @@ const Scene = ({ scrollScene }: Props) => {
         right={5}
         top={5}
         bottom={-5}
-        near={0.01}
+        near={-100}
         far={100}
         makeDefault
       />

@@ -1,4 +1,5 @@
 uniform float uTime;
+uniform float uProgress;
 uniform vec2 uPos0;
 uniform vec2 uPos1;
 
@@ -111,6 +112,7 @@ vec3 rotate(vec3 v, vec3 axis, float angle) {
   mat4 m = rotationMatrix(axis, angle);
   return (m * vec4(v, 1.0)).xyz;
 }
+
 
 float sdSegment( in vec2 p, in vec2 a, in vec2 b )
 {

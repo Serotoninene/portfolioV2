@@ -60,7 +60,7 @@ export const Layout = ({ children }: Props) => {
               eventSource={eventSource as MutableRefObject<HTMLDivElement>}
               key={location.pathname}
             >
-              <Perf />
+              {/* <Perf /> */}
               <Lights />
               <Noise />
             </GlobalCanvas>
