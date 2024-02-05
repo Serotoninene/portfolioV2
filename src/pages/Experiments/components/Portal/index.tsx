@@ -144,7 +144,7 @@ const Boxes = () => {
 
     if (meshRef.current) {
       meshRef.current.instanceMatrix.needsUpdate = true;
-      meshRef.current.customDepthMaterial = new THREE.MeshDepthMaterial();
+      // meshRef.current.customDepthMaterial = new THREE.MeshDepthMaterial();
       meshRef.current.material.onBeforeCompile = (shader) => {
         shader.vertexShader = shader.vertexShader.replace(
           "void main() {",
@@ -159,7 +159,7 @@ const Boxes = () => {
           ...uniforms,
         };
       };
-      meshRef.current.customDepthMaterial.depthPacking = THREE.RGBADepthPacking;
+      // meshRef.current.customDepthMaterial.depthPacking = THREE.RGBADepthPacking;
     }
   });
 
