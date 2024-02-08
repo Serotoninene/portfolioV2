@@ -2,15 +2,16 @@ import { ExperimentVignette } from "./components/ExperimentVignette";
 
 const experimentsData = [
   {
-    title: "Portal",
+    title: "Instanced Blocks",
+    slug: "instancedblocks",
     description: "This is a description of the experiments page.",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
   },
   {
-    title: "Experiments",
+    title: "Portal",
+    slug: "portal",
     description: "This is a description of the experiments page.",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
-    isIncomming: true,
   },
   {
     title: "Experiments",

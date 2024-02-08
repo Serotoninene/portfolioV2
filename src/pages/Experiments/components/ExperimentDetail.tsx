@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import { Portal } from ".";
+import { InstancedBlocks, Portal } from ".";
 
 const componentMapping = {
   portal: Portal,
+  instancedblocks: InstancedBlocks,
 };
 
 const ExperimentDetail = () => {
   const { id } = useParams();
-
   const ComponentToRender = id && componentMapping[id];
 
   return (

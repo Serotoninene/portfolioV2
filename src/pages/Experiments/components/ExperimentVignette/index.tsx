@@ -79,22 +79,23 @@ const ThreeVignette = ({ scrollScene, img }) => {
 
 type ExperimentVignetteProps = {
   title: string;
+  slug?: string;
   img: string;
-  isIncomming?: boolean;
 };
 
 export const ExperimentVignette = ({
   title,
   img,
-  isIncomming,
+  slug,
 }: ExperimentVignetteProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { setCursorStyle } = useCursorStore();
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (isIncomming) return;
-    navigate(`/experiments/${title.toLowerCase()}`);
+    if (slug) {
+      navigate(`/experiments/${slug}`);
+    }
   };
 
   return (

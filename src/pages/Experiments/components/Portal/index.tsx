@@ -1,167 +1,97 @@
+import { MutableRefObject, useRef, useState } from "react";
+
+import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import {
-  ScrollScene,
-  ScrollSceneChildProps,
-  UseCanvas,
-} from "@14islands/r3f-scroll-rig";
-import {
+  CameraControls,
   Environment,
+  MeshPortalMaterial,
   MeshTransmissionMaterial,
-  OrbitControls,
-  OrthographicCamera,
+  PerspectiveCamera,
+  PortalMaterialType,
+  useCursor,
 } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-
 import { useControls } from "leva";
-import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-import headerVertex from "./shader/headerVertex.glsl";
-import projectVertex from "./shader/projectVertex.glsl";
-import gsap, { Power3 } from "gsap";
+import gsap from "gsap";
+import { useFrame, useThree } from "@react-three/fiber";
 
 type Props = {
-  scrollScene: ScrollSceneChildProps;
+  children: React.ReactNode;
 };
 
-const Bille = () => {
-  const controls = useControls("Bille controls", {
-    roughness: { value: 0.3, min: 0, max: 1, step: 0.01 },
-    distortion: { value: 5, min: 0, max: 10, step: 0.1 },
-    distortionScale: { value: 1.5, min: 0, max: 10, step: 0.1 },
-    metalness: { value: 0.1, min: 0, max: 1, step: 0.01 },
-    transmission: { value: 1, min: 0, max: 1, step: 0.01 },
-    thickness: { value: 0.3, min: 0, max: 1, step: 0.01 },
-  });
-  return (
-    <>
-      <mesh>
-        <sphereGeometry />
-        <MeshTransmissionMaterial
-          chromaticAberration={1}
-          thickness={controls.thickness}
-          roughness={controls.roughness}
-          transmission={controls.transmission}
-          anisotropy={0.5}
-          distortion={controls.distortion}
-          distortionScale={controls.distortionScale}
-          temporalDistortion={0.1}
-          metalness={controls.metalness}
-          backside
-          resolution={32}
-          backsideResolution={32}
-        />
-      </mesh>
+export function Frame({ children }: Props) {
+  const portal = useRef<PortalMaterialType>(null);
+  const mesh = useRef<THREE.Mesh>(null);
 
-      <mesh>
-        <boxGeometry />
-        <meshStandardMaterial color="red" />
-      </mesh>
-    </>
-  );
-};
-const dummy = new THREE.Object3D();
+  const [hovered, setHovered] = useState(false);
+  useCursor(hovered);
 
-const Boxes = () => {
-  const grid = 55;
-  const size = 0.5;
-  const gridSize = grid * size;
+  const handleClick = () => {
+    if (!mesh.current) return;
 
-  // const controls = useControls("Boxes controls", {
-  //   gap: { value: 0.1, min: 0, max: 10, step: 0.01 },
-  //   bevelSegments: { value: 1, min: 0, max: 10, step: 1 },
-  //   radius: { value: 0.06, min: 0, max: 1, step: 0.01 },
-  // });
-
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uPos0: { value: new THREE.Vector2() },
-      uPos1: { value: new THREE.Vector2(0, 0) },
-      uProgress: { value: 0 },
-    }),
-    []
-  );
-
-  const meshRef = useRef<THREE.InstancedMesh>(null);
-
-  const geometry = new RoundedBoxGeometry(size, 4, size, 2, 0.06);
-  if (meshRef.current) meshRef.current.instanceMatrix.needsUpdate = true;
-
-  useEffect(() => {
-    gsap.to(uniforms.uProgress, {
-      value: 1,
-      ease: Power3.easeOut,
-      duration: 1,
+    gsap.to(portal.current, {
+      blend: 1,
     });
-  }, []);
+  };
 
-  useFrame(({ clock }) => {
-    let i = 0;
-    const time = clock.getElapsedTime();
-    uniforms.uTime.value = time;
-
-    for (let x = 0; x < grid; x++)
-      for (let y = 0; y < grid; y++) {
-        dummy.position.set(
-          x * size - gridSize / 2 + size / 2,
-          // ((grid - x) * (grid - y) * size) / 100,
-          -1,
-          y * size - gridSize / 2 + size / 2
-        );
-
-        dummy.updateMatrix();
-        meshRef.current?.setMatrixAt(i, dummy.matrix);
-        dummy.updateMatrixWorld();
-        i++;
-      }
-
-    if (meshRef.current) {
-      meshRef.current.instanceMatrix.needsUpdate = true;
-      meshRef.current.material.onBeforeCompile = (shader) => {
-        shader.vertexShader = shader.vertexShader.replace(
-          "void main() {",
-          headerVertex
-        );
-        shader.vertexShader = shader.vertexShader.replace(
-          "#include <project_vertex>",
-          projectVertex
-        );
-        shader.uniforms = {
-          ...shader.uniforms,
-          ...uniforms,
-        };
-      };
-    }
+  useFrame(() => {
+    if (!portal.current) return;
   });
 
   return (
-    <instancedMesh ref={meshRef} args={[geometry, undefined, grid * grid]}>
-      <meshStandardMaterial color="red" />
-    </instancedMesh>
+    <mesh
+      ref={mesh}
+      onClick={handleClick}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <boxGeometry args={[0.3, 0.4, 0.1]} />
+      <MeshPortalMaterial ref={portal} side={THREE.DoubleSide} blend={0}>
+        {children}
+      </MeshPortalMaterial>
+    </mesh>
   );
-};
+}
 
-const Scene = ({ scrollScene }: Props) => {
-  // const cameraPosition = new THREE.Vector3(22, 29, 21);
-  const cameraPosition = new THREE.Vector3(-1.7, 4.8, 1.6);
-
+const Scene = () => {
   return (
     <>
-      <color attach="background" args={["#f0f0f0"]} />
-      <Boxes />
-      <Environment preset="dawn" />
-      <OrthographicCamera
-        position={cameraPosition}
-        left={-5}
-        right={5}
-        top={5}
-        bottom={-5}
-        near={-100}
-        far={100}
+      <Frame>
+        <mesh scale={3}>
+          <sphereGeometry />
+          <MeshTransmissionMaterial
+            chromaticAberration={1}
+            thickness={0.3}
+            roughness={0.3}
+            transmission={1}
+            anisotropy={0.5}
+            distortion={5}
+            distortionScale={1.5}
+            temporalDistortion={0.1}
+            metalness={0.1}
+            backside
+            resolution={32}
+            side={THREE.DoubleSide}
+            backsideResolution={32}
+          />
+        </mesh>
+        <CameraControls makeDefault maxZoom={0} minZoom={0} />
+        <Environment preset="city" />
+        <PerspectiveCamera
+          fov={14}
+          position={[2.74, 1.2, 0.62]}
+          makeDefault
+          onUpdate={(self) => self.lookAt(0, 0, 0)}
+        />
+      </Frame>
+      <CameraControls maxZoom={1} minZoom={1} />
+      <PerspectiveCamera
+        fov={14}
+        position={[2.74, 1.2, 0.62]}
         makeDefault
+        onUpdate={(self) => self.lookAt(0, 0, 0)}
       />
-      <OrbitControls domElement={scrollScene.track.current} makeDefault />
     </>
   );
 };
@@ -177,7 +107,7 @@ export const Portal = () => {
           track={el as MutableRefObject<HTMLDivElement>}
           hideOffscreen={false}
         >
-          {(props) => <Scene scrollScene={props} />}
+          {() => <Scene />}
         </ScrollScene>
       </UseCanvas>
     </div>
