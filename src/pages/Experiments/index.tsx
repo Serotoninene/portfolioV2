@@ -13,12 +13,12 @@ const experimentsData = [
   },
   {
     title: "Falling Pixel",
-    slug: "drawing_canvas",
+    slug: "falling_pixel",
     img: "/assets/Experiments/FallingPixel.png",
   },
   {
-    title: "Experiments",
-    description: "This is a description of the experiments page.",
+    title: "Distorted Rectangle",
+    slug: "distorted_rectangle",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
     isIncomming: true,
   },

@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
-import { DrawingCanvas, InstancedBlocks, Portal } from ".";
+import { DistortedRectangle, FallingPixel, InstancedBlocks, Portal } from ".";
 
 const componentMapping = {
   portal: Portal,
   instancedblocks: InstancedBlocks,
-  drawing_canvas: DrawingCanvas,
+  falling_pixel: FallingPixel,
+  distorted_rectangle: DistortedRectangle,
 };
 
 const ExperimentDetail = () => {

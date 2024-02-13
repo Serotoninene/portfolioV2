@@ -1,4 +1,5 @@
 export { InstancedBlocks } from "./InstancedBlocks";
 export * from "./Portal";
 export * from "./Bille";
-export * from "./DrawingCanvas";
+export * from "./FallingPixel";
+export * from "./DistortedRectangle";

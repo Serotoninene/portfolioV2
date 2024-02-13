@@ -134,7 +134,7 @@ const Scene = () => {
   );
 };
 
-export const DrawingCanvas = () => {
+export const FallingPixel = () => {
   return (
     <CustomCanvas isCameraControls>
       <PerspectiveCamera makeDefault position={[0, 0, 0.5]} />
