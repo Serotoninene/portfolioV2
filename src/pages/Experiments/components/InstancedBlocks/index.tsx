@@ -1,26 +1,15 @@
-import {
-  ScrollScene,
-  ScrollSceneChildProps,
-  UseCanvas,
-} from "@14islands/r3f-scroll-rig";
-import {
-  Environment,
-  OrbitControls,
-  OrthographicCamera,
-} from "@react-three/drei";
+import { Environment, OrthographicCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
-import { MutableRefObject, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 import gsap, { Power3 } from "gsap";
+import { CustomCanvas } from "../../../../components/three";
+
 import headerVertex from "./shader/headerVertex.glsl";
 import projectVertex from "./shader/projectVertex.glsl";
-
-type Props = {
-  scrollScene: ScrollSceneChildProps;
-};
 
 const dummy = new THREE.Object3D();
 
@@ -106,7 +95,7 @@ const Boxes = () => {
   );
 };
 
-const Scene = ({ scrollScene }: Props) => {
+const Scene = () => {
   // const cameraPosition = new THREE.Vector3(22, 29, 21);
   const cameraPosition = new THREE.Vector3(-1.7, 4.8, 1.6);
 
@@ -125,25 +114,14 @@ const Scene = ({ scrollScene }: Props) => {
         far={100}
         makeDefault
       />
-      <OrbitControls domElement={scrollScene.track.current} makeDefault />
     </>
   );
 };
 
 export const InstancedBlocks = () => {
-  const el = useRef<HTMLDivElement>(null);
-
   return (
-    <div>
-      <div ref={el} id="Placeholder" className="fixed inset-0"></div>
-      <UseCanvas>
-        <ScrollScene
-          track={el as MutableRefObject<HTMLDivElement>}
-          hideOffscreen={false}
-        >
-          {(props) => <Scene scrollScene={props} />}
-        </ScrollScene>
-      </UseCanvas>
-    </div>
+    <CustomCanvas isCameraControls>
+      <Scene />
+    </CustomCanvas>
   );
 };

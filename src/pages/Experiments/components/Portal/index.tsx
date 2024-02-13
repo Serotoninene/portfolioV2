@@ -1,6 +1,5 @@
-import { MutableRefObject, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import {
   CameraControls,
   Environment,
@@ -10,11 +9,11 @@ import {
   PortalMaterialType,
   useCursor,
 } from "@react-three/drei";
-import { useControls } from "leva";
 import * as THREE from "three";
 
+import { useFrame } from "@react-three/fiber";
 import gsap from "gsap";
-import { useFrame, useThree } from "@react-three/fiber";
+import { CustomCanvas } from "../../../../components/three";
 
 type Props = {
   children: React.ReactNode;
@@ -85,31 +84,14 @@ const Scene = () => {
           onUpdate={(self) => self.lookAt(0, 0, 0)}
         />
       </Frame>
-      <CameraControls maxZoom={1} minZoom={1} />
-      <PerspectiveCamera
-        fov={14}
-        position={[2.74, 1.2, 0.62]}
-        makeDefault
-        onUpdate={(self) => self.lookAt(0, 0, 0)}
-      />
     </>
   );
 };
 
 export const Portal = () => {
-  const el = useRef<HTMLDivElement>(null);
-
   return (
-    <div>
-      <div ref={el} id="Placeholder" className="fixed inset-0"></div>
-      <UseCanvas>
-        <ScrollScene
-          track={el as MutableRefObject<HTMLDivElement>}
-          hideOffscreen={false}
-        >
-          {() => <Scene />}
-        </ScrollScene>
-      </UseCanvas>
-    </div>
+    <CustomCanvas isCameraControls={true}>
+      <Scene />
+    </CustomCanvas>
   );
 };

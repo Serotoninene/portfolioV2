@@ -4,20 +4,17 @@ const experimentsData = [
   {
     title: "Instanced Blocks",
     slug: "instancedblocks",
-    description: "This is a description of the experiments page.",
-    img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    img: "/assets/Experiments/InstancedBlocks.png",
   },
   {
     title: "Portal",
     slug: "portal",
-    description: "This is a description of the experiments page.",
-    img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    img: "/assets/Experiments/Portal.png",
   },
   {
-    title: "Experiments",
-    description: "This is a description of the experiments page.",
-    img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
-    isIncomming: true,
+    title: "Falling Pixel",
+    slug: "drawing_canvas",
+    img: "/assets/Experiments/FallingPixel.png",
   },
   {
     title: "Experiments",
