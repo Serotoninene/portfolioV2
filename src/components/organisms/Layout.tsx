@@ -57,6 +57,7 @@ export const Layout = ({ children }: Props) => {
             <Navbar />
             {children}
             <GlobalCanvas
+              shadows={true}
               eventSource={eventSource as MutableRefObject<HTMLDivElement>}
               key={location.pathname}
             >

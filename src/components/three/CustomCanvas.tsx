@@ -4,6 +4,7 @@ import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 
 type Props = {
   children: React.ReactNode;
+  shadow?: boolean;
   isCameraControls?: boolean;
 };
 
