@@ -19,8 +19,7 @@ const experimentsData = [
   {
     title: "Distorted Rectangle",
     slug: "distorted_rectangle",
-    img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
-    isIncomming: true,
+    img: "/assets/Experiments/DistortedRectangle.png",
   },
   {
     title: "Experiments",

@@ -66,7 +66,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
     const mappedX = THREE.MathUtils.mapLinear(e.clientX, x, width + x, 0, 1);
     const mappedY = THREE.MathUtils.mapLinear(e.clientY, y, height + y, 1, 0);
-    // if (mappedX < 0 || mappedX > 1 || mappedY < 0 || mappedY > 1) return;
 
     const mousePosition = new THREE.Vector2(mappedX, mappedY);
     touchTexture.addTouch(mousePosition);
