@@ -22,16 +22,15 @@ const experimentsData = [
     img: "/assets/Experiments/DistortedRectangle.png",
   },
   {
-    title: "Experiments",
-    description: "This is a description of the experiments page.",
+    title: "Distorted Text",
+    slug: "distorted_text",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
-    isIncomming: true,
   },
 ];
 
 const Experiments = () => {
   return (
-    <div className="relative min-h-[--fullScreen] z-20 text-black pt-10 px-5">
+    <div className="relative min-h-[--fullScreen] z-20 text-black py-10 px-5">
       <div className="pt-40 grid grid-cols-8 gap-5 mb-40">
         <div className="flex flex-col mt-10 justify-between col-span-6">
           <h1 className="text-7xl font-medium"> EXPERIMENTATIONS</h1>

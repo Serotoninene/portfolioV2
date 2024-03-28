@@ -84,7 +84,7 @@ type ExperimentVignetteProps = {
 };
 
 export const ExperimentVignette = ({
-  title,
+  // title,
   img,
   slug,
 }: ExperimentVignetteProps) => {
@@ -99,26 +99,28 @@ export const ExperimentVignette = ({
   };
 
   return (
-    <div
-      ref={ref}
-      className="relative w-full aspect-square"
-      onMouseEnter={() => setCursorStyle("pointer")}
-      onMouseLeave={() => setCursorStyle("default")}
-      onClick={handleClick}
-    >
-      <h2 className="absolute top-4 left-4 text-xl text-secondary-400 font-semibold z-10">
-        {title}
-      </h2>
-      <img className="w-full object-cover opacity-5" src={img} />
+    <div>
+      <div
+        ref={ref}
+        className="relative w-full aspect-square"
+        onMouseEnter={() => setCursorStyle("pointer")}
+        onMouseLeave={() => setCursorStyle("default")}
+        onClick={handleClick}
+      >
+        <img className="w-full object-cover opacity-0" src={img} />
 
-      <UseCanvas>
-        <ScrollScene
-          track={ref as MutableRefObject<HTMLElement>}
-          inViewportMargin="400%"
-        >
-          {(props) => <ThreeVignette scrollScene={props} img={img} />}
-        </ScrollScene>
-      </UseCanvas>
+        <UseCanvas>
+          <ScrollScene
+            track={ref as MutableRefObject<HTMLElement>}
+            inViewportMargin="400%"
+          >
+            {(props) => <ThreeVignette scrollScene={props} img={img} />}
+          </ScrollScene>
+        </UseCanvas>
+      </div>
+      {/* <h2 className="text-xl text-secondary-400 font-semibold">
+          {title}
+        </h2> */}
     </div>
   );
 };
