@@ -4,22 +4,22 @@ const experimentsData = [
   {
     title: "Instanced Blocks",
     slug: "instancedblocks",
-    img: "/assets/Experiments/InstancedBlocks.png",
+    img: "/assets/Experiments/InstancedBlocks.webp",
   },
   {
     title: "Portal",
     slug: "portal",
-    img: "/assets/Experiments/Portal.png",
+    img: "/assets/Experiments/Portal.webp",
   },
   {
     title: "Falling Pixel",
     slug: "falling_pixel",
-    img: "/assets/Experiments/FallingPixel.png",
+    img: "/assets/Experiments/FallingPixel.webp",
   },
   {
     title: "Distorted Rectangle",
     slug: "distorted_rectangle",
-    img: "/assets/Experiments/DistortedRectangle.png",
+    img: "/assets/Experiments/DistortedRectangle.webp",
   },
   {
     title: "Distorted Text",
