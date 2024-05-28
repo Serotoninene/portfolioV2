@@ -8,7 +8,6 @@ import { useColorContext } from "../../hooks/useColorContext";
 import { CustomCursor, Navbar, ScrollIndicator } from "../molecules";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
-import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;
@@ -41,11 +40,10 @@ export const Layout = ({ children }: Props) => {
             ))}
           </div>
           {/* --------------- R3F-SCROLL-RIG PART --------------- */}
-
           <SmoothScrollbar
             enabled={!isMobile}
             config={{
-              wheelMultiplier: 1.8,
+              wheelMultiplier: 0.8,
               lerp: 0.1,
               autoResize: true,
             }}
