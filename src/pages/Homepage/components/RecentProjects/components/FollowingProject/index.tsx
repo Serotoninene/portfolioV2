@@ -25,8 +25,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
 
-  console.log(projects.map((project) => project.img));
-
   const textures = useTexture(projects.map((project) => project.img));
   const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
 
