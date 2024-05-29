@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import glslify from "rollup-plugin-glslify";
+import checker from "vite-plugin-checker";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +11,11 @@ export default defineConfig({
       // specify the file types to process
       include: /.*.(glsl|vs|fs|vert|frag)$/,
       compress: false,
+    }),
+    checker({
+      typescript: {
+        tsconfigPath: "tsconfig.json",
+      },
     }),
   ],
 });
