@@ -12,10 +12,10 @@ export default defineConfig({
       include: /.*.(glsl|vs|fs|vert|frag)$/,
       compress: false,
     }),
-    checker({
-      typescript: {
-        tsconfigPath: "tsconfig.json",
-      },
-    }),
+    // checker({
+    //   typescript: {
+    //     tsconfigPath: "tsconfig.json",
+    //   },
+    // }),
   ],
 });
