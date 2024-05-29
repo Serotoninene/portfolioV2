@@ -31,5 +31,6 @@
     "@hooks/*": ["./src/hooks/*"]
   },
   "include": ["src", "declarations.d.ts"],
+  "exclude": ["src/components/three/utils/extendMaterial.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
