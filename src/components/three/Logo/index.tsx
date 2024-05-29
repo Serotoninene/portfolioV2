@@ -16,6 +16,8 @@ type Props = {
 export const Logo = ({ scale, inViewport }: Props) => {
   const ref = useRef<Mesh>(null);
   const tl = useRef<gsap.core.Timeline>();
+  const hasAlreadyLoaded =
+    sessionStorage.getItem("hasAlreadyLoaded") === "true";
   const { nodes } = useGLTF(LOGO_SRC) as any;
   const geometry = nodes.Plane.geometry;
 
@@ -24,7 +26,7 @@ export const Logo = ({ scale, inViewport }: Props) => {
 
   useEffect(() => {
     if (!ref.current) return;
-    tl.current = gsap.timeline({ delay: 2.2 });
+    tl.current = gsap.timeline({ delay: !hasAlreadyLoaded ? 2.2 : 0 });
     ref.current.rotation.set(-0.2, 2, 0);
 
     tl.current.from(ref.current.rotation, { x: 1 });

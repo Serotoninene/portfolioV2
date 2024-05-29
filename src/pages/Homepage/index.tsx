@@ -10,6 +10,9 @@ import {
 } from "./components";
 
 export default function Homepage() {
+  const hasAlreadyLoaded =
+    sessionStorage.getItem("hasAlreadyLoaded") === "true";
+
   useEffect(() => {
     const handleBeforeUnload = () => {
       window.scrollTo(0, 0);
@@ -23,7 +26,7 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-clip">
-      <Loader />
+      {!hasAlreadyLoaded && <Loader />}
       <Hero />
       <Showreal />
       <StickyText />

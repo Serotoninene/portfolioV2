@@ -20,13 +20,15 @@ export const useIntro = ({
   const { progress } = useProgress();
 
   useEffect(() => {
+    const hasAlreadyLoaded = sessionStorage.getItem("isVisited") === "true";
+
     gsap.set([logoRef.current, middleRef.current, menuRef.current], {
       opacity: 0,
     });
     gsap.set(containerRef.current, { scaleX: 0 });
     tl.current = gsap.timeline({
       defaults: { ease: Power3.easeOut },
-      delay: 2.3,
+      delay: !hasAlreadyLoaded ? 2.3 : 0,
       paused: true,
     });
 

@@ -68,7 +68,7 @@ export const AnimLink = memo(({ children, href, onClick }: Props) => {
     return () => {
       tl.current?.kill();
     };
-  });
+  }, []);
 
   if (!href)
     return (

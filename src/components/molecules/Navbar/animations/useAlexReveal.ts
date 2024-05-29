@@ -5,10 +5,10 @@ export const useAlexReveal = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
+    setHasScrolled(false);
     ScrollTrigger.create({
-      trigger: "#Hero",
       start: "top top", // Trigger after scrolling 100vh
-      end: "80% top",
+      end: `${window.innerHeight}px top`,
       onLeave: () => setHasScrolled(true),
       onEnterBack: () => setHasScrolled(false),
     });

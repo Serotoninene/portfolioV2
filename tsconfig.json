@@ -6,6 +6,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "noImplicitAny": false,
+    "noEmitOnError": false,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -14,6 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "allowUmdGlobalAccess": true,
 
     /* Linting */
     "strict": true,
@@ -29,5 +31,6 @@
     "@hooks/*": ["./src/hooks/*"]
   },
   "include": ["src", "declarations.d.ts"],
+  "exclude": ["src/components/three/utils/extendMaterial.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

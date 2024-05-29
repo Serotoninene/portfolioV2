@@ -28,7 +28,7 @@ export const Marquee = () => {
       end: "bottom bottom",
       onUpdate: (self) => {
         direction = self.direction === 1 ? -1 : 1;
-        speed = 0.1 + Math.abs(self.getVelocity()) / 2000; // Adjust the speed based on the scroll velocity
+        // speed = 0.1 + Math.abs(self.getVelocity()) / 2000; // Adjust the speed based on the scroll velocity
       },
     });
   }, []);

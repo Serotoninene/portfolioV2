@@ -1,44 +1,38 @@
-import { Canvas } from "@react-three/fiber";
-import React, { useEffect, useRef, useState } from "react";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { useWindowSize } from "../../hooks";
+import { MutableRefObject, useRef } from "react";
+import { CameraControls, PerspectiveCamera } from "@react-three/drei";
+import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 
 type Props = {
   children: React.ReactNode;
+  shadow?: boolean;
+  isCameraControls?: boolean;
 };
 
-const CustomCamera = () => {
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
-  const { height, width } = useWindowSize();
-  const [correctFov, setCorrectFov] = useState(0);
-
-  useEffect(() => {
-    if (!height || !width) return;
-
-    setCorrectFov(((Math.atan(height / 2 / 600) * 180) / Math.PI) * 2);
-  }, [height, width]);
+export const CustomCanvas = ({ children, isCameraControls }: Props) => {
+  const el = useRef<HTMLDivElement>(null);
 
   return (
-    <PerspectiveCamera
-      ref={cameraRef}
-      makeDefault
-      fov={correctFov}
-      position={[0, 0, 600]}
-      near={1}
-      far={4000}
-    />
-  );
-};
-
-export const CustomCanvas = ({ children }: Props) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  return (
-    <Canvas flat ref={canvasRef}>
-      {/* <Perf position="top-left" /> */}
-      <CustomCamera />
-      <OrbitControls />
-      {children}
-    </Canvas>
+    <div>
+      <div ref={el} id="Placeholder" className="fixed inset-0"></div>
+      <UseCanvas>
+        <ScrollScene
+          track={el as MutableRefObject<HTMLDivElement>}
+          hideOffscreen={false}
+        >
+          {() => (
+            <>
+              <PerspectiveCamera
+                fov={14}
+                position={[2.74, 1.2, 0.62]}
+                makeDefault
+                onUpdate={(self) => self.lookAt(0, 0, 0)}
+              />
+              {isCameraControls && <CameraControls maxZoom={1} minZoom={1} />}
+              {children}
+            </>
+          )}
+        </ScrollScene>
+      </UseCanvas>
+    </div>
   );
 };
