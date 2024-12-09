@@ -8,6 +8,7 @@ import { projects } from "../../data";
 import { useUpdateTexture } from "./animations";
 
 import TouchTexture from "../../../../../../components/three/TouchTexture";
+import { useControls } from "leva";
 import { useWindowSize } from "../../../../../../hooks";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import fragment from "./shaders/fragment.glsl";
@@ -23,18 +24,29 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
 
-  const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
+  // useControls({
+  //   progress: {
+  //     value: 0,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.01,
+  //     onChange: (value) => {
+  //       if (!shader.current) return;
+  //       shader.current.uniforms.uProgress.value = value;
+  //     },
+  //   },
+  // });
 
+  const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
   const textures = useTexture(projects.map((project) => project.img));
-  const uDisplacement = useTexture("/assets/Noise/grundge-noise.webp");
 
   const { width } = useWindowSize();
 
   const uniforms = useMemo(
     () => ({
+      uProgress: { value: 0 },
       uTexture: { value: textures[0] },
       uTexture2: { value: null },
-      uDisplacement: { value: uDisplacement },
       uMixFactor: { value: mixFactor.value },
       uMouse: { value: touchTexture.texture },
       uTime: { value: 0 },
@@ -116,6 +128,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         uniforms={uniforms}
         side={THREE.DoubleSide}
         needsUpdate={true}
+        // wireframe={true}
       />
     </mesh>
   );

@@ -3,6 +3,7 @@ varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform sampler2D uTexture2;
 
+uniform float uProgress;
 uniform float uIntensity;
 uniform float uMixFactor;
 uniform float uResolution;
@@ -45,5 +46,4 @@ void main() {
   vec4 t2 = texture2D(uTexture2, vec2(vUv.x, vUv.y + (1.0 - uMixFactor) * (displace1 * uIntensity)));
 
   gl_FragColor = mix(t1, t2, uMixFactor);
-
 }
