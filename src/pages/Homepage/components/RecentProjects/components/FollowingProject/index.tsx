@@ -24,18 +24,18 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
 
-  // useControls({
-  //   progress: {
-  //     value: 0,
-  //     min: 0,
-  //     max: 1,
-  //     step: 0.01,
-  //     onChange: (value) => {
-  //       if (!shader.current) return;
-  //       shader.current.uniforms.uProgress.value = value;
-  //     },
-  //   },
-  // });
+  useControls({
+    progress: {
+      value: 0,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      onChange: (value) => {
+        if (!shader.current) return;
+        shader.current.uniforms.uProgress.value = value;
+      },
+    },
+  });
 
   const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
   const textures = useTexture(projects.map((project) => project.img));
