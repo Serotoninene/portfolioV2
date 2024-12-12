@@ -24,7 +24,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
 
-  useControls({
+  const controls = useControls({
     progress: {
       value: 0,
       min: 0,
@@ -33,6 +33,26 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       onChange: (value) => {
         if (!shader.current) return;
         shader.current.uniforms.uProgress.value = value;
+      },
+    },
+    radius: {
+      value: 0.2,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      onChange: (value) => {
+        if (!shader.current) return;
+        shader.current.uniforms.uRadius.value = value;
+      },
+    },
+    rolls: {
+      value: 24,
+      min: 1,
+      max: 124,
+      step: 1,
+      onChange: (value) => {
+        if (!shader.current) return;
+        shader.current.uniforms.uRolls.value = value;
       },
     },
   });
@@ -45,6 +65,8 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const uniforms = useMemo(
     () => ({
       uProgress: { value: 0 },
+      uRadius: { value: controls.radius },
+      uRolls: { value: controls.rolls },
       uTexture: { value: textures[0] },
       uTexture2: { value: null },
       uMixFactor: { value: mixFactor.value },
@@ -108,10 +130,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     // ----------- UPDATING THE UNIFORMS ----------- //
     shader.current.uniforms.uMixFactor.value = mixFactor.value;
     shader.current.uniforms.uTime.value = time;
-
-    // ----------- UPDATING THE CONTROLS ----------- //
-    // shader.current.uniforms.uWaveIntensity.value = controls.waveIntensity;
-    // shader.current.uniforms.uWaveFrequency.value = controls.waveFrequency;
 
     if (!touchTexture) return;
     touchTexture.update();

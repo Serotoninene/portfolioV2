@@ -1,63 +1,86 @@
+// Utility import for responsive UV calculation
 #pragma glslify: getResponsiveUV = require(../../../../../../../components/three/utils/getResponsiveUV);
 
-uniform float uProgress;
-uniform vec2 uTextureSize;
-uniform vec2 uQuadSize;
-uniform float uWaveFrequency;
-uniform float uWaveIntensity;
-uniform float uTime;
-uniform float uMixFactor;
+// Shader uniform inputs for controlling the unfolding effect
+uniform float uProgress;     // Animation progress (0-1)
+uniform vec2 uTextureSize;   // Texture dimensions
+uniform vec2 uQuadSize;      // Mesh quad size
+uniform float uRadius;       // Curvature radius
+uniform float uRolls;        // Number of rotation rolls
 
+// Pass UV coordinates to fragment shader
 varying vec2 vUv;
 
+// Create a 4x4 rotation matrix for 3D transformations
 mat4 rotationMatrix(vec3 axis, float angle) {
+  // Normalize the rotation axis
   axis = normalize(axis);
   float s = sin(angle);
   float c = cos(angle);
   float oc = 1.0 - c;
   
-  return mat4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
-              oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
-              oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
-              0.0,                                0.0,                                0.0,                                1.0);
+  // Construct rotation matrix using Rodrigues' rotation formula
+  return mat4(
+    oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+    oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+    oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+    0.0,                                0.0,                                0.0,                                1.0
+  );
 }
 
+// Rotate a vector around a specific axis by a given angle
 vec3 rotate(vec3 v, vec3 axis, float angle) {
   mat4 m = rotationMatrix(axis, angle);
   return (m * vec4(v, 1.0)).xyz;
 }
 
 void main() {
+  // Calculate responsive UV coordinates
   vUv = getResponsiveUV(uv, uTextureSize, uQuadSize);
 
-  float rad = 0.05;
-  float rolls = 64.;
-  float pi = 3.14159265359;
-  float angle = 0.3;
-
-  float finalAngle = angle - 0.*0.3*sin(uProgress*6.);
+  // Define PI constant for precise trigonometric calculations
+  float PI = 3.14159265359;
   
-  vec3 newposition = position;
-  float offs = (newposition.x + 0.5)/(sin(finalAngle) + cos(finalAngle)) ; // -0.5..0.5 -> 0..1
-  float tProgress = clamp((uProgress - offs*0.99)/0.01 , 0.,1.);
-  newposition.z =  rad + rad*(1. - offs/2.)*sin(-offs*rolls*pi - 0.5*pi);
-  newposition.x =  - 0.5 + rad*(1. - offs/2.)*cos(-offs*rolls*pi + 0.5*pi);
+  // Start with original vertex position
+  vec3 newPosition = position;
 
-  newposition = rotate(newposition - vec3(-.5,.5,0.), vec3(0.,0.,1.),finalAngle) + vec3(-.5,.5,0.);
-  newposition = rotate(newposition - vec3(-.5,0.5,rad), vec3(sin(finalAngle),cos(finalAngle),0.), -pi*uProgress*rolls);
+  // Calculate progress offset based on x position
+  // Normalizes x position to 0-1 range to create a sequential unfolding effect
+  float progressOffset = (newPosition.x + 0.5);
+  
+  // Create a local progress for each vertex with a slight delay
+  // Ensures each vertex unfolds at a slightly different time
+  float localProgress = clamp((uProgress - progressOffset * 0.9) / 0.1, 0.0, 1.0);
 
-  newposition +=  vec3(
-    -.5 + uProgress*cos(finalAngle)*(sin(finalAngle) + cos(finalAngle)), 
-    0.5 - uProgress*sin(finalAngle)*(sin(finalAngle) + cos(finalAngle)),
-    rad*(1.-uProgress/2.)
-  );
+  // Define rotation axis (x-axis for horizontal unfolding)
+  vec3 rotationAxis = vec3(1.0, 0.0, 0.0);
+  
+  // Calculate rotation angle based on progress and number of rolls
+  float unfoldAngle = -PI * localProgress * uRolls;
 
+  // Apply rotation:
+  // 1. Translate vertex to rotation pivot point
+  // 2. Rotate around the axis
+  // 3. Translate back
+  newPosition = rotate(
+    newPosition - vec3(-0.5, 0.5, 0.0), 
+    rotationAxis, 
+    unfoldAngle
+  ) + vec3(-0.5, 0.5, 0.0);
 
-  vec3 finalPosition = mix(newposition, position, tProgress);
+  // Add subtle wave/curl effect to z-coordinate
+  // Creates a more organic, less rigid unfolding motion
+  newPosition.z += uRadius * sin(localProgress * PI * uRolls);
 
+  // Interpolate between original and transformed position
+  // Allows smooth transition and potential reversal of animation
+  vec3 finalPosition = mix(newPosition, position, uProgress);
+
+  // Standard MVP (Model-View-Projection) matrix transformation
   vec4 modelPosition = modelMatrix * vec4(finalPosition, 1.0);  
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;
 
+  // Set the final vertex position
   gl_Position = projectedPosition;   
 }
