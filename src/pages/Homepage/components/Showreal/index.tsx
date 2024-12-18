@@ -1,25 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useColorContext } from "../../../../hooks/useColorContext";
 
-import gsap from "gsap";
-import ReactPlayer from "react-player";
 import { useCursorStore } from "../../../../store/useCursorStyle";
-import { useWindowSize } from "../../../../hooks";
+import { useAnimation } from "./useAnimation";
 
 export const Showreal = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const { setCursorStyle, setCursorText } = useCursorStore();
 
-  const mainContainer = useRef<HTMLDivElement>(null);
-  const videoContainer = useRef<HTMLDivElement>(null);
-  const [videoDimensions, setVideoDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
-  const { width } = useWindowSize();
-  const isMobile = width && width < 768;
-
-  const tl = useRef<gsap.core.Timeline>();
+  const video = useRef<HTMLVideoElement>(null);
 
   const { colors } = useColorContext();
 
@@ -37,41 +26,15 @@ export const Showreal = () => {
     setCursorStyle("default");
   };
 
-  useEffect(() => {
-    setVideoDimensions({
-      width: videoContainer.current!.offsetWidth,
-      height: videoContainer.current!.offsetHeight,
-    });
-  }, [width]);
-
-  useEffect(() => {
-    gsap.set(videoContainer.current, {
-      clipPath: "polygon(20% 40%, 80% 40%, 95% 60%, 5% 60%)",
-    });
-
-    tl.current = gsap.timeline({
-      scrollTrigger: {
-        trigger: mainContainer.current,
-        start: "top bottom",
-        end: "bottom bottom",
-
-        scrub: 0.9,
-      },
-    });
-
-    tl.current.to(videoContainer.current, {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-    });
-
-    return () => {
-      tl.current?.kill();
-    };
-  }, []);
+  useAnimation();
 
   return (
-    <div ref={mainContainer} className="flex justify-center items-center">
+    <div
+      id="showreal__main-container"
+      className="flex justify-center items-center will-change-transform"
+    >
       <div
-        ref={videoContainer}
+        id="showreal__video-container"
         onClick={togglePlay}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -80,15 +43,15 @@ export const Showreal = () => {
           background: colors.dark,
         }}
       >
-        <div className="pointer-events-none w-full h-full object-fill">
-          <ReactPlayer
-            url="https://player.vimeo.com/video/905141032?h=656193ece9"
-            playing={isMobile ? true : isPlaying}
-            width={videoDimensions.width}
-            height={videoDimensions.height}
-            loop
-          />
-        </div>
+        <video
+          ref={video}
+          className="pointer-events-none w-full h-full object-cover"
+          src="https://utfs.io/f/x0tNbNvWf7L6O4xYQ1QjgW5nQ7itrKZ30okTFqxlmyURfMBb"
+          loop
+          muted
+          autoPlay
+          playsInline
+        ></video>
       </div>
     </div>
   );

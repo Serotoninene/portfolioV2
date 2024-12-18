@@ -3,7 +3,7 @@ import { Input } from ".";
 import { Button } from "../../../../../components/atoms";
 
 const FORM_ENDPOINT =
-  "https://public.herotofu.com/v1/3de905a0-b939-11ee-ae0b-a7e011fe96d3";
+  "https://public.herotofu.com/v1/9f625ad0-bbc4-11ec-8bd8-6d49e4d0c791";
 
 export const Form = () => {
   const formRef = useRef() as RefObject<HTMLFormElement>;
@@ -12,6 +12,7 @@ export const Form = () => {
   // const [hasSubmit, setHasSubmit] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    console.log("handle submit");
     e.preventDefault();
 
     const inputs = (e.target as HTMLFormElement)
@@ -41,7 +42,8 @@ export const Form = () => {
 
         setSubmitted(true);
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log("error", e);
         // Submit the form manually
         setFeedback("Something went wrong. Please try again.");
       });

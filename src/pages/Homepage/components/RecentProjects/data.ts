@@ -4,7 +4,7 @@ export const projects: Project[] = [
   {
     title: "SIMON EYCHENNE",
     subtitle: "Photo portfolio",
-    img: "/assets/Photos/hp-projects/s-eychenne.webp",
+    img: "/assets/Photos/hp-projects/s-eychenne.png",
     href: "https://www.simoneychenne.com/",
   },
   {
