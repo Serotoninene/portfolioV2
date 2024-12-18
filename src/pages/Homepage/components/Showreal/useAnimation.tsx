@@ -1,5 +1,8 @@
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useRef } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 
 type Props = {
   mainContainer: RefObject<HTMLDivElement>;
@@ -9,7 +12,7 @@ type Props = {
 export const useAnimation = ({ mainContainer, videoContainer }: Props) => {
   const tl = useRef<gsap.core.Timeline>();
 
-  useEffect(() => {
+  useGSAP(() => {
     gsap.set(videoContainer.current, {
       clipPath: "polygon(20% 40%, 80% 40%, 95% 60%, 5% 60%)",
     });
@@ -27,9 +30,5 @@ export const useAnimation = ({ mainContainer, videoContainer }: Props) => {
     tl.current.to(videoContainer.current, {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
     });
-
-    return () => {
-      tl.current?.kill();
-    };
-  }, []);
+  });
 };
