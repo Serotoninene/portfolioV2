@@ -8,8 +8,6 @@ export const Showreal = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const { setCursorStyle, setCursorText } = useCursorStore();
 
-  const mainContainer = useRef<HTMLDivElement>(null);
-  const videoContainer = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
 
   const { colors } = useColorContext();
@@ -28,15 +26,15 @@ export const Showreal = () => {
     setCursorStyle("default");
   };
 
-  useAnimation({ mainContainer, videoContainer });
+  useAnimation();
 
   return (
     <div
-      ref={mainContainer}
+      id="showreal__main-container"
       className="flex justify-center items-center will-change-transform"
     >
       <div
-        ref={videoContainer}
+        id="showreal__video-container"
         onClick={togglePlay}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

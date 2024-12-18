@@ -1,25 +1,20 @@
-import { RefObject, useRef } from "react";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 
 gsap.registerPlugin(useGSAP);
 
-type Props = {
-  mainContainer: RefObject<HTMLDivElement>;
-  videoContainer: RefObject<HTMLDivElement>;
-};
-
-export const useAnimation = ({ mainContainer, videoContainer }: Props) => {
+export const useAnimation = () => {
   const tl = useRef<gsap.core.Timeline>();
 
   useGSAP(() => {
-    gsap.set(videoContainer.current, {
+    gsap.set("#showreal__video-container", {
       clipPath: "polygon(20% 40%, 80% 40%, 95% 60%, 5% 60%)",
     });
 
     tl.current = gsap.timeline({
       scrollTrigger: {
-        trigger: mainContainer.current,
+        trigger: "#showreal__main-container",
         start: "top bottom",
         end: "bottom bottom",
 
@@ -27,7 +22,7 @@ export const useAnimation = ({ mainContainer, videoContainer }: Props) => {
       },
     });
 
-    tl.current.to(videoContainer.current, {
+    tl.current.to("#showreal__video-container", {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
     });
   });
