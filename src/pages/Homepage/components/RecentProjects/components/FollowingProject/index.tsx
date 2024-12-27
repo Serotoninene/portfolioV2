@@ -36,17 +36,27 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       },
     },
     radius: {
-      value: 0.2,
+      value: 0.15,
       min: 0,
-      max: 1,
+      max: 5,
       step: 0.01,
       onChange: (value) => {
         if (!shader.current) return;
         shader.current.uniforms.uRadius.value = value;
       },
     },
+    angle: {
+      value: 2.16,
+      min: 0,
+      max: 5,
+      step: 0.01,
+      onChange: (value) => {
+        if (!shader.current) return;
+        shader.current.uniforms.uAngle.value = value;
+      },
+    },
     rolls: {
-      value: 24,
+      value: 1,
       min: 1,
       max: 124,
       step: 1,
@@ -65,8 +75,9 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const uniforms = useMemo(
     () => ({
       uProgress: { value: 0 },
-      uRadius: { value: controls.radius },
-      uRolls: { value: controls.rolls },
+      uAngle: { value: 0.36 },
+      uRadius: { value: 0.15 },
+      uRolls: { value: 8 },
       uTexture: { value: textures[0] },
       uTexture2: { value: null },
       uMixFactor: { value: mixFactor.value },
@@ -88,7 +99,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         value: new THREE.Vector2(scrollScene?.scale.x, scrollScene?.scale.y),
       },
     }),
-    [scrollScene]
+    [scrollScene, controls]
   );
 
   const handleMousePosition = (e: MouseEvent) => {
@@ -137,7 +148,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   return (
     <mesh ref={ref} {...scrollScene}>
-      <planeGeometry args={[1, 1, 16, 16]} />
+      <planeGeometry args={[1, 1, 64, 64]} />
       <shaderMaterial
         ref={shader}
         vertexShader={vertex}
