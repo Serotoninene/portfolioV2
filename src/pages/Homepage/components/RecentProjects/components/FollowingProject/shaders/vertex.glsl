@@ -48,14 +48,15 @@ void main() {
     
     // // Translation with modified progress
     newposition += vec3(
-        -0.5 + modifiedProgress * cos(uAngle) * (sin(uAngle) + cos(uAngle)),
+        // -0.5 + modifiedProgress * cos(uAngle) * (sin(uAngle) + cos(uAngle)),
+        1.0 - modifiedProgress,
         0.5 - modifiedProgress * sin(uAngle) * (sin(uAngle) + cos(uAngle)),
-        dynamicRadius * (1.0 - modifiedProgress / 2.0)
+        (1.0 - modifiedProgress / 2.0)
     );
 
     float transitionProgress = smoothstep(0.8, 1., uProgress);
     vec3 finalPosition = mix(newposition, position, transitionProgress);
     
     // Final position
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.0);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(finalPosition, 1.0);
 }
