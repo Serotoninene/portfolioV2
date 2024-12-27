@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -7,12 +7,14 @@ import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { projects } from "../../data";
 import { useUpdateTexture } from "./animations";
 
-import TouchTexture from "../../../../../../components/three/TouchTexture";
 import { useControls } from "leva";
+import TouchTexture from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type Props = {
   scrollScene?: ScrollSceneChildProps;
@@ -23,6 +25,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
+  const camera = useThree((state) => state.camera);
 
   const controls = useControls({
     progress: {
@@ -74,7 +77,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   const uniforms = useMemo(
     () => ({
-      uProgress: { value: 0 },
+      uProgress: { value: 0.75 },
       uAngle: { value: 0.36 },
       uRadius: { value: 0.15 },
       uRolls: { value: 8 },
@@ -123,6 +126,22 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     setMixFactor,
   });
 
+  useGSAP(() => {
+    ScrollTrigger.create({
+      trigger: "#StickyText",
+      onEnter: () => {
+        console.log("enter");
+        camera.translateZ(500);
+      },
+      onLeaveBack: () => {
+        console.log("leave");
+        camera.position.z = 5;
+        camera.updateMatrixWorld();
+        camera.updateProjectionMatrix();
+      },
+    });
+  });
+
   useEffect(() => {
     if (!ref.current) return;
 
@@ -136,6 +155,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   useFrame(({ clock }) => {
     if (!ref.current || !shader.current) return;
     const time = clock.getElapsedTime();
+
     ref.current.position.x = rect.x / 2 - 10;
 
     // ----------- UPDATING THE UNIFORMS ----------- //

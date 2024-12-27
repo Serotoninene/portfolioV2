@@ -59,7 +59,7 @@ export const Layout = ({ children }: Props) => {
               shadows={true}
               eventSource={eventSource as MutableRefObject<HTMLDivElement>}
               key={location.pathname}
-              camera={{ position: [0, 0, 20] }}
+              orthographic={true}
             >
               <Perf position="top-left" />
               <Lights />

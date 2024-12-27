@@ -1,5 +1,5 @@
-import { MutableRefObject, useRef } from "react";
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
+import { MutableRefObject, useRef } from "react";
 
 import { Logo } from "../../../../../components/three";
 import { FallingLogos } from "../../../../../components/three/FallingLogos";

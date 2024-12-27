@@ -61,6 +61,7 @@ export const StickyText = () => {
 
   return (
     <div
+      id="StickyText"
       ref={container}
       className="relative h-[80vh] px-5 mt-24 mb-[20vh] md:h-[200vh]"
     >

@@ -1,6 +1,6 @@
 import { Float, useGLTF } from "@react-three/drei";
 
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { MathUtils, Mesh } from "three";
 
@@ -26,6 +26,7 @@ export const Logo = ({ scale, inViewport }: Props) => {
 
   useEffect(() => {
     if (!ref.current) return;
+
     tl.current = gsap.timeline({ delay: !hasAlreadyLoaded ? 2.2 : 0 });
     ref.current.rotation.set(-0.2, 2, 0);
 
