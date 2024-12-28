@@ -9,7 +9,6 @@ import { useUpdateTexture } from "./animations";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useControls } from "leva";
 import TouchTexture from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
@@ -25,39 +24,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
-
-  const controls = useControls({
-    radius: {
-      value: 0.15,
-      min: 0,
-      max: 5,
-      step: 0.01,
-      onChange: (value) => {
-        if (!shader.current) return;
-        shader.current.uniforms.uRadius.value = value;
-      },
-    },
-    angle: {
-      value: 2.16,
-      min: 0,
-      max: 5,
-      step: 0.01,
-      onChange: (value) => {
-        if (!shader.current) return;
-        shader.current.uniforms.uAngle.value = value;
-      },
-    },
-    rolls: {
-      value: 1,
-      min: 1,
-      max: 124,
-      step: 1,
-      onChange: (value) => {
-        if (!shader.current) return;
-        shader.current.uniforms.uRolls.value = value;
-      },
-    },
-  });
 
   const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
   const textures = useTexture(projects.map((project) => project.img));
@@ -91,7 +57,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         value: new THREE.Vector2(scrollScene?.scale.x, scrollScene?.scale.y),
       },
     }),
-    [scrollScene, controls]
+    [scrollScene]
   );
 
   const handleMousePosition = (e: MouseEvent) => {
@@ -140,7 +106,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         endTrigger: "#ProjectLines",
         start: "top top",
         end: "top top",
-        markers: true,
         scrub: 0.1,
         onUpdate: (self) => {
           if (!shader.current) return;

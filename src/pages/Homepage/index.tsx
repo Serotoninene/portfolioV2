@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 import { Loader } from "../../components/organisms";
-import { Contact, Footer, RecentProjects, StickyText } from "./components";
+import {
+  Contact,
+  Footer,
+  Hero,
+  RecentProjects,
+  Showreal,
+  StickyText,
+} from "./components";
 
 export default function Homepage() {
   const hasAlreadyLoaded =
@@ -20,8 +27,8 @@ export default function Homepage() {
   return (
     <div id="Homepage" className="overflow-clip">
       {!hasAlreadyLoaded && <Loader />}
-      {/* <Hero />
-      <Showreal /> */}
+      <Hero />
+      <Showreal />
       <StickyText />
       <RecentProjects />
       <Contact />
