@@ -119,6 +119,21 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     touchTexture.addTouch(mousePosition);
   };
 
+  // Expand the bounding sphere so the frustum doesn't clip the mesh too soon
+  useEffect(() => {
+    if (!ref.current || !ref.current.geometry) return;
+
+    const geometry = ref.current.geometry;
+
+    // Compute the sphere
+    geometry.computeBoundingSphere();
+
+    // Expand the radius (e.g., make it 2x bigger)
+    if (geometry.boundingSphere) {
+      geometry.boundingSphere.radius *= 2;
+    }
+  }, []);
+
   useUpdateTexture({
     shader: shader.current,
     textures,
@@ -168,7 +183,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   return (
     <mesh ref={ref} {...scrollScene}>
-      <planeGeometry args={[1, 1, 64, 64]} />
+      <planeGeometry args={[1, 1, 32, 32]} />
       <shaderMaterial
         ref={shader}
         vertexShader={vertex}
