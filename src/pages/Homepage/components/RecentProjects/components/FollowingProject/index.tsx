@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -7,14 +7,14 @@ import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { projects } from "../../data";
 import { useUpdateTexture } from "./animations";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { useControls } from "leva";
 import TouchTexture from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type Props = {
   scrollScene?: ScrollSceneChildProps;
@@ -25,19 +25,8 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
-  const camera = useThree((state) => state.camera);
 
   const controls = useControls({
-    progress: {
-      value: 0,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      onChange: (value) => {
-        if (!shader.current) return;
-        shader.current.uniforms.uProgress.value = value;
-      },
-    },
     radius: {
       value: 0.15,
       min: 0,
@@ -77,7 +66,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   const uniforms = useMemo(
     () => ({
-      uProgress: { value: 0.75 },
+      uProgress: { value: 0 },
       uAngle: { value: 0.36 },
       uRadius: { value: 0.15 },
       uRolls: { value: 8 },
@@ -142,17 +131,21 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   });
 
   useGSAP(() => {
-    ScrollTrigger.create({
-      trigger: "#StickyText",
-      onEnter: () => {
-        console.log("enter");
-        camera.translateZ(500);
-      },
-      onLeaveBack: () => {
-        console.log("leave");
-        camera.position.z = 5;
-        camera.updateMatrixWorld();
-        camera.updateProjectionMatrix();
+    if (!shader.current) return;
+
+    gsap.to(shader.current.uniforms.uProgress, {
+      value: 1,
+      scrollTrigger: {
+        trigger: "#StickyText",
+        endTrigger: "#ProjectLines",
+        start: "top top",
+        end: "top top",
+        markers: true,
+        scrub: 0.1,
+        onUpdate: (self) => {
+          if (!shader.current) return;
+          shader.current.uniforms.uProgress.value = self.progress;
+        },
       },
     });
   });

@@ -48,10 +48,9 @@ void main() {
     
     // // Translation with modified progress
     newposition += vec3(
-        // -0.5 + modifiedProgress * cos(uAngle) * (sin(uAngle) + cos(uAngle)),
         -1. *(1.0 - modifiedProgress),
-        1. - modifiedProgress * sin(uAngle) * (sin(uAngle) + cos(uAngle)),
-        (1.0 - modifiedProgress / 2.0) * 0.5
+        (1.0 - modifiedProgress) * 2.,
+        (1.0 - modifiedProgress) * 0.01
     );
 
     float transitionProgress = smoothstep(0.8, 1., uProgress);
