@@ -119,7 +119,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
     // Expand the radius (e.g., make it 2x bigger)
     if (geometry.boundingSphere) {
-      geometry.boundingSphere.radius *= 2;
+      geometry.boundingSphere.radius *= 2.5;
     }
   }, []);
 
