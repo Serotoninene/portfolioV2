@@ -1,20 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
 import { Project } from "../../types";
 
-import { useCursorStore } from "../../../../../../store/useCursorStyle";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
 gsap.registerPlugin(ScrollToPlugin);
 
+import { projects } from "../../data";
 import {
   useProjectLineHover,
   useProjectLineIntro,
   useProjectLineScrollAnimation,
 } from "./animations";
-import { projects } from "../../data";
+import scrollToProject from "./utils/scrollToProject";
 
 type Props = {
   project: Project;
@@ -33,54 +34,28 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
 
   const isSelected = selectedProject?.title === project.title;
 
-  useProjectLineIntro({
-    container,
-  });
-
-  useProjectLineScrollAnimation(shadowLine, project, idx);
-
-  const scrollToProject = () => {
-    const projectsContainer = document.getElementById("ProjectLines");
-
-    if (!projectsContainer) return;
-
-    // const position =
-    //   (idx / (projects.length + 1)) * window.innerHeight * 1.5 +
-    //   projectsContainer.offsetTop;
-
-    // gsap.to(window, {
-    //   duration: { position },
-    //   scrollTo: {
-    //     y: position,
-    //     autoKill: false,
-    //   },
-    //   onComplete: () => {
-    //     setSelectedProject(project);
-    //   },
-    // });
+  const handleMouseEnter = () => {
+    setCursorStyle("none");
+    scrollToProject(project);
+    hoverTl.current?.play();
+    setSelectedProject(project);
   };
 
-  useEffect(() => {
-    const projectsContainer = document.getElementById("ProjectLines");
-    console.log(projectsContainer?.offsetHeight);
-  }, []);
+  const handleMouseLeave = () => {
+    setCursorStyle("default");
+    hoverTl.current?.reverse();
+  };
 
+  useProjectLineIntro(container);
+  useProjectLineScrollAnimation(shadowLine, project, idx);
   const hoverTl = useProjectLineHover(container);
 
   return (
     <a
       href={project.href}
       ref={container}
-      id={project.title}
-      onMouseEnter={() => {
-        setCursorStyle("none");
-        scrollToProject();
-        hoverTl.current?.play();
-      }}
-      onMouseLeave={() => {
-        setCursorStyle("default");
-        hoverTl.current?.reverse();
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className={isLast ? "pb-2" : "pb-10"}
     >
       <div className="relative pt-6 grid grid-cols-6 gap-6 cursor-pointer">

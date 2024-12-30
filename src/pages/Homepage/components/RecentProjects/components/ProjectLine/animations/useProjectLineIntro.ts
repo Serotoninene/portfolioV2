@@ -1,11 +1,10 @@
+import { RefObject, useRef } from "react";
 import gsap, { Power3 } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
-type Props = {
-  container: React.RefObject<HTMLAnchorElement>;
-};
 
-export const useProjectLineIntro = ({ container }: Props) => {
+export const useProjectLineIntro = (
+  container: RefObject<HTMLAnchorElement>
+) => {
   const setInitialPositions = () => {
     gsap.set(".Project-Line__line", {
       scaleX: 0,

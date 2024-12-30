@@ -3,10 +3,11 @@ import { useProjectContext } from "../../../../../../../hooks/useProjectContext"
 import { projects } from "../../../data";
 
 import gsap, { Power3 } from "gsap";
+import { Project } from "../../../types";
 
 export const useProjectLineScrollAnimation = (
   shadowLine: RefObject<HTMLDivElement>,
-  project: { title: string; subtitle: string; img: string },
+  project: Project,
   idx: number
 ) => {
   const tl = useRef<gsap.core.Timeline>();
