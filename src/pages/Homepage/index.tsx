@@ -27,9 +27,9 @@ export default function Homepage() {
   return (
     <div id="Homepage" className="overflow-clip">
       {!hasAlreadyLoaded && <Loader />}
-      <Hero />
+      {/* <Hero />
       <Showreal />
-      <StickyText />
+      <StickyText /> */}
       <RecentProjects />
       <Contact />
       <Footer />

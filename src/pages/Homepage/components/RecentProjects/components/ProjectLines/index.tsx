@@ -47,7 +47,7 @@ export const ProjectLines = () => {
             <ProjectLine
               key={item.title}
               project={item}
-              num={index + 1}
+              idx={index}
               isLast={index === projects.length - 1}
             />
           ))}

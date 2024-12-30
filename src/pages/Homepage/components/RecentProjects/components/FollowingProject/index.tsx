@@ -150,7 +150,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         uniforms={uniforms}
         side={THREE.DoubleSide}
         needsUpdate={true}
-        // wireframe={true}
       />
     </mesh>
   );

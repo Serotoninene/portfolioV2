@@ -1,7 +1,8 @@
-import gsap, { Power3 } from "gsap";
 import { RefObject, useEffect, useRef } from "react";
 import { useProjectContext } from "../../../../../../../hooks/useProjectContext";
 import { projects } from "../../../data";
+
+import gsap, { Power3 } from "gsap";
 
 export const useProjectLineScrollAnimation = (
   shadowLine: RefObject<HTMLDivElement>,
@@ -15,6 +16,7 @@ export const useProjectLineScrollAnimation = (
   const handleSelectProject = () => {
     setSelectedProject(project);
   };
+
   useEffect(() => {
     tl.current = gsap.timeline({
       scrollTrigger: {

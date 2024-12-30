@@ -4,6 +4,10 @@ import { splitWords } from "../../../../../../utils";
 import { Project } from "../../types";
 
 import { useCursorStore } from "../../../../../../store/useCursorStyle";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 import {
   useProjectLineHover,
@@ -13,20 +17,15 @@ import {
 
 type Props = {
   project: Project;
-  num: number;
+  idx: number;
   isLast: boolean;
 };
 
-export const ProjectLine = ({ project, num, isLast }: Props) => {
-  const formattedNum = num.toString().padStart(2, "0");
+export const ProjectLine = ({ project, idx, isLast }: Props) => {
+  const formattedIdx = (idx + 1).toString().padStart(2, "0");
 
-  const line = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLAnchorElement>(null);
   const shadowLine = useRef<HTMLDivElement>(null);
-  const numRef = useRef<HTMLSpanElement[]>([]);
-  const titleRef = useRef<HTMLSpanElement[]>([]);
-  const subtitleRef = useRef<HTMLSpanElement[]>([]);
-  const arrow = useRef<HTMLImageElement>(null);
-  const shadowArrow = useRef<HTMLImageElement>(null);
 
   const { setCursorStyle } = useCursorStore();
   const { selectedProject, setSelectedProject } = useProjectContext();
@@ -34,19 +33,17 @@ export const ProjectLine = ({ project, num, isLast }: Props) => {
   const isSelected = selectedProject?.title === project.title;
 
   useProjectLineIntro({
-    line,
-    numRef,
-    titleRef,
-    subtitleRef,
-    arrow,
+    container,
   });
 
-  useProjectLineScrollAnimation(shadowLine, project, num - 1);
-  const hoverTl = useProjectLineHover(arrow, shadowArrow);
+  useProjectLineScrollAnimation(shadowLine, project, idx);
+
+  const hoverTl = useProjectLineHover(container);
 
   return (
     <a
       href={project.href}
+      ref={container}
       onMouseEnter={() => {
         setCursorStyle("none");
         setSelectedProject(project);
@@ -59,40 +56,32 @@ export const ProjectLine = ({ project, num, isLast }: Props) => {
       className={isLast ? "pb-2" : "pb-10"}
     >
       <div className="relative pt-6 grid grid-cols-6 gap-6 cursor-pointer">
-        <div
-          ref={line}
-          className="absolute top-0 bg-dark h-[1px] w-full origin-left opacity-30"
-        />
-        <div
-          ref={shadowLine}
-          className="absolute top-0 bg-dark h-[1px] w-full origin-left scale-x-0"
-        />
+        <div className="Project-Line__line absolute top-0 bg-dark h-[1px] w-full origin-left opacity-30" />
+        <div className="Project-Line__shadow-line absolute top-0 bg-dark h-[1px] w-full origin-left scale-x-0" />
         <div className="col-span-3 grid grid-cols-6">
-          <div className="font-medium text-xs ">
-            {splitWords(formattedNum, numRef)}
+          <div className="Project-Line__index font-medium text-xs ">
+            {splitWords(formattedIdx)}
           </div>
           <h3
-            className={`col-span-5 text-[14px] font-bold transition-opacity duration-300 leading-[110%]  md:text-base ${
+            className={`Project-Line__title col-span-5 text-[14px] font-bold transition-opacity duration-300 leading-[110%]  md:text-base ${
               isSelected ? "" : "opacity-50"
             }`}
           >
-            {splitWords(project.title, titleRef)}
+            {splitWords(project.title)}
           </h3>
         </div>
-        <p className="text-[14px] col-span-2 leading-[110%] md:text-[16px]">
-          {splitWords(project.subtitle, subtitleRef)}
+        <p className="Project-Line__subtitle text-[14px] col-span-2 leading-[110%] md:text-[16px]">
+          {splitWords(project.subtitle)}
         </p>
         <div className="flex justify-end pr-4">
           <div className="relative overflow-hidden h-fit">
             <img
-              ref={arrow}
-              className="w-4 h-4"
+              className="Project-Line__arrow w-4 h-4"
               src="/assets/Icons/Arrow.svg"
               alt="Arrow"
             />
             <img
-              ref={shadowArrow}
-              className="w-4 h-4 absolute top-full right-full"
+              className="Project-Line__shadow-arrow w-4 h-4 absolute top-full right-full"
               src="/assets/Icons/Arrow.svg"
               alt="Arrow"
             />
