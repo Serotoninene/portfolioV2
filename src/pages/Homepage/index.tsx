@@ -24,12 +24,16 @@ export default function Homepage() {
     };
   }, []);
 
+  const handleScroll = (e) => {
+    console.log(e.target.scrollTop);
+  };
+
   return (
-    <div id="Homepage" className="overflow-clip">
+    <div id="Homepage" className="overflow-clip" onScroll={handleScroll}>
       {!hasAlreadyLoaded && <Loader />}
-      {/* <Hero />
+      <Hero />
       <Showreal />
-      <StickyText /> */}
+      <StickyText />
       <RecentProjects />
       <Contact />
       <Footer />

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
 import { Project } from "../../types";
@@ -14,6 +14,7 @@ import {
   useProjectLineIntro,
   useProjectLineScrollAnimation,
 } from "./animations";
+import { projects } from "../../data";
 
 type Props = {
   project: Project;
@@ -38,15 +39,42 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
 
   useProjectLineScrollAnimation(shadowLine, project, idx);
 
+  const scrollToProject = () => {
+    const projectsContainer = document.getElementById("ProjectLines");
+
+    if (!projectsContainer) return;
+
+    // const position =
+    //   (idx / (projects.length + 1)) * window.innerHeight * 1.5 +
+    //   projectsContainer.offsetTop;
+
+    // gsap.to(window, {
+    //   duration: { position },
+    //   scrollTo: {
+    //     y: position,
+    //     autoKill: false,
+    //   },
+    //   onComplete: () => {
+    //     setSelectedProject(project);
+    //   },
+    // });
+  };
+
+  useEffect(() => {
+    const projectsContainer = document.getElementById("ProjectLines");
+    console.log(projectsContainer?.offsetHeight);
+  }, []);
+
   const hoverTl = useProjectLineHover(container);
 
   return (
     <a
       href={project.href}
       ref={container}
+      id={project.title}
       onMouseEnter={() => {
         setCursorStyle("none");
-        setSelectedProject(project);
+        scrollToProject();
         hoverTl.current?.play();
       }}
       onMouseLeave={() => {

@@ -1,3 +1,7 @@
+#pragma glslify: getResponsiveUV = require(../../../../../../../components/three/utils/getResponsiveUV);
+
+uniform vec2 uTextureSize;
+uniform vec2 uQuadSize;
 uniform float uProgress; // Unrolling uProgress (0 to 1)
 uniform float uAngle;    // Rotation angle of the plane
 uniform float uRolls;    // Number of uRolls
@@ -24,7 +28,7 @@ vec3 rotate(vec3 v, vec3 axis, float angle) {
 }
 
 void main() {
-    vUv = uv;
+    vUv = getResponsiveUV(uv, uTextureSize, uQuadSize);
     
     vec3 newposition = position;
     
