@@ -1,30 +1,12 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useColorContext } from "../../../../hooks/useColorContext";
 
-import { useCursorStore } from "../../../../store/useCursorStyle";
 import { useAnimation } from "./useAnimation";
 
 export const Showreal = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const { setCursorStyle, setCursorText } = useCursorStore();
-
   const video = useRef<HTMLVideoElement>(null);
 
   const { colors } = useColorContext();
-
-  const togglePlay = () => {
-    setIsPlaying((prev) => !prev);
-    setCursorText(isPlaying ? "play" : "pause");
-  };
-
-  const handleMouseEnter = () => {
-    setCursorText(isPlaying ? "pause" : "play");
-    setCursorStyle("text");
-  };
-
-  const handleMouseLeave = () => {
-    setCursorStyle("default");
-  };
 
   useAnimation();
 
@@ -35,9 +17,6 @@ export const Showreal = () => {
     >
       <div
         id="showreal__video-container"
-        onClick={togglePlay}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         className="relative w-full xl:h-[90vh] aspect-video mx-10 cursor-none"
         style={{
           background: colors.dark,

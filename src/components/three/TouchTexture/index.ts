@@ -39,7 +39,7 @@ export default class TouchTexture {
   }
 
   initTexture(onScreen: boolean) {
-    // create a 2D canvas to store the information of the cursor
+    // create a 2D canvas to store the informations of the cursor
     this.canvas = document.createElement("canvas");
     this.canvas.width = this.canvas.height = this.size;
     this.ctx = this.canvas.getContext("2d");
