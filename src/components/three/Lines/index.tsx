@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 import { useColorContext } from "../../../hooks/useColorContext";
-import TouchTexture from "../TouchTexture";
+import { useTouchTexture } from "../TouchTexture";
 
 import { useStripesUVMapping } from "../utils/useStripesUVMapping";
 import fragmentShader from "./shaders/fragment.glsl";
@@ -35,10 +35,12 @@ const Lines = ({ scrollScene }: Props) => {
 
   // -------------------- SETTING TEXTURES -------------------- //
   const texture = useTexture(disp_src);
-  const touchTexture = useMemo(
-    () => new TouchTexture(false, 128, 120, 0.1),
-    []
-  );
+  const touchTexture = useTouchTexture({
+    isOnScreen: true,
+    size: 128,
+    maxAge: 120,
+    radius: 0.1,
+  });
 
   const { colors } = useColorContext();
 

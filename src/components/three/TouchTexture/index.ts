@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Texture } from "three";
 
 interface Point {
@@ -151,3 +152,11 @@ export default class TouchTexture {
     this.timeout = setTimeout(() => (this.canDraw = true), 0);
   }
 }
+export const useTouchTexture = ({
+  isOnScreen = false,
+  size = 128,
+  maxAge = 120,
+  radius = 0.2,
+}) => {
+  return useMemo(() => new TouchTexture(isOnScreen, size, maxAge, radius), []);
+};

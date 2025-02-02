@@ -4,6 +4,7 @@ import {
   InstancedBlocks,
   Portal,
 } from "./components";
+import { ASCIIEffect } from "./components/ASCIIEffect";
 import { BlurEffect } from "./components/BlurEffect";
 import { ExperimentVignette } from "./components/ExperimentVignette";
 import { NormalLightEffect } from "./components/NormalLightEffect";
@@ -16,6 +17,12 @@ interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
+  ascii_effect: {
+    title: "ASCII Effect",
+    slug: "ascii_effect",
+    img: "https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1FJ1r8x3By39B6xYKiHU8hSXsO2bnZVozAvpIu",
+    component: ASCIIEffect,
+  },
   normal_light_effect: {
     title: "Normal Map Magic",
     slug: "normal_light_effect",

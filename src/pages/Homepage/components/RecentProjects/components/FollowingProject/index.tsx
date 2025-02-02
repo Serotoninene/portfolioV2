@@ -9,7 +9,7 @@ import { useUpdateTexture } from "./animations";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import TouchTexture from "../../../../../../components/three/TouchTexture";
+import { useTouchTexture } from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
 import fragment from "./shaders/fragment.glsl";
@@ -24,8 +24,8 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { rect } = useProjectMeshRect();
   const [mixFactor, setMixFactor] = useState({ value: 0 });
+  const touchTexture = useTouchTexture({ size: 128, maxAge: 60, radius: 0.2 });
 
-  const touchTexture = useMemo(() => new TouchTexture(false, 128, 60, 0.2), []);
   const textures = useTexture(projects.map((project) => project.img));
 
   const { width } = useWindowSize();
@@ -67,7 +67,13 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     const width = rect.width;
     const height = rect.height;
 
-    const mappedX = THREE.MathUtils.mapLinear(e.clientX, x, width + x, 0, 1);
+    const mappedX = THREE.MathUtils.mapLinear(
+      e.clientX,
+      rect.x,
+      width + x,
+      0,
+      1
+    );
     const mappedY = THREE.MathUtils.mapLinear(e.clientY, y, height + y, 1, 0);
 
     const mousePosition = new THREE.Vector2(mappedX, mappedY);

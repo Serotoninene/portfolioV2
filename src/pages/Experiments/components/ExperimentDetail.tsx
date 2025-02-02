@@ -3,6 +3,7 @@ import { experimentsData } from "..";
 
 const ExperimentDetail = () => {
   const { id } = useParams<{ id: string }>();
+  console.log(id);
 
   if (!id || !experimentsData[id]) {
     return <div>Experiment not found</div>;

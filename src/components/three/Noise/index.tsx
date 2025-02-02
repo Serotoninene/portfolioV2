@@ -3,14 +3,14 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 import { useWindowSize } from "../../../hooks";
-import TouchTexture from "../TouchTexture";
+import { useTouchTexture } from "../TouchTexture";
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
 
 export const Noise = () => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { width, height } = useWindowSize();
-  const touchTexture = useMemo(() => new TouchTexture(), []);
+  const touchTexture = useTouchTexture({});
 
   const uniforms = useMemo(
     () => ({
