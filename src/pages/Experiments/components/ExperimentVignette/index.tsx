@@ -88,7 +88,6 @@ export const ExperimentVignette = ({
   img,
   slug,
 }: ExperimentVignetteProps) => {
-  console.log(img);
   const ref = useRef<HTMLDivElement>(null);
   const { setCursorStyle } = useCursorStore();
   const navigate = useNavigate();

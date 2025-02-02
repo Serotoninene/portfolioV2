@@ -1,20 +1,19 @@
 import { useParams } from "react-router-dom";
-import { DistortedRectangle, FallingPixel, InstancedBlocks, Portal, DistortedText } from ".";
-
-const componentMapping = {
-  portal: Portal,
-  instancedblocks: InstancedBlocks,
-  falling_pixel: FallingPixel,
-  distorted_rectangle: DistortedRectangle,
-  distorted_text: DistortedText
-};
+import { experimentsData } from "..";
 
 const ExperimentDetail = () => {
-  const { id } = useParams();
-  const ComponentToRender = id && componentMapping[id];
+  const { id } = useParams<{ id: string }>();
+
+  if (!id || !experimentsData[id]) {
+    return <div>Experiment not found</div>;
+  }
+
+  const ExperimentComponent = experimentsData[id].component;
 
   return (
-    <div className="h-screen">{ComponentToRender && <ComponentToRender />}</div>
+    <div className="h-screen">
+      <ExperimentComponent />
+    </div>
   );
 };
 

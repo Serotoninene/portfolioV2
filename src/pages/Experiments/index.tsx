@@ -1,32 +1,46 @@
+import {
+  DistortedRectangle,
+  DistortedText,
+  InstancedBlocks,
+  Portal,
+} from "./components";
+import { BlurEffect } from "./components/BlurEffect";
 import { ExperimentVignette } from "./components/ExperimentVignette";
 
-const experimentsData = [
-  {
-    title: "Instanced Blocks",
-    slug: "instancedblocks",
-    img: "/assets/Experiments/InstancedBlocks.webp",
+export const experimentsData: Record<string, Experiment> = {
+  blur_effect: {
+    title: "Blur Texture Effect",
+    slug: "blur_effect",
+    img: "https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1FBfv6ZKNwMeQfYuL7xG5lmpC4VbRJD8SIriq3",
+    component: BlurEffect,
   },
-  {
-    title: "Portal",
-    slug: "portal",
-    img: "/assets/Experiments/Portal.webp",
-  },
-  {
-    title: "Falling Pixel",
-    slug: "falling_pixel",
-    img: "/assets/Experiments/FallingPixel.webp",
-  },
-  {
+  distorted_rectangle: {
     title: "Distorted Rectangle",
     slug: "distorted_rectangle",
     img: "/assets/Experiments/DistortedRectangle.webp",
+    component: DistortedRectangle,
   },
-  {
+  portal: {
+    title: "Portal",
+    slug: "portal",
+    img: "/assets/Experiments/Portal.webp",
+    component: Portal,
+  },
+  distorted_text: {
     title: "Distorted Text",
     slug: "distorted_text",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
+    component: DistortedText,
   },
-];
+  instancedblocks: {
+    title: "Instanced Blocks",
+    slug: "instancedblocks",
+    img: "/assets/Experiments/InstancedBlocks.webp",
+    component: InstancedBlocks,
+  },
+};
+
+export const experimentsArray = Object.values(experimentsData);
 
 const Experiments = () => {
   return (
@@ -43,7 +57,7 @@ const Experiments = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-5">
-        {experimentsData.map((experiment, idx) => (
+        {experimentsArray.map((experiment, idx) => (
           <ExperimentVignette key={idx} {...experiment} />
         ))}
       </div>
