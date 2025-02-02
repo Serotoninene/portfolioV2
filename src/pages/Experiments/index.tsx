@@ -6,8 +6,22 @@ import {
 } from "./components";
 import { BlurEffect } from "./components/BlurEffect";
 import { ExperimentVignette } from "./components/ExperimentVignette";
+import { NormalLightEffect } from "./components/NormalLightEffect";
+
+interface Experiment {
+  title: string;
+  slug: string;
+  img: string;
+  component: React.ComponentType;
+}
 
 export const experimentsData: Record<string, Experiment> = {
+  normal_light_effect: {
+    title: "Normal Map Magic",
+    slug: "normal_light_effect",
+    img: "https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1FXbVUZD65W9E3ypYKDvVgkwlhU8JbT7G1FeQR",
+    component: NormalLightEffect,
+  },
   blur_effect: {
     title: "Blur Texture Effect",
     slug: "blur_effect",

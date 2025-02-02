@@ -5,7 +5,7 @@ import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useMediaQuery } from "../../hooks";
 import { useColorContext } from "../../hooks/useColorContext";
-import { CustomCursor, Navbar, ScrollIndicator } from "../molecules";
+import { CustomCursor, Navbar } from "../molecules";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
 
