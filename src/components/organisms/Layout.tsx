@@ -65,7 +65,6 @@ export const Layout = ({ children }: Props) => {
               <Noise />
             </GlobalCanvas>
           </div>
-          <ScrollIndicator />
         </main>
         <div
           id="transition_panel"

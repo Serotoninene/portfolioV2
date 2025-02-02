@@ -37,6 +37,7 @@ export default function Homepage() {
       <RecentProjects />
       <Contact />
       <Footer />
+      <ScrollIndicator />
     </div>
   );
 }
