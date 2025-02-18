@@ -97,15 +97,14 @@ export class ASCIIPost extends Effect {
     if (charactersTextureUniform) {
       charactersTextureUniform.value = this.createCharactersTexture(
         characters,
-        fontSize,
-        cellSize
+        fontSize
       );
     }
 
-    this.introAnim(characters.length);
+    this.introAnim();
   }
 
-  private introAnim(length: number): void {
+  private introAnim(): void {
     const uIntroOffsetX = this.uniforms.get("uIntroOffsetX");
     const uIntroOffsetY = this.uniforms.get("uIntroOffsetY");
     const uIsIntroOver = this.uniforms.get("uIsIntroOver");
@@ -139,8 +138,7 @@ export class ASCIIPost extends Effect {
   /** Draws the characters on a Canvas and returns a texture */
   private createCharactersTexture(
     characters: string,
-    fontSize: number,
-    cellSize: number
+    fontSize: number
   ): Texture {
     const canvas = document.createElement("canvas");
     canvas.style.position = "fixed";

@@ -63,17 +63,15 @@ export function Scene() {
     touchTexture.update(pointer);
   });
 
-  const asciiEffect = useMemo(
-    () =>
-      new ASCIIPost({
-        characters: chars,
-        fontSize: 56,
-        cellSize: width > 768 ? 32 : 20,
-        color: "white",
-        fluidTexture: touchTexture.texture,
-      }),
-    [width]
-  );
+  const asciiEffect = useMemo(() => {
+    return new ASCIIPost({
+      characters: chars,
+      fontSize: 56,
+      cellSize: (width ?? 1024) > 768 ? 32 : 20,
+      color: "white",
+      fluidTexture: touchTexture.texture,
+    });
+  }, [width]);
 
   return (
     <>
