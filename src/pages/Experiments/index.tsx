@@ -8,6 +8,10 @@ import { ASCIIEffect } from "./components/ASCIIEffect";
 import { BlurEffect } from "./components/BlurEffect";
 import { ExperimentVignette } from "./components/ExperimentVignette";
 import { NormalLightEffect } from "./components/NormalLightEffect";
+import {
+  RefractionGlass,
+  RefractionSphere,
+} from "./components/RefractionGlass";
 
 interface Experiment {
   title: string;
@@ -17,6 +21,12 @@ interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
+  refraction_glass: {
+    title: "Refraction glass",
+    slug: "refraction_glass",
+    img: "https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1F6uI4xiWqLth0PVgZ6I23nKNypzWGrbxJDkvj",
+    component: RefractionGlass,
+  },
   ascii_effect: {
     title: "ASCII Effect",
     slug: "ascii_effect",
