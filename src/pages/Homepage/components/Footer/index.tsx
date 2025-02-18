@@ -40,7 +40,7 @@ export const Footer = () => {
 
       <div
         ref={ref}
-        className="h-[60vh] pointer-events-none flex justify-center items-center"
+        className="h-[60vh] pointer-events-none flex justify-center items-center "
         style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
       >
         <img src="/assets/Photos/logo_lines-light.png" className="h-full" />

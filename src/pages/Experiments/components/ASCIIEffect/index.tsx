@@ -126,7 +126,7 @@ const Header = ({ children }: HeaderProps) => {
 
 export function ASCIIEffect() {
   return (
-    <div className="App">
+    <div className="">
       <div className="html_wrapper">
         <Header>Moai</Header>
         <footer>
@@ -134,7 +134,7 @@ export function ASCIIEffect() {
           <p>© Alexandre Pujol</p>
         </footer>
       </div>
-      <div className="canvas_wrapper">
+      <div className="canvas_wrapper w-full h-screen bg-black fixed inset-0">
         <Canvas gl={{ alpha: true }}>
           <Scene />
         </Canvas>

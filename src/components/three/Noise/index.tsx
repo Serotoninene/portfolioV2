@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 import { useWindowSize } from "../../../hooks";
@@ -11,6 +11,7 @@ export const Noise = () => {
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { width, height } = useWindowSize();
   const touchTexture = useTouchTexture({});
+  const [pointer, setPointer] = useState({ x: 0, y: 0 });
 
   const uniforms = useMemo(
     () => ({
@@ -25,7 +26,7 @@ export const Noise = () => {
       e.clientX,
       0,
       window.innerWidth,
-      0,
+      -1,
       1
     );
     const mappedY = THREE.MathUtils.mapLinear(
@@ -33,10 +34,10 @@ export const Noise = () => {
       0,
       window.innerHeight,
       1,
-      0
+      -1
     );
 
-    touchTexture.addTouch(new THREE.Vector2(mappedX, mappedY));
+    setPointer({ x: mappedX, y: mappedY });
   };
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export const Noise = () => {
     shader.current.uniforms.uTime.value = clock.getElapsedTime();
 
     if (!touchTexture) return;
-    touchTexture.update();
+    touchTexture.update(pointer);
   });
 
   if (!width || !height) return null;

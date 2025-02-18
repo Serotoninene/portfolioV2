@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Texture } from "three";
+import gsap from "gsap";
 
 interface Point {
   x: number;
@@ -13,15 +14,15 @@ function outSine(n: number) {
 }
 
 export default class TouchTexture {
-  canDraw: boolean;
-  size: number;
-  maxAge: number;
-  radius: number;
-  trail: Point[];
-  canvas: HTMLCanvasElement | null;
-  ctx: CanvasRenderingContext2D | null;
-  texture: Texture | null;
-  timeout: NodeJS.Timeout | null;
+  public texture: Texture | null;
+  private canDraw: boolean;
+  private size: number;
+  private maxAge: number;
+  private radius: number;
+  private trail: Point[];
+  private canvas: HTMLCanvasElement | null;
+  private ctx: CanvasRenderingContext2D | null;
+  private timeout: NodeJS.Timeout | null;
 
   constructor(isOnScreen = false, size = 128, maxAge = 120, radius = 0.2) {
     this.size = size;
@@ -37,9 +38,10 @@ export default class TouchTexture {
     this.timeout = null;
 
     this.initTexture(isOnScreen);
+    this.intro();
   }
 
-  initTexture(onScreen: boolean) {
+  private initTexture(onScreen: boolean) {
     // create a 2D canvas to store the informations of the cursor
     this.canvas = document.createElement("canvas");
     this.canvas.width = this.canvas.height = this.size;
@@ -60,8 +62,27 @@ export default class TouchTexture {
     onScreen && document.body.appendChild(this.canvas);
   }
 
-  update() {
+  private intro() {
+    const value = {
+      radius: 0,
+    };
+    const targetRadius = this.radius;
+    this.radius = 0;
+
+    gsap.to(value, {
+      radius: targetRadius,
+      delay: 3,
+      duration: 3,
+      onUpdate: () => {
+        this.radius = value.radius;
+      },
+    });
+  }
+
+  public update(point: { x: number; y: number }) {
     this.clear();
+    const normalizedPoint = { x: (point.x + 1) / 2, y: (point.y + 1) / 2 };
+    this.addTouch(normalizedPoint);
     if (!this.canDraw) return false;
 
     // age points
@@ -82,13 +103,13 @@ export default class TouchTexture {
     this.texture ? (this.texture.needsUpdate = true) : null;
   }
 
-  clear() {
+  private clear() {
     // clear canvas
     this.ctx ? (this.ctx.fillStyle = "black") : null;
     this.ctx?.fillRect(0, 0, this.canvas?.width || 0, this.canvas?.height || 0);
   }
 
-  addTouch(point: { x: number; y: number }) {
+  private addTouch(point: { x: number; y: number }) {
     let force = 0;
     const last = this.trail[this.trail.length - 1];
     if (last) {
@@ -101,7 +122,8 @@ export default class TouchTexture {
     this.trail.push({ x: point.x, y: point.y, age: 0, force });
   }
 
-  drawTouch(point: Point) {
+  private drawTouch(point: Point) {
+    // console.log(point);
     // draw point based on size and age
     const pos = {
       x: point.x * this.size,
@@ -141,7 +163,7 @@ export default class TouchTexture {
     // fill canvas
   }
 
-  reset() {
+  private reset() {
     // reset canvas
     this.trail = [];
     this.canDraw = false;
@@ -152,6 +174,7 @@ export default class TouchTexture {
     this.timeout = setTimeout(() => (this.canDraw = true), 0);
   }
 }
+
 export const useTouchTexture = ({
   isOnScreen = false,
   size = 128,

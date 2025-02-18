@@ -23,8 +23,15 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
   const { rect } = useProjectMeshRect();
+  const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
+
   const [mixFactor, setMixFactor] = useState({ value: 0 });
-  const touchTexture = useTouchTexture({ size: 128, maxAge: 60, radius: 0.2 });
+  const touchTexture = useTouchTexture({
+    isOnScreen: false,
+    size: 128,
+    maxAge: 60,
+    radius: 0.2,
+  });
 
   const textures = useTexture(projects.map((project) => project.img));
 
@@ -71,13 +78,13 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       e.clientX,
       rect.x,
       width + x,
-      0,
+      -1,
       1
     );
-    const mappedY = THREE.MathUtils.mapLinear(e.clientY, y, height + y, 1, 0);
+    const mappedY = THREE.MathUtils.mapLinear(e.clientY, y, height + y, 1, -1);
 
     const mousePosition = new THREE.Vector2(mappedX, mappedY);
-    touchTexture.addTouch(mousePosition);
+    setPointerPos(mousePosition);
   };
 
   // Expand the bounding sphere so the frustum doesn't clip the mesh too soon
@@ -123,7 +130,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   useEffect(() => {
     if (!ref.current) return;
-
     window.addEventListener("mousemove", handleMousePosition);
 
     return () => {
@@ -134,7 +140,6 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   useFrame(({ clock }) => {
     if (!ref.current || !shader.current) return;
     const time = clock.getElapsedTime();
-
     ref.current.position.x = rect.x / 2 - 10;
 
     // ----------- UPDATING THE UNIFORMS ----------- //
@@ -142,7 +147,8 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     shader.current.uniforms.uTime.value = time;
 
     if (!touchTexture) return;
-    touchTexture.update();
+
+    touchTexture.update(pointerPos);
   });
 
   return (

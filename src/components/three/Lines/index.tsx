@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useMemo, useRef } from "react";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { useTexture } from "@react-three/drei";
@@ -11,6 +11,7 @@ import { useTouchTexture } from "../TouchTexture";
 import { useStripesUVMapping } from "../utils/useStripesUVMapping";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
+import { useWindowSize } from "../../../hooks";
 
 const disp_src = "/assets/DisplacementMaps/logo-displacement_map.jpg";
 
@@ -35,13 +36,21 @@ const Lines = ({ scrollScene }: Props) => {
 
   // -------------------- SETTING TEXTURES -------------------- //
   const texture = useTexture(disp_src);
+
   const touchTexture = useTouchTexture({
-    isOnScreen: true,
+    isOnScreen: false,
     size: 128,
     maxAge: 120,
     radius: 0.1,
   });
 
+  const [dimensions, setDimensions] = useState({
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  });
+  const windowSize = useWindowSize();
   const { colors } = useColorContext();
 
   const uniforms = useMemo(
@@ -63,38 +72,37 @@ const Lines = ({ scrollScene }: Props) => {
     []
   );
 
-  const handleMouseMove = (e: MouseEvent) => {
-    const rect = scrollScene.track.current.getBoundingClientRect();
-
-    const mappedMouse = {
-      x: THREE.MathUtils.mapLinear(e.clientX, rect.left, rect.right, 0, 1),
-      y: THREE.MathUtils.mapLinear(e.clientY, rect.top, rect.bottom, 1, 0),
-    };
-    touchTexture.addTouch(mappedMouse);
-  };
-
   useStripesUVMapping({
     planeGeometry,
     stripeGeometries,
     nbStripes: NB_STRIPES,
   });
 
-  useFrame(({ clock }) => {
-    if (!touchTexture) return;
-    touchTexture.update();
+  useEffect(() => {
+    const dimensions = scrollScene.track.current.getBoundingClientRect();
+
+    const NDCDimensions = {
+      left: (dimensions.left - window.innerWidth / 2) / (window.innerWidth / 2),
+      right:
+        (dimensions.right - window.innerWidth / 2) / (window.innerWidth / 2),
+      top: (dimensions.top - window.innerHeight / 2) / (window.innerHeight / 2),
+      bottom:
+        (dimensions.bottom - window.innerHeight / 2) / (window.innerHeight / 2),
+    };
+
+    setDimensions(NDCDimensions);
+  }, [windowSize, scrollScene.track]);
+
+  useFrame(({ clock, pointer }) => {
+    if (!touchTexture || !dimensions || !pointer) return;
+
+    touchTexture.update(pointer);
 
     if (!shaderRef.current) return;
     const time = clock.getElapsedTime();
     //  updating the uniforms
     shaderRef.current.uniforms.uTime.value = time;
   });
-
-  useEffect(() => {
-    addEventListener("mousemove", handleMouseMove);
-    return () => {
-      removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
 
   return (
     <>
