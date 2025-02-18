@@ -8,10 +8,7 @@ import { ASCIIEffect } from "./components/ASCIIEffect";
 import { BlurEffect } from "./components/BlurEffect";
 import { ExperimentVignette } from "./components/ExperimentVignette";
 import { NormalLightEffect } from "./components/NormalLightEffect";
-import {
-  RefractionGlass,
-  RefractionSphere,
-} from "./components/RefractionGlass";
+import { RefractionGlass } from "./components/RefractionGlass";
 
 interface Experiment {
   title: string;

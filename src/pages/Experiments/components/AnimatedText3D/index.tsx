@@ -53,7 +53,7 @@ export const AnimatedText3D = ({
     // Animate the progress uniform
     tl.current?.to(uniforms.uClipProgress, {
       value: 1,
-      duration: 1.2,
+      duration: 0.5,
       ease: Power3.easeOut,
       delay: 1,
     });
