@@ -28,7 +28,7 @@ export const useIntro = ({
     gsap.set(containerRef.current, { scaleX: 0 });
     tl.current = gsap.timeline({
       defaults: { ease: Power3.easeOut },
-      delay: !hasAlreadyLoaded ? 2.3 : 0,
+      delay: !hasAlreadyLoaded ? 0.5 : 0,
       paused: true,
     });
 
