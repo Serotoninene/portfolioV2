@@ -1,4 +1,8 @@
-import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
+import {
+  ScrollScene,
+  UseCanvas,
+  useScrollRig,
+} from "@14islands/r3f-scroll-rig";
 import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";
@@ -83,13 +87,10 @@ type ExperimentVignetteProps = {
   img: string;
 };
 
-export const ExperimentVignette = ({
-  // title,
-  img,
-  slug,
-}: ExperimentVignetteProps) => {
+export const ExperimentVignette = ({ img, slug }: ExperimentVignetteProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { setCursorStyle } = useCursorStore();
+  const { hasSmoothScrollbar } = useScrollRig();
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -102,13 +103,17 @@ export const ExperimentVignette = ({
     <div>
       <div
         ref={ref}
-        className="relative w-full aspect-square"
+        className="relative w-full aspect-square object-cover"
         onMouseEnter={() => setCursorStyle("pointer")}
         onMouseLeave={() => setCursorStyle("default")}
         onClick={handleClick}
       >
-        <img className="w-full object-cover opacity-0" src={img} />
-
+        <img
+          className="w-full h-full object-cover"
+          // style={{ opacity: hasSmoothScrollbar ? 0 : 1 }}
+          src={img}
+        />
+        {/* 
         <UseCanvas>
           <ScrollScene
             track={ref as MutableRefObject<HTMLElement>}
@@ -116,11 +121,13 @@ export const ExperimentVignette = ({
           >
             {(props) => <ThreeVignette scrollScene={props} img={img} />}
           </ScrollScene>
-        </UseCanvas>
+        </UseCanvas> */}
       </div>
-      {/* <h2 className="text-xl text-secondary-400 font-semibold">
+      {/* 
+        <h2 className="text-xl text-secondary-400 font-semibold">
           {title}
-        </h2> */}
+        </h2> 
+        */}
     </div>
   );
 };

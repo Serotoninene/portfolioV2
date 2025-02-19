@@ -70,6 +70,34 @@ export const experimentsData: Record<string, Experiment> = {
 
 export const experimentsArray = Object.values(experimentsData);
 
+const getGridPosition = (idx: number) => {
+  let gridColumn = "";
+  let marginTop = "";
+
+  if (idx % 6 === 0) {
+    const rowStart = idx === 0 ? 1 : idx + 8;
+    gridColumn = `2 / span 3`;
+    marginTop = "-32px";
+  } else if (idx % 6 === 1) {
+    gridColumn = `10 / span 3`;
+    marginTop = "96px";
+  } else if (idx % 6 === 2) {
+    gridColumn = `4 / span 3`;
+    marginTop = "-32px";
+  } else if (idx % 6 === 3) {
+    gridColumn = ` 8 / span 3`;
+    marginTop = "226px";
+  } else if (idx % 6 === 4) {
+    gridColumn = `3 / span 3`;
+    marginTop = "20px";
+  } else if (idx % 6 === 5) {
+    gridColumn = ` 8/ span 3`;
+    marginTop = "206px";
+  }
+
+  return { gridColumn, marginTop };
+};
+
 const Experiments = () => {
   return (
     <div className="relative min-h-[--fullScreen] z-20 text-black py-10 px-5">
@@ -80,14 +108,25 @@ const Experiments = () => {
 
         <p className="col-span-2 flex items-end text-end">
           Welcome to the Experimentations page! Here, you'll find a collection
-          of innovative and interactive projects showcasing the power
+          of innovative and interactive projects I've made !
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
-        {experimentsArray.map((experiment, idx) => (
-          <ExperimentVignette key={idx} {...experiment} />
-        ))}
+      <div className={`grid grid-cols-12 auto-rows-auto gap-5`}>
+        {experimentsArray.map((experiment, idx) => {
+          const { gridColumn, marginTop } = getGridPosition(idx);
+          return (
+            <div
+              key={idx}
+              style={{
+                gridColumn,
+                marginTop,
+              }}
+            >
+              <ExperimentVignette {...experiment} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -58,7 +58,7 @@ function Plane() {
 
   return (
     <mesh ref={mesh}>
-      <planeGeometry args={[WIDTH, HEIGHT, 2, 2]} />
+      <planeGeometry args={[WIDTH, HEIGHT, 1, 1]} />
       <meshStandardMaterial
         map={texture}
         normalMap={normalMap}
