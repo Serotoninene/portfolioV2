@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
 import { useCursorStore } from "../../../../store/useCursorStyle";
@@ -7,7 +7,14 @@ import { useCursorStore } from "../../../../store/useCursorStyle";
 import vertex from "./shader/vertex.glsl";
 import fragment from "./shader/fragment.glsl";
 
-export const ThreeVignette = ({ slug, img, meshRefs, imgRefs, idx }) => {
+export const ThreeVignette = ({
+  slug,
+  img,
+  meshRefs,
+  imgRefs,
+  idx,
+  momentum,
+}) => {
   const texture = useTexture(img) as THREE.Texture;
   const { setCursorStyle } = useCursorStore();
 
@@ -34,6 +41,8 @@ export const ThreeVignette = ({ slug, img, meshRefs, imgRefs, idx }) => {
     }),
     []
   );
+
+  useEffect(() => {}, [momentum]);
 
   return (
     <mesh

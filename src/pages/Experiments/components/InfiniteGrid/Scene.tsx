@@ -61,21 +61,32 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [groupRef, width]);
 
+  // Scroll variables
+  const scrollSpeedFactor = 1000;
+  const momentumDamping = 0.9; // Higher value = more momentum (slower stop)
+
   useFrame(({ viewport }, delta) => {
     if (!groupRef.current) return;
 
     // // Calculate scroll position with momentum
     const scrollMultiplier =
       Math.abs(momentum.current) > 0.1 ? delta / 32 : delta / 64;
-    scrollPosition.current += momentum.current * scrollMultiplier * 5;
+    scrollPosition.current +=
+      momentum.current * scrollMultiplier * scrollSpeedFactor;
 
     // Dynamic friction calculation
     const baseFriction = 0.1;
     const speedFriction = 1 - Math.exp(-Math.abs(momentum.current));
-    const friction = Math.min(baseFriction + speedFriction * 0.1, 0.95);
+    const friction = Math.min(
+      baseFriction + speedFriction * momentumDamping,
+      0.95
+    );
     momentum.current *= friction;
 
-    // console.log(scrollPosition.current);
+    if (Math.abs(momentum.current) < 0.0001) {
+      momentum.current = 0;
+    }
+
     // Smooth position update
     const targetY = scrollPosition.current;
     groupRef.current.position.y = THREE.MathUtils.lerp(
@@ -86,8 +97,9 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
     const worldPositions = new THREE.Vector3();
 
-    groupRef.current.children.forEach((plane) => {
+    groupRef.current.children.forEach((plane, idx) => {
       const planeWorldPosition = plane.getWorldPosition(worldPositions);
+      // update the momentum value
 
       if (planeWorldPosition.y > viewport.height / 2 + plane.scale.y / 2) {
         plane.position.y -= gridSize;
@@ -110,6 +122,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
           meshRefs={meshRefs}
           imgRefs={imgRefs}
           idx={idx}
+          momentum={momentum.current}
         />
       ))}
     </group>
