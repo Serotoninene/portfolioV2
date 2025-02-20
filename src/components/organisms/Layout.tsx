@@ -58,7 +58,7 @@ export const Layout = ({ children }: Props) => {
               shadows={true}
               eventSource={eventSource as MutableRefObject<HTMLDivElement>}
               key={location.pathname}
-              orthographic={true}
+              // orthographic={true}
             >
               <Lights />
               <Noise />

@@ -97,9 +97,13 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
     const worldPositions = new THREE.Vector3();
 
-    groupRef.current.children.forEach((plane, idx) => {
+    groupRef.current.children.forEach((plane) => {
       const planeWorldPosition = plane.getWorldPosition(worldPositions);
-      // update the momentum value
+
+      // update the momentum value in the shader
+      if (plane.material.uniforms && plane.material.uniforms.uMomentum) {
+        plane.material.uniforms.uMomentum.value = momentum.current;
+      }
 
       if (planeWorldPosition.y > viewport.height / 2 + plane.scale.y / 2) {
         plane.position.y -= gridSize;
