@@ -60,7 +60,6 @@ export const Layout = ({ children }: Props) => {
               key={location.pathname}
               orthographic={true}
             >
-              {/* <Perf position="top-left" /> */}
               <Lights />
               <Noise />
             </GlobalCanvas>
