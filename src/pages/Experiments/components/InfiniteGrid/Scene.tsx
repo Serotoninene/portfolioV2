@@ -1,0 +1,117 @@
+import { RefObject, useRef, useState, useEffect } from "react";
+import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
+
+import { ThreeVignette } from "./ThreeVignette";
+import { InfiniteGridProps } from "./index";
+import { useWindowSize } from "../../../../hooks";
+
+interface SceneProps extends InfiniteGridProps {
+  imgRefs: RefObject<HTMLDivElement[]>;
+}
+
+const getTrueGridHeight = (gridRef: RefObject<HTMLDivElement>) => {
+  if (!gridRef.current) return 0;
+
+  // Get all child elements
+  const children = Array.from(gridRef.current.children);
+
+  const minTop = children[0]?.getBoundingClientRect().top;
+  const maxBottom =
+    children[children.length - 1]?.getBoundingClientRect().bottom;
+
+  // True grid height based on the outermost child positions
+  return maxBottom - minTop;
+};
+
+export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
+  const groupRef = useRef<THREE.Group>(null);
+  const meshRefs = useRef<THREE.Mesh[]>([]);
+  const [gridSize, setGridSize] = useState(0);
+
+  const width = useWindowSize();
+
+  const scrollPosition = useRef(0);
+  const momentum = useRef(0);
+
+  useEffect(() => {
+    setGridSize(getTrueGridHeight(gridRef));
+  }, [gridRef, width]);
+
+  useEffect(() => {
+    // Positionning each mesh according to its dom counter part
+    imgRefs.current?.forEach((img, idx) => {
+      const { top, left, width, height } = img.getBoundingClientRect();
+      const x = left - window.innerWidth / 2 + width / 2;
+      const y = -top + window.innerHeight / 2 - height / 2;
+      meshRefs.current[idx]?.position.set(x, y, 0);
+      meshRefs.current[idx]?.scale.set(width, height, 1);
+    });
+  }, [meshRefs.current, width]);
+
+  const handleWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaX + e.deltaY;
+    scrollPosition.current += delta * 0.5; // Reduced from 0.001 to 0.0005
+    momentum.current = delta;
+  };
+
+  useEffect(() => {
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [groupRef, width]);
+
+  useFrame(({ viewport }, delta) => {
+    if (!groupRef.current) return;
+
+    // // Calculate scroll position with momentum
+    const scrollMultiplier =
+      Math.abs(momentum.current) > 0.1 ? delta / 32 : delta / 64;
+    scrollPosition.current += momentum.current * scrollMultiplier * 5;
+
+    // Dynamic friction calculation
+    const baseFriction = 0.1;
+    const speedFriction = 1 - Math.exp(-Math.abs(momentum.current));
+    const friction = Math.min(baseFriction + speedFriction * 0.1, 0.95);
+    momentum.current *= friction;
+
+    // console.log(scrollPosition.current);
+    // Smooth position update
+    const targetY = scrollPosition.current;
+    groupRef.current.position.y = THREE.MathUtils.lerp(
+      groupRef.current.position.y,
+      targetY,
+      0.1
+    );
+
+    const worldPositions = new THREE.Vector3();
+
+    groupRef.current.children.forEach((plane) => {
+      const planeWorldPosition = plane.getWorldPosition(worldPositions);
+
+      if (planeWorldPosition.y > viewport.height / 2 + plane.scale.y / 2) {
+        plane.position.y -= gridSize;
+      } else if (
+        planeWorldPosition.y <
+        -viewport.height / 2 - plane.scale.y / 2
+      ) {
+        plane.position.y += gridSize;
+      }
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {experimentsArray.map((experiment, idx: number) => (
+        <ThreeVignette
+          key={experiment.slug}
+          img={experiment.img}
+          slug={experiment.slug}
+          meshRefs={meshRefs}
+          imgRefs={imgRefs}
+          idx={idx}
+        />
+      ))}
+    </group>
+  );
+};
