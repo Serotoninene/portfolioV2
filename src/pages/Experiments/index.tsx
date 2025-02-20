@@ -151,13 +151,6 @@ const InfiniteGrid = ({ experimentsArray, gridRef }) => {
   const imgRefs = useRef<HTMLDivElement[]>([]);
   const { setCursorStyle } = useCursorStore();
   const { hasSmoothScrollbar } = useScrollRig();
-  const navigate = useNavigate();
-
-  const handleClick = (slug) => {
-    if (slug) {
-      navigate(`/experiments/${slug}`);
-    }
-  };
 
   return (
     <>
@@ -171,9 +164,8 @@ const InfiniteGrid = ({ experimentsArray, gridRef }) => {
             }}
             key={experiment.slug}
             className="relative w-full aspect-square object-cover"
-            onMouseEnter={() => setCursorStyle("pointer")}
-            onMouseLeave={() => setCursorStyle("default")}
-            onClick={() => handleClick(experiment.slug)}
+            // onMouseEnter={() => setCursorStyle("pointer")}
+            // onMouseLeave={() => setCursorStyle("default")}
             style={{
               gridColumn,
               marginTop,
@@ -181,7 +173,10 @@ const InfiniteGrid = ({ experimentsArray, gridRef }) => {
           >
             <img
               className="w-full aspect-square object-cover"
-              style={{ opacity: hasSmoothScrollbar ? 0.1 : 1 }}
+              style={{
+                opacity: hasSmoothScrollbar ? 0 : 1,
+                pointerEvents: hasSmoothScrollbar ? "none" : "auto",
+              }}
               src={experiment.img}
             />
           </div>
@@ -283,6 +278,7 @@ const Scene = ({ experimentsArray, imgRefs, gridRef }) => {
         <ThreeVignette
           key={experiment.slug}
           img={experiment.img}
+          slug={experiment.slug}
           meshRefs={meshRefs}
           imgRefs={imgRefs}
           idx={idx}
@@ -292,8 +288,17 @@ const Scene = ({ experimentsArray, imgRefs, gridRef }) => {
   );
 };
 
-const ThreeVignette = ({ img, meshRefs, imgRefs, idx }) => {
+const ThreeVignette = ({ slug, img, meshRefs, imgRefs, idx }) => {
   const texture = useTexture(img) as THREE.Texture;
+  const { setCursorStyle } = useCursorStore();
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (slug) {
+      navigate(`/experiments/${slug}`);
+    }
+  };
 
   const uniforms = useMemo(
     () => ({
@@ -316,6 +321,9 @@ const ThreeVignette = ({ img, meshRefs, imgRefs, idx }) => {
       ref={(e) => {
         meshRefs.current[idx] = e;
       }}
+      onPointerEnter={() => setCursorStyle("pointer")}
+      onPointerLeave={() => setCursorStyle("default")}
+      onClick={handleClick}
     >
       <planeGeometry args={[1, 1, 4, 4]} />
       <shaderMaterial
