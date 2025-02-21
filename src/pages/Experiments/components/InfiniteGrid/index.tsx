@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../../../hooks";
 import { useCursorStore } from "../../../../store/useCursorStyle";
 
-import { Scene } from "./Scene";
 import { Experiment } from "../../experimentsData";
+import { Scene } from "./Scene";
 
 const getGridPosition = (idx: number, width: number | undefined) => {
   let gridColumn = "";

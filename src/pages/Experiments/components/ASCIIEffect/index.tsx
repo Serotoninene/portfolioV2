@@ -9,7 +9,7 @@ import { EffectComposer } from "@react-three/postprocessing";
 
 import { useTouchTexture } from "../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../hooks";
-import { ASCIIPost } from "../../../../components/three/ASCIIPost";
+import { ASCIIPost } from "../../../../components/three/PostProcessing/ASCIIPost";
 
 function MoaiStatue() {
   const moai = useGLTF(

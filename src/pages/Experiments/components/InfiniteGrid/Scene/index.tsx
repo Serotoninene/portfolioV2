@@ -1,11 +1,14 @@
-import { RefObject, useRef, useState, useEffect } from "react";
-import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
 
-import { ThreeVignette } from "./ThreeVignette";
-import { InfiniteGridProps } from "./index";
-import { useWindowSize } from "../../../../hooks";
+import { EffectComposer } from "@react-three/postprocessing";
 import gsap, { Power3 } from "gsap";
+import { InfiniteGridProps } from "..";
+import { ASCIIPost } from "../../../../../components/three/PostProcessing/ASCIIPost";
+import { useWindowSize } from "../../../../../hooks";
+import { ThreeVignette } from "../ThreeVignette";
+import { useScrollEvents } from "./hooks/useInfiniteScroll";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
@@ -35,12 +38,11 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
   const width = useWindowSize();
 
-  const scrollPosition = useRef(0);
-  const momentum = useRef(0);
-
   useEffect(() => {
     setGridSize(getTrueGridHeight(gridRef));
   }, [gridRef, width]);
+
+  const { momentum, scrollPosition } = useScrollEvents();
 
   useEffect(() => {
     // Positionning each mesh according to its dom counter part
@@ -53,54 +55,13 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
     });
   }, [meshRefs.current, width]);
 
-  const handleWheel = (e: WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaX + e.deltaY;
-    scrollPosition.current += delta * 0.5; // Reduced from 0.001 to 0.0005
-    momentum.current = delta;
-  };
-
-  let touchStartY = 0;
-  let touchStartX = 0;
-
-  const handleTouchStart = (e: TouchEvent) => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
-    const deltaY = touchStartY - e.touches[0].clientY;
-    const deltaX = touchStartX - e.touches[0].clientX;
-
-    const delta = deltaY + deltaX; // Combine both directions for smooth scrolling
-    scrollPosition.current += delta;
-    momentum.current = delta;
-
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-  };
-
   useEffect(() => {
     gsap.from(momentum, {
       current: 250,
-
       duration: 2,
       ease: Power3.easeOut,
     });
   }, []);
-
-  useEffect(() => {
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart, { passive: false });
-    window.addEventListener("touchmove", handleTouchMove, { passive: false });
-
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, [groupRef, width]);
 
   // Scroll variables
   const scrollSpeedFactor = 1000;
@@ -163,19 +124,28 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
     });
   });
 
+  // Post processing effect
+  const asciiEffect = useMemo(() => new ASCIIPost({}), []);
+
   return (
-    <group ref={groupRef}>
-      {experimentsArray.map((experiment, idx: number) => (
-        <ThreeVignette
-          key={experiment.slug}
-          img={experiment.img}
-          slug={experiment.slug}
-          meshRefs={meshRefs}
-          imgRefs={imgRefs}
-          idx={idx}
-          momentum={momentum.current}
-        />
-      ))}
-    </group>
+    <>
+      <group ref={groupRef}>
+        {experimentsArray.map((experiment, idx: number) => (
+          <ThreeVignette
+            key={experiment.slug}
+            img={experiment.img}
+            slug={experiment.slug}
+            meshRefs={meshRefs}
+            imgRefs={imgRefs}
+            idx={idx}
+            momentum={momentum.current}
+          />
+        ))}
+      </group>
+      <EffectComposer>
+        {/* <Bloom /> */}
+        <primitive object={asciiEffect} />
+      </EffectComposer>
+    </>
   );
 };
