@@ -2,7 +2,6 @@ import { useFrame } from "@react-three/fiber";
 import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
-import { EffectComposer } from "@react-three/postprocessing";
 import gsap, { Power3 } from "gsap";
 import { InfiniteGridProps } from "..";
 import { MixColorPost } from "../../../../../components/three/PostProcessing/MixColorPost";
@@ -59,10 +58,16 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
   }, [meshRefs.current, width]);
 
   useEffect(() => {
-    gsap.from(momentum, {
-      current: 250,
-      duration: 2,
+    const dummyValue = { value: 0 };
+
+    gsap.to(dummyValue, {
+      value: 1,
+      duration: 1,
+      delay: 2,
       ease: Power3.easeOut,
+      onUpdate: () => {
+        mixColorPostEffect.updateintroProcess(dummyValue.value);
+      },
     });
   }, []);
 
@@ -145,9 +150,9 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
           />
         ))}
       </group>
-      <EffectComposer disableNormalPass multisampling={8}>
+      {/* <EffectComposer disableNormalPass multisampling={8}>
         <primitive object={mixColorPostEffect} />
-      </EffectComposer>
+      </EffectComposer> */}
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import { Perf } from "r3f-perf";
 import React, { MutableRefObject, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Menu } from ".";
@@ -59,12 +58,12 @@ export const Layout = ({ children }: Props) => {
             {children}
             <GlobalCanvas
               shadows={true}
-              globalRender={pathname === "/experiments/" ? false : true}
+              globalRender={pathname === "/experiments" ? false : true}
               eventSource={eventSource as MutableRefObject<HTMLDivElement>}
               key={location.pathname}
               orthographic={pathname === "/" ? true : false}
             >
-              <Perf position="top-left" />
+              {/* <Perf position="top-left" /> */}
               <Lights />
               <Noise />
             </GlobalCanvas>
