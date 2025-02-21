@@ -1,11 +1,12 @@
 import { UseCanvas, useScrollRig } from "@14islands/r3f-scroll-rig";
-import { RefObject, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Experiment } from "../../index";
-import { Scene } from "./Scene";
-import { useCursorStore } from "../../../../store/useCursorStyle";
 import { useWindowSize } from "../../../../hooks";
+import { useCursorStore } from "../../../../store/useCursorStyle";
+
+import { Scene } from "./Scene";
+import { Experiment } from "../../experimentsData";
 
 const getGridPosition = (idx: number, width: number | undefined) => {
   let gridColumn = "";
@@ -31,7 +32,6 @@ const getGridPosition = (idx: number, width: number | undefined) => {
     marginTop = "206px";
   }
 
-  console.log(width);
   if (width && width < 768) {
     gridColumn = "span 6";
     marginTop = "0";

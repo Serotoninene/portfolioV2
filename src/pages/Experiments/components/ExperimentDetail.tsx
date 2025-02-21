@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { experimentsData } from "..";
+import { experimentsData } from "../experimentsData";
 
 const ExperimentDetail = () => {
   const { id } = useParams<{ id: string }>();

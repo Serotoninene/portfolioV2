@@ -9,6 +9,7 @@ import gsap, { Power3 } from "gsap";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
+  gridRef: RefObject<HTMLDivElement>;
 }
 
 const getTrueGridHeight = (gridRef: RefObject<HTMLDivElement>) => {
@@ -110,24 +111,26 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
     const worldPositions = new THREE.Vector3();
 
     groupRef.current.children.forEach((plane) => {
+      const mesh = plane as THREE.Mesh;
+      const material = mesh.material as THREE.ShaderMaterial;
       const planeWorldPosition = plane.getWorldPosition(worldPositions);
 
       // update the momentum value in the shader
-      if (plane.material.uniforms && plane.material.uniforms.uMomentum) {
-        plane.material.uniforms.uMomentum.value = THREE.MathUtils.lerp(
-          plane.material.uniforms.uMomentum.value,
+      if (material.uniforms && material.uniforms.uMomentum) {
+        material.uniforms.uMomentum.value = THREE.MathUtils.lerp(
+          material.uniforms.uMomentum.value,
           momentum.current,
           0.1
         );
       }
 
-      if (planeWorldPosition.y > viewport.height / 2 + plane.scale.y / 2) {
-        plane.position.y -= gridSize + GAP_SIZE;
+      if (planeWorldPosition.y > viewport.height / 2 + mesh.scale.y / 2) {
+        mesh.position.y -= gridSize + GAP_SIZE;
       } else if (
         planeWorldPosition.y <
-        -viewport.height / 2 - plane.scale.y / 2
+        -viewport.height / 2 - mesh.scale.y / 2
       ) {
-        plane.position.y += gridSize + GAP_SIZE;
+        mesh.position.y += gridSize + GAP_SIZE;
       }
     });
   });
