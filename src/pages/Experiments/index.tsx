@@ -18,7 +18,7 @@ export interface Experiment {
   component: React.ComponentType;
 }
 
-export const experimentsData: Record<string, Experiment> = {
+export let experimentsData: Record<string, Experiment> = {
   refraction_glass: {
     title: "Refraction glass",
     slug: "refraction_glass",
@@ -69,12 +69,55 @@ export const experimentsData: Record<string, Experiment> = {
   },
 };
 
+const photos = [
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBlwPBMTXEYlhq87yGp6ZoMIQC4zc2rFA3VKv",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGKyxb8d6gsn8bwcJy3NrxkXYj50qdQMuHAezP",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUqquHcgFnTS31BKxvozY6Rc9XiAEC07r524V",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGYVCOupfF8qru3tcXjlnCQmdbZk7yAgeLp9Mi",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGWcJUdQesCIJkYwz1KcmFb3dGRgW9o7eEjMh5",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkG0QXAwcmT4CVNbjW2tH8verwLfU1BF7iPYyqX",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGio5YOOPiPrmf1A6ZJzpKuwSvakosCneUBXyH",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGkzYa8DZKBuRdcW7DSvIfnP8oU9qYVjML0wlx",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkG1DSlWkrSuEeAlhHfvPGa2zj6Xmgc3DTrp48Z",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGbMm7fRLpjezkPh5QtSomWBabXMwRUcdNKxVT",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGQpEeLAcXxy3LjqpuHb6m7GfiwIBaWSevTOc9",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGZhbwjKEGN9CJye1onf27hS8viYKRxF3LagXq",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGihb4FDPiPrmf1A6ZJzpKuwSvakosCneUBXyH",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkG6BE7iqaCc0AWbg7XQNGh5rYpPy3HzZ4jeDnK",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGHIgHVUyN3jaIWxDC7Qdio5czvrmbwtKSYeq6",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkG8jqVNQvyKrt0p6Imjg41sUn7OSadlYDvWhEV",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGhrjq7CzJxvWinK18Uar9tDYMRGzFsybum3XZ",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGPbseOlxB1RqTnNFd5t9IskZDfWGgh3Axue0i",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUgPswjFnTS31BKxvozY6Rc9XiAEC07r524Vy",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUMwyuiFnTS31BKxvozY6Rc9XiAEC07r524Vy",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGPdhsQGbxB1RqTnNFd5t9IskZDfWGgh3Axue0",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAFrm4ordHpEckhiwbCf52orVMZau8P6dBOQz",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXntgd45f1OuCjGxsiovyYSkHE5be2Rp7Z3I4",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGGBrepFWpKtZaehzdVbw3L9Mc2xsjfXInr1Sk",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGX9cSjl5f1OuCjGxsiovyYSkHE5be2Rp7Z3I4",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGTphvODQMEmWIjKoDvpOiat3Rq42fJL1dCuSw",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGQKUyKMXxy3LjqpuHb6m7GfiwIBaWSevTOc9R",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAMzsMwdHpEckhiwbCf52orVMZau8P6dBOQzY",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXkodMuJ5f1OuCjGxsiovyYSkHE5be2Rp7Z3I",
+];
+
+// experimentsData = [];
+
+// photos.forEach((photo, idx) => {
+//   const content = {
+//     title: "Normal Map Magic",
+//     slug: "normal_light_effect" + idx,
+//     img: photo,
+//     component: NormalLightEffect,
+//   };
+//   experimentsData[idx] = content;
+// });
+
 export const experimentsArray = Object.values(experimentsData);
 
 // ============================== Components ==============================
 const Experiments = () => {
-  const gridRef = useRef<HTMLDivElement>(null);
-
   return (
     <div className="relative z-20 text-black py-10 px-5 h-screen overflow-hidden">
       {/* <div className="pt-40 grid grid-cols-8 gap-5 mb-40">
@@ -88,12 +131,7 @@ const Experiments = () => {
         </p>
       </div> */}
 
-      <div
-        ref={gridRef}
-        className={`grid grid-cols-12 auto-rows-auto  pt-10 gap-5`}
-      >
-        <InfiniteGrid experimentsArray={experimentsArray} gridRef={gridRef} />
-      </div>
+      <InfiniteGrid experimentsArray={experimentsArray} />
     </div>
   );
 };

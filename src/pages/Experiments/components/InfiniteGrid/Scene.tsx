@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { ThreeVignette } from "./ThreeVignette";
 import { InfiniteGridProps } from "./index";
 import { useWindowSize } from "../../../../hooks";
+import gsap, { Power3 } from "gsap";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
@@ -23,6 +24,8 @@ const getTrueGridHeight = (gridRef: RefObject<HTMLDivElement>) => {
   // True grid height based on the outermost child positions
   return maxBottom - minTop;
 };
+
+const GAP_SIZE = 20;
 
 export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
   const groupRef = useRef<THREE.Group>(null);
@@ -55,6 +58,15 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
     scrollPosition.current += delta * 0.5; // Reduced from 0.001 to 0.0005
     momentum.current = delta;
   };
+
+  useEffect(() => {
+    gsap.from(momentum, {
+      current: 250,
+
+      duration: 2,
+      ease: Power3.easeOut,
+    });
+  }, []);
 
   useEffect(() => {
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -102,16 +114,20 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
       // update the momentum value in the shader
       if (plane.material.uniforms && plane.material.uniforms.uMomentum) {
-        plane.material.uniforms.uMomentum.value = momentum.current;
+        plane.material.uniforms.uMomentum.value = THREE.MathUtils.lerp(
+          plane.material.uniforms.uMomentum.value,
+          momentum.current,
+          0.1
+        );
       }
 
       if (planeWorldPosition.y > viewport.height / 2 + plane.scale.y / 2) {
-        plane.position.y -= gridSize;
+        plane.position.y -= gridSize + GAP_SIZE;
       } else if (
         planeWorldPosition.y <
         -viewport.height / 2 - plane.scale.y / 2
       ) {
-        plane.position.y += gridSize;
+        plane.position.y += gridSize + GAP_SIZE;
       }
     });
   });

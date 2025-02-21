@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Experiment } from "../../index";
 import { Scene } from "./Scene";
 import { useCursorStore } from "../../../../store/useCursorStyle";
+import { useWindowSize } from "../../../../hooks";
 
-const getGridPosition = (idx: number) => {
+const getGridPosition = (idx: number, width: number | undefined) => {
   let gridColumn = "";
   let marginTop = "";
 
@@ -30,20 +31,28 @@ const getGridPosition = (idx: number) => {
     marginTop = "206px";
   }
 
+  console.log(width);
+  if (width && width < 768) {
+    gridColumn = "span 6";
+    marginTop = "0";
+  }
+  if (width && width < 640) {
+    gridColumn = "span 12";
+    marginTop = "0";
+  }
+
   return { gridColumn, marginTop };
 };
 
 export interface InfiniteGridProps {
   experimentsArray: Experiment[];
-  gridRef: RefObject<HTMLDivElement>;
 }
 
-export const InfiniteGrid = ({
-  experimentsArray,
-  gridRef,
-}: InfiniteGridProps) => {
+export const InfiniteGrid = ({ experimentsArray }: InfiniteGridProps) => {
+  const gridRef = useRef<HTMLDivElement>(null);
   const imgRefs = useRef<HTMLDivElement[]>([]);
   const { hasSmoothScrollbar } = useScrollRig();
+  const size = useWindowSize();
 
   const { setCursorStyle } = useCursorStore();
 
@@ -56,9 +65,12 @@ export const InfiniteGrid = ({
   };
 
   return (
-    <>
+    <div
+      ref={gridRef}
+      className={`grid grid-cols-12 auto-rows-auto pt-10 gap-5`}
+    >
       {experimentsArray.map((experiment, idx) => {
-        const { gridColumn, marginTop } = getGridPosition(idx);
+        const { gridColumn, marginTop } = getGridPosition(idx, size.width);
         return (
           <div
             id={experiment.slug}
@@ -66,7 +78,7 @@ export const InfiniteGrid = ({
               if (e) imgRefs.current[idx] = e;
             }}
             key={experiment.slug}
-            className="relative w-full aspect-square object-cover"
+            className="relative w-full aspect-square object-cover opacity-0"
             onClick={() => handleClick(experiment.slug)}
             onMouseEnter={() => {
               if (!hasSmoothScrollbar) return;
@@ -79,12 +91,12 @@ export const InfiniteGrid = ({
             style={{
               gridColumn,
               marginTop,
+              marginBottom: idx === experimentsArray.length - 1 ? "20px" : 0,
             }}
           >
             <img
               className="w-full h-full object-cover"
               style={{
-                opacity: hasSmoothScrollbar ? 0 : 1,
                 pointerEvents: hasSmoothScrollbar ? "none" : "auto",
               }}
               src={experiment.img}
@@ -100,6 +112,6 @@ export const InfiniteGrid = ({
           gridRef={gridRef}
         />
       </UseCanvas>
-    </>
+    </div>
   );
 };

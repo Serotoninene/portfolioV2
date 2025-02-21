@@ -1,13 +1,12 @@
+import { useTexture } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
-import { shaderMaterial, useTexture } from "@react-three/drei";
 
-import { useControls } from "leva";
 import { useCursorStore } from "../../../../store/useCursorStyle";
 
-import vertex from "./shader/vertex.glsl";
 import fragment from "./shader/fragment.glsl";
+import vertex from "./shader/vertex.glsl";
 
 export const ThreeVignette = ({
   slug,
@@ -29,26 +28,30 @@ export const ThreeVignette = ({
     }
   };
 
-  useControls({
-    intensity: {
-      value: 45,
-      min: 1,
-      max: 100,
-      step: 0.1,
-      onChange: (e) => {
-        if (shaderRef.current) shaderRef.current.uniforms.uIntensity.value = e;
-      },
-    },
-    speed: {
-      value: 0.005,
-      min: 0,
-      max: 1,
-      step: 0.001,
-      onChange: (e) => {
-        if (shaderRef.current) shaderRef.current.uniforms.uSpeed.value = e;
-      },
-    },
-  });
+  // const controls = useControls({
+  //   intensity: {
+  //     value: 45,
+  //     min: 1,
+  //     max: 100,
+  //     step: 0.1,
+  //     onChange: (e) => {
+  //       if (shaderRef.current) shaderRef.current.uniforms.uIntensity.value = e;
+  //     },
+  //   },
+  //   speed: {
+  //     value: 0.005,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.001,
+  //     onChange: (e) => {
+  //       if (shaderRef.current) shaderRef.current.uniforms.uSpeed.value = e;
+  //     },
+  //   },
+  // });
+
+  // useEffect(() => {
+  //   console.log(controls);
+  // }, []);
 
   const uniforms = useMemo(
     () => ({
@@ -70,7 +73,7 @@ export const ThreeVignette = ({
         value: 45,
       },
       uSpeed: {
-        value: 0.2,
+        value: 0.005,
       },
     }),
     []
