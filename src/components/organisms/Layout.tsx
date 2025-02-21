@@ -1,6 +1,8 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import React, { MutableRefObject, useMemo, useRef } from "react";
+import { Perf } from "r3f-perf";
+import React, { MutableRefObject, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useMediaQuery } from "../../hooks";
@@ -8,10 +10,6 @@ import { useColorContext } from "../../hooks/useColorContext";
 import { CustomCursor, Navbar } from "../molecules";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
-import { Perf } from "r3f-perf";
-import { EffectComposer } from "@react-three/postprocessing";
-import { MixColorPost } from "../three/PostProcessing/MixColorPost";
-import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
   children: React.ReactNode;
@@ -61,6 +59,7 @@ export const Layout = ({ children }: Props) => {
             {children}
             <GlobalCanvas
               shadows={true}
+              globalRender={pathname === "/experiments/" ? false : true}
               eventSource={eventSource as MutableRefObject<HTMLDivElement>}
               key={location.pathname}
               orthographic={pathname === "/" ? true : false}

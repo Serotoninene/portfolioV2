@@ -1,4 +1,4 @@
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -38,6 +38,9 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
   const width = useWindowSize();
 
+  // Post processing effect
+  const mixColorPostEffect = useMemo(() => new MixColorPost(), []);
+
   useEffect(() => {
     setGridSize(getTrueGridHeight(gridRef));
   }, [gridRef, width]);
@@ -67,7 +70,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
   const scrollSpeedFactor = 1000;
   const momentumDamping = 0.9; // Higher value = more momentum (slower stop)
 
-  useFrame(({ viewport }, delta) => {
+  useFrame(({ viewport, clock }, delta) => {
     if (!groupRef.current) return;
 
     // // Calculate scroll position with momentum
@@ -122,10 +125,11 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
         mesh.position.y += gridSize + GAP_SIZE;
       }
     });
-  });
 
-  // Post processing effect
-  const mixColorPostEffect = useMemo(() => new MixColorPost(), []);
+    // Handling the postprocessing
+    mixColorPostEffect.updateTime(clock.getElapsedTime());
+    mixColorPostEffect.updateMomentum(momentum.current);
+  });
 
   return (
     <>
@@ -141,7 +145,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
           />
         ))}
       </group>
-      <EffectComposer>
+      <EffectComposer disableNormalPass multisampling={8}>
         <primitive object={mixColorPostEffect} />
       </EffectComposer>
     </>
