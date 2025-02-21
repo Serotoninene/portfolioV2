@@ -5,6 +5,7 @@ import { Flip } from "gsap/Flip";
 
 import { useCursorStore } from "../../../store/useCursorStyle";
 import { splitWords } from "../../../utils";
+import { useWindowSize } from "../../../hooks";
 
 gsap.registerPlugin(Flip);
 
@@ -14,6 +15,7 @@ export const CustomCursor = () => {
   const leftParenthesis = useRef<HTMLSpanElement>(null);
   const rightParenthesis = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement[]>([]);
+  const { width } = useWindowSize();
   const { cursorStyle, cursorText } = useCursorStore();
 
   const offset = cursorStyle === "pointer" ? 32 : 2;
@@ -54,7 +56,7 @@ export const CustomCursor = () => {
       ref={cursor}
       className="fixed top-0 left-0 aspect-square rounded-full mix-blend-difference pointer-events-none z-50"
       style={{
-        opacity: cursorStyle === "none" ? 0 : 1,
+        opacity: cursorStyle === "none" || width! < 768 ? 0 : 1,
         border: cursorStyle === "text" ? "none" : "2px solid white",
       }}
     >
