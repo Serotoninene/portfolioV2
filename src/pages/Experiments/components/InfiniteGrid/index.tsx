@@ -1,5 +1,5 @@
-import { UseCanvas, useScrollRig } from "@14islands/r3f-scroll-rig";
 import { useRef } from "react";
+import { UseCanvas, useScrollRig } from "@14islands/r3f-scroll-rig";
 import { useNavigate } from "react-router-dom";
 
 import { useWindowSize } from "../../../../hooks";

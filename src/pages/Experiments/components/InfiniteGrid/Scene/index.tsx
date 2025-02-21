@@ -1,11 +1,11 @@
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 import { EffectComposer } from "@react-three/postprocessing";
 import gsap, { Power3 } from "gsap";
 import { InfiniteGridProps } from "..";
-import { ASCIIPost } from "../../../../../components/three/PostProcessing/ASCIIPost";
+import { MixColorPost } from "../../../../../components/three/PostProcessing/MixColorPost";
 import { useWindowSize } from "../../../../../hooks";
 import { ThreeVignette } from "../ThreeVignette";
 import { useScrollEvents } from "./hooks/useInfiniteScroll";
@@ -125,7 +125,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
   });
 
   // Post processing effect
-  const asciiEffect = useMemo(() => new ASCIIPost({}), []);
+  const mixColorPostEffect = useMemo(() => new MixColorPost(), []);
 
   return (
     <>
@@ -138,13 +138,11 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
             meshRefs={meshRefs}
             imgRefs={imgRefs}
             idx={idx}
-            momentum={momentum.current}
           />
         ))}
       </group>
       <EffectComposer>
-        {/* <Bloom /> */}
-        <primitive object={asciiEffect} />
+        <primitive object={mixColorPostEffect} />
       </EffectComposer>
     </>
   );
