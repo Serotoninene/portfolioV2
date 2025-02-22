@@ -75,11 +75,14 @@ export const ThreeVignette = ({ slug, img, meshRefs, imgRefs, idx }) => {
   return (
     <mesh
       ref={(e) => {
-        meshRefs.current[idx] = e;
+        if (e) meshRefs.current[idx] = e;
       }}
-      onPointerEnter={() => setCursorStyle("pointer")}
+      onPointerEnter={() => {
+        setCursorStyle("pointer");
+        console.log(slug);
+      }}
       onPointerLeave={() => setCursorStyle("default")}
-      onClick={handleClick}
+      onPointerDown={handleClick}
     >
       <planeGeometry args={[1, 1, 32, 32]} />
       <shaderMaterial
@@ -87,6 +90,7 @@ export const ThreeVignette = ({ slug, img, meshRefs, imgRefs, idx }) => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
+        depthWrite={true}
       />
     </mesh>
   );

@@ -8,6 +8,7 @@ import { MixColorPost } from "../../../../../components/three/PostProcessing/Mix
 import { useWindowSize } from "../../../../../hooks";
 import { ThreeVignette } from "../ThreeVignette";
 import { useScrollEvents } from "./hooks/useInfiniteScroll";
+import { EffectComposer } from "@react-three/postprocessing";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
@@ -150,9 +151,9 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
           />
         ))}
       </group>
-      {/* <EffectComposer disableNormalPass multisampling={8}>
+      <EffectComposer disableNormalPass multisampling={8}>
         <primitive object={mixColorPostEffect} />
-      </EffectComposer> */}
+      </EffectComposer>
     </>
   );
 };

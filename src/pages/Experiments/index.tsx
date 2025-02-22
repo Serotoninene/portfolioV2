@@ -1,7 +1,12 @@
 import { InfiniteGrid } from "./components/InfiniteGrid";
 import { experimentsArray } from "./experimentsData";
 
-// ============================== Components ==============================
+// TO DO
+// [] Set up a a back button on the experiment page
+// [] Integrate the experimentation text on the page
+// []
+// []
+
 const Experiments = () => {
   return (
     <div className="relative z-20 text-black py-10 px-5 h-screen overflow-hidden">

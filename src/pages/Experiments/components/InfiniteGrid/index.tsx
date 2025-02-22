@@ -67,7 +67,7 @@ export const InfiniteGrid = ({ experimentsArray }: InfiniteGridProps) => {
   return (
     <div
       ref={gridRef}
-      className={`grid grid-cols-12 auto-rows-auto pt-10 gap-5`}
+      className={`grid grid-cols-12 auto-rows-auto pt-10 gap-5 pointer-events-none`}
     >
       {experimentsArray.map((experiment, idx) => {
         const { gridColumn, marginTop } = getGridPosition(idx, size.width);
