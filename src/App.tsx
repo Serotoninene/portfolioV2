@@ -5,7 +5,7 @@ import { Layout } from "./components/organisms";
 import { ColorProvider } from "./contexts/ColorContext";
 import Experiments from "./pages/Experiments";
 import Homepage from "./pages/Homepage";
-import ExperimentDetail from "./pages/Experiments/components/ExperimentDetail";
+import ExperimentLayout from "./pages/Experiments/components/ExperimentLayout";
 
 type Props = {
   component: React.ReactNode;
@@ -30,7 +30,7 @@ function App() {
     },
     {
       path: "/experiments/:id",
-      element: <WithLayout component={<ExperimentDetail />} />,
+      element: <WithLayout component={<ExperimentLayout />} />,
     },
   ]);
 

@@ -10,7 +10,7 @@ const BackButton = () => {
   );
 };
 
-const ExperimentDetail = () => {
+const ExperimentLayout = () => {
   const { id } = useParams<{ id: string }>();
 
   if (!id || !experimentsData[id]) {
@@ -32,4 +32,4 @@ const ExperimentDetail = () => {
   );
 };
 
-export default ExperimentDetail;
+export default ExperimentLayout;
