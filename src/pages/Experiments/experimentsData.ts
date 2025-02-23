@@ -102,14 +102,14 @@ const photos = [
   "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGHIgHVUyN3jaIWxDC7Qdio5czvrmbwtKSYeq6",
 ];
 
-photos.forEach((photo, idx) => {
-  const content = {
-    title: "Normal Map Magic",
-    slug: "normal_light_effect" + idx,
-    img: photo,
-    component: NormalLightEffect,
-  };
-  experimentsData[idx] = content;
-});
+// photos.forEach((photo, idx) => {
+//   const content = {
+//     title: "Normal Map Magic",
+//     slug: "normal_light_effect" + idx,
+//     img: photo,
+//     component: NormalLightEffect,
+//   };
+//   experimentsData[idx] = content;
+// });
 
 export const experimentsArray = Object.values(experimentsData);

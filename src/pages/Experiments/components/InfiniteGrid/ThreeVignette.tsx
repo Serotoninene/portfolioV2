@@ -79,10 +79,9 @@ export const ThreeVignette = ({ slug, img, meshRefs, imgRefs, idx }) => {
       }}
       onPointerEnter={() => {
         setCursorStyle("pointer");
-        console.log(slug);
       }}
       onPointerLeave={() => setCursorStyle("default")}
-      onPointerDown={handleClick}
+      onClick={handleClick}
     >
       <planeGeometry args={[1, 1, 32, 32]} />
       <shaderMaterial
