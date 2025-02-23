@@ -9,6 +9,7 @@ import { useWindowSize } from "../../../../../hooks";
 import { ThreeVignette } from "../ThreeVignette";
 import { useScrollEvents } from "./hooks/useInfiniteScroll";
 import { EffectComposer } from "@react-three/postprocessing";
+import { AnimatedText3D } from "../../../../../components/three/AnimatedText3D";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
@@ -63,7 +64,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
     gsap.to(dummyValue, {
       value: 1,
-      duration: 1,
+      duration: 0.5,
       delay: 2,
       ease: Power3.easeOut,
       onUpdate: () => {
@@ -139,6 +140,9 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
   return (
     <>
+      <AnimatedText3D color="#000" size={64} position={[0, 0, -500]}>
+        EXPERIMENTS
+      </AnimatedText3D>
       <group ref={groupRef}>
         {experimentsArray.map((experiment, idx: number) => (
           <ThreeVignette

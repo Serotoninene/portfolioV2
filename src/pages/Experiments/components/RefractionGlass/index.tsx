@@ -6,7 +6,7 @@ import { OrbitControls, useFBO } from "@react-three/drei";
 import vertexShader from "./shader/vertex.glsl";
 import fragmentShader from "./shader/fragment.glsl";
 import { useControls } from "leva";
-import { AnimatedText3D } from "../AnimatedText3D";
+import { AnimatedCurvedText3D } from "../../../../components/three/AnimatedCurvedText3D";
 
 interface RefractionMeshProps {
   children: React.ReactNode;
@@ -127,9 +127,9 @@ const Scene = () => {
       <RefractionMesh position={[0, 0, 0]} scale={2.5}>
         <sphereGeometry args={[1, 32, 32]} />
       </RefractionMesh>
-      <AnimatedText3D color="#000" radius={2.7}>
+      <AnimatedCurvedText3D color="#000" radius={2.7}>
         Dispersion Dispersion Dispersion
-      </AnimatedText3D>
+      </AnimatedCurvedText3D>
       <mesh scale={2.3}>
         <icosahedronGeometry />
         <meshStandardMaterial color={"black"} />

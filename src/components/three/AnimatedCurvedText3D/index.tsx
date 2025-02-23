@@ -7,7 +7,7 @@ import * as THREE from "three";
 import fragmentShader from "./shader/fragment.glsl";
 import vertexShader from "./shader/vertex.glsl";
 
-interface AnimatedText3DProps {
+interface AnimatedCurvedText3DProps {
   color: string;
   children: string;
   position?: [number, number, number];
@@ -15,13 +15,13 @@ interface AnimatedText3DProps {
   radius?: number;
 }
 
-export const AnimatedText3D = ({
+export const AnimatedCurvedText3D = ({
   color = "fff",
   children = "",
   position = [0, 0, 0],
   size = 1,
   radius = 3.14,
-}: AnimatedText3DProps) => {
+}: AnimatedCurvedText3DProps) => {
   const groupRef = useRef<THREE.Group>(null);
   const textRef = useRef<THREE.Mesh>(null);
   const tl = useRef<gsap.core.Timeline>(gsap.timeline());
@@ -59,7 +59,7 @@ export const AnimatedText3D = ({
     });
   }, [tl.current]);
 
-  useFrame(({}, delta) => {
+  useFrame((_, delta) => {
     if (groupRef.current) groupRef.current.rotation.y += delta * 0.1;
   });
 
