@@ -3,8 +3,9 @@ import { experimentsArray } from "./experimentsData";
 
 // TO DO
 // [X] Integrate the experimentation text on the page
-// [] Set up a a back button on the experiment page
-// [] Activate the nav buttons in the menu
+// [X] Set up a a back button on the experiment page
+// [X] Activate the nav buttons in the menu
+// [] revoir tout le système de couleurs là
 // [] check the mobile version
 
 const Experiments = () => {
