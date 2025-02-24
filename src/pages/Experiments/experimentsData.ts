@@ -6,6 +6,7 @@ import {
 } from "./components";
 import { ASCIIEffect } from "./components/ASCIIEffect";
 import { BlurEffect } from "./components/BlurEffect";
+import { MotoyoshiInfiniteGrid } from "./components/MotoyoshiInfiniteGrid";
 import { NormalLightEffect } from "./components/NormalLightEffect";
 import { RefractionGlass } from "./components/RefractionGlass";
 
@@ -22,6 +23,12 @@ export const experimentsData: Record<string, Experiment> = {
     slug: "refraction_glass",
     img: "https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1F6uI4xiWqLth0PVgZ6I23nKNypzWGrbxJDkvj",
     component: RefractionGlass,
+  },
+  motoyoshi_infinite_grid: {
+    title: "Motoyoshi's infinite grid",
+    slug: "motoyoshi_infinite_grid",
+    img: "https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1FBLEQhhNwMeQfYuL7xG5lmpC4VbRJD8SIriq3",
+    component: MotoyoshiInfiniteGrid,
   },
   ascii_effect: {
     title: "ASCII Effect",
