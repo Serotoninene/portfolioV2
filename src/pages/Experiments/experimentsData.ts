@@ -1,7 +1,7 @@
 import {
   DistortedRectangle,
-  DistortedText,
   InstancedBlocks,
+  ParticleMorph,
   Portal,
 } from "./components";
 import { ASCIIEffect } from "./components/ASCIIEffect";
@@ -64,7 +64,7 @@ export const experimentsData: Record<string, Experiment> = {
     title: "Distorted Text",
     slug: "distorted_text",
     img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
-    component: DistortedText,
+    component: ParticleMorph,
   },
   instancedblocks: {
     title: "Instanced Blocks",
