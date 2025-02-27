@@ -24,9 +24,9 @@ const generatePositions = (size: number, nodes: any) => {
     const oz = originalPosition[originalIndex + 2]; // z
 
     // Add some randomness to spread particles around the model
-    data[i] = ox + (Math.random() - 0.5) * 0.05; // x with small jitter
-    data[i + 1] = oy + (Math.random() - 0.5) * 0.05; // y with small jitter
-    data[i + 2] = oz + (Math.random() - 0.5) * 0.05; // z with small jitter
+    data[i] = ox + (Math.random() - 0.5) * 0.01; // x with small jitter
+    data[i + 1] = oy + (Math.random() - 0.5) * 0.01; // y with small jitter
+    data[i + 2] = oz + (Math.random() - 0.5) * 0.01; // z with small jitter
     data[i + 3] = 1.0; // w (no impact, but required for vec4)
   }
 
