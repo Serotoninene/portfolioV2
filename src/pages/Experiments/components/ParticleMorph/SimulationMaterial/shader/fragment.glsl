@@ -130,7 +130,7 @@ float impulseModulation(float time, float center,float scale, float stepness){
 uniform sampler2D positions;
 uniform float uTime;
 uniform float uFrequency;
-uniform sampler2D uMouse;
+uniform vec2 uMouse;
 uniform vec2 uMousePosition; // Add this to pass actual mouse position
 
 varying vec2 vUv;
@@ -167,14 +167,14 @@ void main() {
   float y = pos.y;
   float z = pos.z;
 
-  // Increments calculation
-  float dx = (a * (y - x)) * timestep;
-  float  dy = (x * (b-z) - y) * timestep;
-  float  dz = (x*y - c*z) * timestep;
+  // // Increments calculation
+  // float dx = (a * (y - x)) * timestep;
+  // float  dy = (x * (b-z) - y) * timestep;
+  // float  dz = (x*y - c*z) * timestep;
 
 
 
-  vec2 mouse = vec2(sin(uTime),0);
+  // vec2 mouse = vec2(sin(uTime),0);
 
   float theta = vUv.x * PI * 2.;
   float r = RADIUS + RADIUS * hash12(vec2(pos.xy)) ;
@@ -182,26 +182,26 @@ void main() {
   // Setting up new pos
   vec3 newPos = pos;
 
-  float dist = length(pos.yz -mouse);
+  float dist = length(pos.yz - uMouse);
   float factor = smoothstep(RADIUS, 0., dist);
-  vec2 dir = normalize(pos.yz-mouse ) * atan(factor + uTime);
+  vec2 dir = normalize(pos.yz- uMouse ) * atan(factor + uTime);
 
 
-	// Add the new increments to the previous position
-  vec3 attractorForce = vec3(dx, dy, dz) * INTENSITY;
+	// // Add the new increments to the previous position
+  // vec3 attractorForce = vec3(dx, dy, dz) * INTENSITY;
 
-  newPos -= attractorForce * factor;
-
-
-
-
-  float angle = r * theta * uTime * SPEED;
-
-  vec2 distortion = dir * 0.1 * factor;
+  // newPos -= attractorForce * factor;
 
 
 
-  newPos.yz += distortion;
+
+  // float angle = r * theta * uTime * SPEED;
+
+  // vec2 distortion = dir * 0.1 * factor;
+
+
+
+  // newPos.yz += distortion;
 
 
   vec3 vortexPos = pos;
@@ -212,16 +212,18 @@ void main() {
   
  if (dist < EYE_RADIUS) {
       // Repel particles outward to keep the center empty
-      vortexPos.yz += dir * (EYE_RADIUS - dist) * 0.1; // Adjust repulsion strength
+    vortexPos.yz += dir * (EYE_RADIUS - dist) * 0.1; // Adjust repulsion strength
   }
 
   vortexAngle += vortexSpeed * uTime; // Apply rotational force
-  vortexPos.yz += vec2(cos(vortexAngle), sin(vortexAngle)) * dist * factor; // Recalculate position
+  vortexPos.yz += vec2(cos(vortexAngle), sin(vortexAngle)) * dist ; // Recalculate position
   vortexPos.x += sin(vortexAngle) * dist * factor * 1.; // Recalculate position
 
+  vec3 finalPos = mix(pos, vortexPos, factor);
 
 
-  gl_FragColor= vec4(vortexPos, 1.);
+
+  gl_FragColor= vec4(finalPos, 1.);
 }
 
 // void main() {    

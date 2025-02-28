@@ -50,7 +50,7 @@ class SimulationMaterial extends THREE.ShaderMaterial {
       // Pass the positions Data Texture as a uniform
       positions: { value: positionsTexture },
       uFrequency: { value: 0.25 },
-      uMouse: { value: THREE.Texture },
+      uMouse: { value: new THREE.Vector2() },
       uMousePosition: { value: new THREE.Vector2() },
       uTime: { value: 0 },
     };
