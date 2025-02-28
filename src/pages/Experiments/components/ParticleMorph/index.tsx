@@ -1,28 +1,17 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import {
-  extend,
-  Canvas,
-  useFrame,
-  createPortal,
-  useThree,
-} from "@react-three/fiber";
 import { OrbitControls, useFBO, useGLTF } from "@react-three/drei";
+import { Canvas, createPortal, extend, useFrame } from "@react-three/fiber";
 
 import * as THREE from "three";
 
 import SimulationMaterial from "./SimulationMaterial";
-import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
-import { useTouchTexture } from "../../../../components/three/TouchTexture";
+import vertexShader from "./shaders/vertex.glsl";
 
 extend({ SimulationMaterial: SimulationMaterial });
-const st = `\nprecision highp float;\nvarying float vMorphImpulse;\nvarying float vIntroModulation;\nvarying float vPointerSpeedModulation;\nvarying vec2 vUv;\n\nuniform sampler2D uDefaultPositionOne;\nuniform vec3 uPointer;\nuniform float uMorphTime;\nuniform float uGlobalTime;\n\nuniform mat4 modelMatrix;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\n\nattribute vec3 position;\nattribute vec2 uv;\n\n".concat("\n// https://www.desmos.com/calculator/4dyq5zch4v\n#define PI 3.1415926\n\nfloat heaviside(float x) {\n  return (sign(x) + 1.0) / 2.0;\n}\n\nfloat chichon(float x, float stepness) {\n  return 1.0 - pow(abs(sin(0.5 * PI * x)), stepness);\n}\n\nfloat impulseModulation(float time, float center,float scale, float stepness){ \n    float scaledCenter = center * scale;\n    float x = time * scale;\n  \n    float wave = heaviside(1. - (x - scaledCenter)) * chichon(x -scaledCenter, stepness) * heaviside(x - scaledCenter + 1.);\n  \n    return wave;\n}\n","\n\nvoid main () {\n  vUv = uv;\n\n  // time modulation has big impact in output\n  vIntroModulation = impulseModulation(uGlobalTime, 1.5, .8, 5.);\n  vMorphImpulse = impulseModulation(uMorphTime, 0., .9 , 10.);\n  vPointerSpeedModulation = 5. * (1. - pow(1. - uPointer.z, 12.)) *  impulseModulation(uPointer.z, 1.4, .7, 12.);\n\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}\n"),U="\nprecision highp float;\nprecision highp sampler2D;\n\nvarying vec2 vUv;\nvarying float vMorphImpulse;\n\nuniform sampler2D uVectorField;\nuniform sampler2D uVelocityField;\nuniform sampler2D uPositionField;\nuniform float uGlobalTime;\nuniform float uDeltaTime;\n\n".concat(D,"\n\nvec3 attractionField(vec3 positionField){\n  vec3 field = vec3(0.);\n  \n  vec4 defaultPositionOne = texture2D(uDefaultPositionOne, vUv);\n  vec4 defaultPositionTwo = texture2D(uDefaultPositionTwo, vUv);\n  vec4 targetPositions = getCurrentTarget(uMorphState);\n  float inverseMass = defaultPositionOne.w;\n\n  vec3 attractionForce = targetPositions.xyz - positionField;\n  attractionForce *= (1. - smoothstep(0., 1. ,vMorphImpulse) * 0.5); // reduces attraction force when morphing\n  field = inverseMass * attractionForce * smoothstep(2.25, 2.75 , uGlobalTime);\n\n\n  return field;\n}\n\nvoid main () {\n  vec4 velocityField = texture2D(uVelocityField, vUv);\n  vec4 vectorField = texture2D(uVectorField, vUv);\n  vec4 positionField = texture2D(uPositionField, vUv);\n  vec3 force = vec3(0.);\n  float dt = 50. * uDeltaTime;\n  float dampingFactor = 1. ;\n\n  force += vectorField.xyz;\n  force += attractionField(positionField.xyz);\n  force += -1. * dampingFactor * velocityField.xyz;\n \n  velocityField.xyz += dt * force.xyz;\n  velocityField.w = vMorphImpulse;\n  \n  gl_FragColor = velocityField`;
-
 const ParticleMesh = () => {
   const size = 1024;
-
-  const threeEl = useThree();
 
   const pointsRef = useRef<THREE.Points>(null);
   const simulationMaterialRef = useRef<THREE.ShaderMaterial>(null);
@@ -66,42 +55,24 @@ const ParticleMesh = () => {
     []
   );
 
-  const { particlesPosition, reference } = useMemo(() => {
-    if (!nodes) return null;
-
+  const particlesPosition = useMemo(() => {
     // FBO-compatible grid-based system
     const length = size * size; // Total particles
     const particles = new Float32Array(length * 3);
-    const reference = new Float32Array(length * 2);
 
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
         const index = i * size + j; // Calculate the linear index
         const i3 = index * 3;
-        const i2 = index * 2;
 
         // Apply small offsets to distribute particles more evenly inside the shape
-        particles[i3 + 0] = Math.random();
-        particles[i3 + 1] = Math.random();
-        particles[i3 + 2] = Math.random();
-
-        // Use i and j for the reference
-        reference[i2 + 0] = j / size; // Column index normalized
-        reference[i2 + 1] = i / size; // Row index normalized
+        particles[i3 + 0] = i / size;
+        particles[i3 + 1] = j / size;
       }
     }
 
-    return { particlesPosition: particles, reference };
-  }, [nodes, size]);
-
-  useEffect(() => {
-    if (pointsRef.current) {
-      pointsRef.current.geometry.setAttribute(
-        "reference",
-        new THREE.BufferAttribute(reference, 2)
-      );
-    }
-  }, []);
+    return particles;
+  }, [size]);
 
   const renderTarget = useFBO(size, size, {
     minFilter: THREE.NearestFilter,
@@ -125,10 +96,6 @@ const ParticleMesh = () => {
     if (simulationMaterialRef.current) {
       simulationMaterialRef.current.uniforms.uTime.value =
         clock.getElapsedTime();
-
-      const geometry = pointsRef.current.geometry;
-      geometry.computeBoundingBox();
-      const box = geometry.boundingBox;
 
       simulationMaterialRef.current.uniforms.uMouse.value = {
         x: pointer.y * viewport.height * 0.5, // Map -1 to 1 to world space

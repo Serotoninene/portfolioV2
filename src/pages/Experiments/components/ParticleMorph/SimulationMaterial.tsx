@@ -1,8 +1,8 @@
 import { extend } from "@react-three/fiber";
 import * as THREE from "three";
 
-import vertex from "./shader/vertex.glsl";
-import fragment from "./shader/fragment.glsl";
+import vertex from "./shaders/simVertex.glsl";
+import fragment from "./shaders/simFragment.glsl";
 
 const generatePositions = (size: number, nodes: any) => {
   const length = size * size * 4;
