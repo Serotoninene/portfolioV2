@@ -45,12 +45,17 @@ const ParticleMesh = () => {
   ]);
 
   const { nodes } = useGLTF(
-    "/assets/ThreeModels/Serotonine_Icon/icon_remeshed_subdivided.glb"
+    "/assets/ThreeModels/Serotonine_Icon/reset_serotonine_icon.glb"
   );
+
+  // const { nodes } = useGLTF(
+  //   "/assets/ThreeModels/Serotonine_Icon/icon_remeshed_subdivided.glb"
+  // );
 
   const uniforms = useMemo(
     () => ({
       uPositions: { value: null },
+      uMouse: { value: new THREE.Vector2() },
     }),
     []
   );
@@ -89,21 +94,25 @@ const ParticleMesh = () => {
     gl.render(scene, camera);
     gl.setRenderTarget(null);
 
+    const mouse = {
+      x: pointer.y * viewport.height * 0.5, // Map -1 to 1 to world space
+      y: pointer.x * viewport.width * 0.5,
+    };
+
     if (materialRef.current) {
       materialRef.current.uniforms.uPositions.value = renderTarget.texture;
+      materialRef.current.uniforms.uMouse.value = mouse;
     }
 
     if (simulationMaterialRef.current) {
       simulationMaterialRef.current.uniforms.uTime.value =
         clock.getElapsedTime();
 
-      simulationMaterialRef.current.uniforms.uMouse.value = {
-        x: pointer.y * viewport.height * 0.5, // Map -1 to 1 to world space
-
-        y: pointer.x * viewport.width * 0.5,
-      };
+      simulationMaterialRef.current.uniforms.uMouse.value = mouse;
     }
   });
+
+  const atan = THREE.MathUtils.degToRad(-90);
 
   if (!particlesPosition)
     return (
@@ -137,7 +146,7 @@ const ParticleMesh = () => {
         </mesh>,
         scene
       )}
-      <points ref={pointsRef} rotation={[0, 45, 0]}>
+      <points ref={pointsRef} rotation={[0, atan, 0]}>
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
@@ -171,7 +180,7 @@ export const ParticleMorph = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center h-[--fullScreen]">
-        <Canvas>
+        <Canvas camera={{ position: new THREE.Vector3(0, 0, -5) }}>
           <Scene />
         </Canvas>
       </div>
