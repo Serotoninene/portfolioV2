@@ -6,7 +6,7 @@ import { MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
 
-const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/untitled2.glb";
+const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/serotonine_icon.glb";
 
 type Props = {
   scale?: vec3;

@@ -145,43 +145,73 @@ float length2(vec2 p) {
     return dot(p, p);
 }
 
-vec2 rotate2D(vec2 p, float angle) {
-    float s = sin(angle);
-    float c = cos(angle);
-    return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
+mat2 rotate2D(float angle) {
+    return mat2(cos(angle), -sin(angle), 
+                sin(angle), cos(angle));
 }
 
 
-void main() { 
-  vec3 pos = texture2D(positions, vUv).rgb;
+void main() {
+  vec3 pos = texture2D(positions, vUv).xyz;
+float RADIUS = 1.0;   // Vortex max influence radius
+    float SPEED = 2.0;    // Rotation speed
+    float PULL = 0.05;    // Pull force when outside the radius
+    vec3 vortexPos = pos;
 
-  float theta = vUv.x * PI * 2.;
+    // 1️⃣ Compute offset and distance from `uMouse`
+    vec2 offset = pos.yz - uMouse;
+    float dist = length(offset);
 
-  // Setting up new pos
-  vec3 newPos = pos;
+    // 2️⃣ Compute attraction force if outside the radius
+    if (dist > RADIUS) {
+        vec2 pullDirection = normalize(uMouse - pos.yz);
+        vortexPos.yz += pullDirection * PULL; // Pull toward vortex
+    } else {
+        // 3️⃣ If inside the radius, apply rotation
+        float vortexAngle = SPEED ;
+        vec2 rotatedOffset = rotate2D(vortexAngle) * normalize(offset) * RADIUS;
 
-  vec2 dir = pos.yz - uMouse;
-  float dist = length(pos.yz - uMouse);
-  float strength = smoothstep(RADIUS + 0.1, RADIUS - 0.1, dist);
+        // 4️⃣ Keep particles locked at the boundary
+        vortexPos.yz = uMouse + rotatedOffset;
+    }
 
-  float angle = atan(dir.y, dir.x);
-  vec2 rotatedUV = rotate2D(dir, angle);
-  rotatedUV += uMouse;
+    // 5️⃣ Smooth transition for realism
+    float entryFactor = smoothstep(RADIUS * 1.2, RADIUS * 0.8, dist);
+    vec3 finalPos = mix(pos, vortexPos, entryFactor);
 
-  float vortex = smoothstep(0.05, 0.15, dist) * strength;
-  float vortexAngle = atan(uMouse.x, pos.z - uMouse.y); // Center rotation on uMouse
-  float vortexSpeed = 2.;
-  vortexAngle += vortexSpeed * uTime; // Apply rotational force
-  vec3 pushedPos = newPos ;
-  pushedPos.yz += dir * (EYE_RADIUS - dist) ; 
+    gl_FragColor = vec4(finalPos, 1.0);
+}
+
+// void main() { 
+//   vec3 pos = texture2D(positions, vUv).rgb;
+
+//   float theta = vUv.x * PI * 2.;
+
+//   // Setting up new pos
+//   vec3 newPos = pos;
+
+//   vec2 dir = pos.yz - uMouse;
+//   float dist = length(pos.yz - uMouse);
+//   float strength = smoothstep(RADIUS + 0.1, RADIUS - 0.1, dist);
+
+//   float angle = atan(dir.y, dir.x);
+//   vec2 rotatedUV = rotate2D(dir, angle);
+//   rotatedUV += uMouse;
+
+//   float vortex = smoothstep(0.05, 0.15, dist) * strength;
+//   float vortexAngle = atan(uMouse.x, pos.z - uMouse.y); // Center rotation on uMouse
+//   float vortexSpeed = 2.;
+//   vortexAngle += vortexSpeed * uTime; // Apply rotational force
+//   vec3 pushedPos = newPos ;
+//   pushedPos.yz += dir * (EYE_RADIUS - dist) ; 
   
-  vec3 vortexPos = pushedPos;
-  vortexPos.yz += rotatedUV;
+//   vec3 vortexPos = pushedPos;
+//   vortexPos.yz += rotatedUV;
 
-  vec3 finalPos = mix(newPos, vortexPos, vortex);
+//   vec3 finalPos = mix(newPos, vortexPos, vortex);
 
-  gl_FragColor= vec4(finalPos, 1.);
-}
+//   gl_FragColor= vec4(finalPos, 1.);
+// }
 
 
 // void main() { 
