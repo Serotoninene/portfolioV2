@@ -101,7 +101,7 @@ export const Hero = () => {
     <div
       id="Hero"
       ref={container}
-      className="relative h-[--fullScreen] z-20 text-black"
+      className="relative h-screen z-20 text-black"
     >
       <HeroThree />
       <HeroText />
