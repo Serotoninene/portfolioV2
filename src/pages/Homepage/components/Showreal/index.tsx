@@ -19,7 +19,7 @@ export const Showreal = () => {
         id="showreal__video-container"
         className="relative w-full xl:h-[90vh] aspect-video mx-10 md:cursor-none"
         style={{
-          background: colors.dark,
+          background: colors.secondaryColor,
         }}
       >
         <video

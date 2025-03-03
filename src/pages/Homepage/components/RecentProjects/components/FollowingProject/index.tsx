@@ -22,6 +22,7 @@ type Props = {
 export const FollowingProject = ({ scrollScene }: Props) => {
   const ref = useRef<THREE.Mesh>(null);
   const shader = useRef<THREE.ShaderMaterial>(null);
+
   const { rect } = useProjectMeshRect();
   const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
 
@@ -64,8 +65,19 @@ export const FollowingProject = ({ scrollScene }: Props) => {
         value: new THREE.Vector2(scrollScene?.scale.x, scrollScene?.scale.y),
       },
     }),
-    [scrollScene]
+    []
   );
+
+  const handleResize = () => {
+    if (!shader.current) return;
+    shader.current.uniforms.uResolution.value =
+      window.innerHeight / window.innerWidth;
+
+    shader.current.uniforms.uQuadSize.value = new THREE.Vector2(
+      scrollScene?.scale.x,
+      scrollScene?.scale.y
+    );
+  };
 
   const handleMousePosition = (e: MouseEvent) => {
     if (!ref.current || !rect) return;
@@ -117,8 +129,9 @@ export const FollowingProject = ({ scrollScene }: Props) => {
       scrollTrigger: {
         trigger: "#StickyText",
         endTrigger: "#ProjectLines",
-        start: "top top",
+        start: "+=20% top",
         end: "top top",
+
         scrub: 0.1,
         onUpdate: (self) => {
           if (!shader.current) return;
@@ -131,6 +144,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   useEffect(() => {
     if (!ref.current) return;
     window.addEventListener("mousemove", handleMousePosition);
+    handleResize();
 
     return () => {
       window.removeEventListener("mousemove", handleMousePosition);

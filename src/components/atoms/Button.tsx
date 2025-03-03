@@ -77,19 +77,25 @@ export const Button = ({ children, onClick }: Props) => {
 
   return (
     <div
-      className={`button relative overflow-hidden inline-block border border-[${colors.light}] rounded-lg`}
+      className={`button relative overflow-hidden inline-block rounded-lg`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
+      style={{
+        border: `1px solid ${colors.mainColor}`,
+      }}
     >
       <div
         ref={whiteBackground}
         className="absolute h-20 w-[200%] top-[0] left-0"
-        style={{ background: colors.light }}
+        style={{ background: colors.mainColor }}
       />
       <button className="relative my-2 mx-4">
         {splitWords(children, buttonLetters, "visible")}
-        <span className="absolute left-0" style={{ color: colors.dark }}>
+        <span
+          className="absolute left-0"
+          style={{ color: colors.secondaryColor }}
+        >
           {splitWords(children, buttonLettersShadow, "visible")}
         </span>
       </button>

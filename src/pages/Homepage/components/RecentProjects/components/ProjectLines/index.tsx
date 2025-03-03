@@ -13,11 +13,11 @@ export const ProjectLines = () => {
 
   const { setRect } = useProjectMeshRect();
   const { hasSmoothScrollbar } = useScrollRig();
+
   const { selectedProject } = useProjectContext();
 
   const handleSetRect = () => {
     const rect = ref.current?.getBoundingClientRect();
-    console.log(ref.current?.clientWidth);
     setRect({
       y: rect ? rect.top : 0,
       x: rect ? rect.left : 0,

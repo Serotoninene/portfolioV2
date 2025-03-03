@@ -1,6 +1,7 @@
 import { useRef, RefObject, useState, FormEvent } from "react";
 import { Input } from ".";
 import { Button } from "../../../../../components/atoms";
+import { useColorContext } from "../../../../../hooks/useColorContext";
 
 const FORM_ENDPOINT =
   "https://public.herotofu.com/v1/9f625ad0-bbc4-11ec-8bd8-6d49e4d0c791";
@@ -9,7 +10,7 @@ export const Form = () => {
   const formRef = useRef() as RefObject<HTMLFormElement>;
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
-  // const [hasSubmit, setHasSubmit] = useState(false);
+  const { colors } = useColorContext();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     console.log("handle submit");
@@ -81,7 +82,11 @@ export const Form = () => {
           required={true}
           name={"message"}
           placeholder="Message"
-          className="bg-transparent border-secondary-200 border-b-[0.5px] placeholder-secondary-600 w-full mb-2 px-2 py-2 focus:outline-none resize-none"
+          className="bg-transparent w-full mb-2 px-2 py-2 focus:outline-none resize-none"
+          style={{
+            color: colors.mainColor,
+            borderBottom: `0.5px solid ${colors.mainColor}`,
+          }}
         ></textarea>
       </div>
       <div className="mt-2 sm:col-span-2 sm:mt-6">

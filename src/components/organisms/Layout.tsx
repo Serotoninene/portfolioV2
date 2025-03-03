@@ -28,8 +28,8 @@ export const Layout = ({ children }: Props) => {
           id="Layout"
           ref={eventSource}
           style={{
-            background: colors.light,
-            color: colors.dark,
+            background: colors.mainColor,
+            color: colors.secondaryColor,
           }}
         >
           <div className="fixed inset-0 grid grid-cols-8 gap-5 mx-5">
@@ -64,7 +64,7 @@ export const Layout = ({ children }: Props) => {
               key={location.pathname}
               orthographic={pathname === "/" ? true : false}
             >
-              <Perf position="top-left" />
+              {/* <Perf position="top-left" /> */}
               <Lights />
               <Noise />
             </GlobalCanvas>
@@ -73,7 +73,7 @@ export const Layout = ({ children }: Props) => {
         <div
           id="transition_panel"
           className="fixed top-full h-screen w-screen shadow-sm"
-          style={{ background: colors.light }}
+          style={{ background: colors.mainColor }}
         />
       </div>
     </ProjectProvider>

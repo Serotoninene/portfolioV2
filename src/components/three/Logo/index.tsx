@@ -1,6 +1,6 @@
 import { Float, useGLTF } from "@react-three/drei";
 
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { MathUtils, Mesh } from "three";
 

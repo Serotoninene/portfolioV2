@@ -5,25 +5,28 @@ type Props = {
 };
 
 type ColorContextType = {
-  colors: { light: string; dark: string };
+  colors: { mainColor: string; secondaryColor: string };
   switchColors: () => void;
 };
 
 export const ColorContext = createContext<ColorContextType>({
-  colors: { light: "", dark: "" },
+  colors: { mainColor: "", secondaryColor: "" },
   switchColors: () => {},
 });
 
 export const ColorProvider = ({ children }: Props) => {
   const lightColor = "#ebe9e5";
   const darkColor = "#1C0F13";
-  const [colors, setColors] = useState({ light: lightColor, dark: darkColor });
+  const [colors, setColors] = useState({
+    mainColor: lightColor,
+    secondaryColor: darkColor,
+  });
 
   const switchColors = () => {
-    if (colors.light === lightColor) {
-      setColors({ light: darkColor, dark: lightColor });
+    if (colors.mainColor === lightColor) {
+      setColors({ mainColor: darkColor, secondaryColor: lightColor });
     } else {
-      setColors({ light: lightColor, dark: darkColor });
+      setColors({ mainColor: lightColor, secondaryColor: darkColor });
     }
   };
 
