@@ -1,16 +1,15 @@
+import { useEffect } from "react";
 import { InfiniteGrid } from "./components/InfiniteGrid";
 import { experimentsArray } from "./experimentsData";
-
-// TO DO
-// [X] Integrate the experimentation text on the page
-// [X] Set up a a back button on the experiment page
-// [X] Activate the nav buttons in the menu
-// [] revoir tout le système de couleurs là
-// [] check the mobile version
+import gsap from "gsap";
 
 const Experiments = () => {
+  useEffect(() => {
+    gsap.set("#Navbar", { clearProps: "borderColor" });
+  }, []);
+
   return (
-    <div className="relative z-20 text-black py-10 px-5 h-screen overflow-hidden">
+    <div className="relative z-10 text-black py-10 px-5 h-screen overflow-hidden">
       <InfiniteGrid experimentsArray={experimentsArray} />
     </div>
   );

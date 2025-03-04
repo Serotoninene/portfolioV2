@@ -1,5 +1,6 @@
 import { useProgress } from "@react-three/drei";
 import { useEffect, useRef } from "react";
+import { useColorContext } from "../../../hooks/useColorContext";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 import { getFormattedDate } from "../../../utils";
 import { AnimLetters, AnimLink } from "../../atoms";
@@ -7,6 +8,7 @@ import { useAlexReveal, useIntro } from "./animations";
 
 export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { colors } = useColorContext();
 
   const { progress } = useProgress();
 
@@ -19,6 +21,7 @@ export const Navbar = () => {
   const openMenu = () => {
     setIsMenuOpen(true);
   };
+
   useEffect(() => {
     if (progress === 100) {
       tl.current?.play();
@@ -29,7 +32,10 @@ export const Navbar = () => {
     <div
       id="Navbar"
       ref={containerRef}
-      className="fixed top-0 left-0 right-0 flex items-end justify-between mx-3 mt-3 pb-1 z-30 border-b border-black origin-left md:mx-5"
+      className="fixed top-0 left-0 right-0 flex border-b items-end justify-between mx-3 mt-3 pb-1 z-30 origin-left md:mx-5"
+      style={{
+        borderColor: colors.secondaryColor,
+      }}
     >
       <h2
         id="Logo_Alex"
@@ -49,7 +55,7 @@ export const Navbar = () => {
         className="gap-10 text-sm font-medium overflow-hidden md:flex"
       >
         <AnimLetters
-          string="Portfolio 2024"
+          string="Portfolio 2025"
           delay={0}
           ease="easeOut"
           stagger={0.005}

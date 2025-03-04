@@ -7,9 +7,9 @@ import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useMediaQuery } from "../../hooks";
 import { useColorContext } from "../../hooks/useColorContext";
 import { CustomCursor, Navbar } from "../molecules";
+import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
-import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;
@@ -56,6 +56,7 @@ export const Layout = ({ children }: Props) => {
           <div>
             <Menu />
             <Navbar />
+
             {children}
             <GlobalCanvas
               shadows={true}
@@ -69,6 +70,7 @@ export const Layout = ({ children }: Props) => {
               <Noise />
             </GlobalCanvas>
           </div>
+          <ColorButton />
         </main>
         <div
           id="transition_panel"
