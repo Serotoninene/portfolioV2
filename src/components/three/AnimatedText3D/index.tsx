@@ -57,6 +57,14 @@ export const AnimatedText3D = ({
     });
   }, [tl.current]);
 
+  // If the color of the text change (in case of dark / light modes)
+  useEffect(() => {
+    if (textRef.current) {
+      const material = textRef.current.material as THREE.ShaderMaterial;
+      material.uniforms.uColor.value = new THREE.Color(color);
+    }
+  }, [color]);
+
   return (
     <group ref={groupRef} position={position}>
       <Text

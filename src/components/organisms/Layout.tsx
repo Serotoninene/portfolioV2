@@ -1,6 +1,6 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import React, { MutableRefObject, useRef } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
@@ -10,6 +10,8 @@ import { CustomCursor, Navbar } from "../molecules";
 import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
+import path from "path";
+import gsap from "gsap";
 
 type Props = {
   children: React.ReactNode;
@@ -20,6 +22,12 @@ export const Layout = ({ children }: Props) => {
   const eventSource = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery(768);
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    gsap.set("#Navbar", {
+      borderColor: colors.secondaryColor,
+    });
+  }, [pathname]);
 
   return (
     <ProjectProvider>
