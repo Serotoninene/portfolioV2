@@ -45,7 +45,7 @@ const ParticleMesh = () => {
   ]);
 
   const { nodes } = useGLTF(
-    "/assets/ThreeModels/Serotonine_Icon/reset_serotonine_icon.glb"
+    "/assets/ThreeModels/Serotonine_Icon/icon_remeshed_subdivided.glb"
   );
 
   // const { nodes } = useGLTF(

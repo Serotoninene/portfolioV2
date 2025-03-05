@@ -3,8 +3,9 @@ import { useEffect, useRef } from "react";
 import { useColorContext } from "../../../hooks/useColorContext";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 import { getFormattedDate } from "../../../utils";
-import { AnimLetters, AnimLink } from "../../atoms";
+import { AnimLetters, AnimLink, HoverSpace } from "../../atoms";
 import { useAlexReveal, useIntro } from "./animations";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,18 +38,21 @@ export const Navbar = () => {
         borderColor: colors.secondaryColor,
       }}
     >
-      <h2
-        id="Logo_Alex"
-        className="bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
-      >
-        <AnimLetters
-          string="ALEX"
-          y="120%"
-          delay={0}
-          stagger={0.01}
-          start={hasScrolled}
-        />
-      </h2>
+      <Link to="/">
+        <h2
+          id="Logo_Alex"
+          className="relative bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
+        >
+          <AnimLetters
+            string="ALEX"
+            y="120%"
+            delay={0}
+            stagger={0.01}
+            start={hasScrolled}
+          />
+          <HoverSpace />
+        </h2>
+      </Link>
 
       <div
         id="Center_Navbar"

@@ -136,10 +136,9 @@ uniform vec2 uMousePosition; // Add this to pass actual mouse position
 varying vec2 vUv;
 
 vec3 HOLE_CENTER = vec3(0.);
-float RADIUS = 0.3;
 float EYE_RADIUS = 1.;
-float INTENSITY = 0.01;
-float SPEED = 0.2;
+
+
 
 float length2(vec2 p) {
     return dot(p, p);
@@ -150,36 +149,35 @@ mat2 rotate2D(float angle) {
                 sin(angle), cos(angle));
 }
 
+float INTENSITY = 10.0;
+float RADIUS = 1.0; // Influence radius of the vortex
+float SPEED = 2.0;   // Control rotation speed
 
 void main() {
-  vec3 pos = texture2D(positions, vUv).xyz;
-float RADIUS = 1.0;   // Vortex max influence radius
-    float SPEED = 2.0;    // Rotation speed
-    float PULL = 0.05;    // Pull force when outside the radius
-    vec3 vortexPos = pos;
+  vec3 pos = texture2D(positions, vUv).rgb;
 
-    // 1️⃣ Compute offset and distance from `uMouse`
-    vec2 offset = pos.yz - uMouse;
-    float dist = length(offset);
+  float dist = length(pos.yz - uMouse);
+  float factor = smoothstep(RADIUS, 0., dist);
+  vec2 dir = normalize(pos.yz- uMouse ) * atan(factor + uTime);
 
-    // 2️⃣ Compute attraction force if outside the radius
-    if (dist > RADIUS) {
-        vec2 pullDirection = normalize(uMouse - pos.yz);
-        vortexPos.yz += pullDirection * PULL; // Pull toward vortex
-    } else {
-        // 3️⃣ If inside the radius, apply rotation
-        float vortexAngle = SPEED ;
-        vec2 rotatedOffset = rotate2D(vortexAngle) * normalize(offset) * RADIUS;
+  vec3 vortexPos = pos;
 
-        // 4️⃣ Keep particles locked at the boundary
-        vortexPos.yz = uMouse + rotatedOffset;
-    }
+  float vortexAngle = atan(uMouse.x, uMouse.y);
+  float vortexSpeed = 2.;
+  float EYE_RADIUS = 1.;
+  
+  if (dist < EYE_RADIUS) {
+       // Repel particles outward to keep the center empty
+     vortexPos.yz += dir * (EYE_RADIUS - dist) * 0.1; // Adjust repulsion strength
+   }
 
-    // 5️⃣ Smooth transition for realism
-    float entryFactor = smoothstep(RADIUS * 1.2, RADIUS * 0.8, dist);
-    vec3 finalPos = mix(pos, vortexPos, entryFactor);
+  vortexAngle += vortexSpeed * uTime; // Apply rotational force
+  vortexPos.yz += vec2(cos(vortexAngle), sin(vortexAngle)) * dist ; // Recalculate position
+  vortexPos.x += sin(vortexAngle) * dist * factor * 1.; // Recalculate position
 
-    gl_FragColor = vec4(finalPos, 1.0);
+  vec3 finalPos = mix(pos, vortexPos, factor);
+
+  gl_FragColor= vec4(finalPos, 1.);
 }
 
 // void main() { 
