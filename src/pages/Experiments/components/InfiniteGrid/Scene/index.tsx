@@ -10,6 +10,7 @@ import { ThreeVignette } from "../ThreeVignette";
 import { useScrollEvents } from "./hooks/useInfiniteScroll";
 import { EffectComposer } from "@react-three/postprocessing";
 import { AnimatedText3D } from "../../../../../components/three/AnimatedText3D";
+import { useColorContext } from "../../../../../hooks/useColorContext";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
@@ -36,6 +37,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
   const groupRef = useRef<THREE.Group>(null);
   const meshRefs = useRef<THREE.Mesh[]>([]);
   const [gridSize, setGridSize] = useState(0);
+  const { colors } = useColorContext();
 
   const width = useWindowSize();
 
@@ -140,7 +142,11 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
   return (
     <>
-      <AnimatedText3D color="#000" size={64} position={[0, 0, -500]}>
+      <AnimatedText3D
+        color={colors.secondaryColor}
+        size={64}
+        position={[0, 0, -500]}
+      >
         EXPERIMENTS
       </AnimatedText3D>
       <group ref={groupRef}>

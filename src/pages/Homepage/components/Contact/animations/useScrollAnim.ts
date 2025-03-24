@@ -3,8 +3,7 @@ import { useLayoutEffect, useRef } from "react";
 import { useColorContext } from "../../../../../hooks/useColorContext";
 
 export const useScrollAnim = (
-  container: React.MutableRefObject<HTMLElement | null>,
-  backgroundTl: React.MutableRefObject<gsap.core.Timeline | undefined>
+  container: React.MutableRefObject<HTMLElement | null>
 ) => {
   const { colors } = useColorContext();
   const containerTl = useRef<gsap.core.Timeline>();
@@ -19,13 +18,6 @@ export const useScrollAnim = (
           scrub: true,
           pin: true,
           pinSpacing: true,
-
-          onLeave: () => {
-            backgroundTl.current?.play();
-          },
-          onEnterBack: () => {
-            backgroundTl.current?.reverse();
-          },
         },
         defaults: {
           ease: Power0.easeNone,
@@ -39,7 +31,7 @@ export const useScrollAnim = (
       containerTl.current.to(
         "#Layout",
         {
-          color: colors.light,
+          color: colors.mainColor,
         },
         "<"
       );
@@ -47,20 +39,20 @@ export const useScrollAnim = (
       containerTl.current.to(
         "#ScrollIndicator div",
         {
-          backgroundColor: colors.light,
+          backgroundColor: colors.mainColor,
         },
         "<"
       );
 
       containerTl.current.to("#Navbar", {
-        borderColor: colors.light,
+        borderColor: colors.mainColor,
       });
     });
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [colors]);
 
   return containerTl;
 };

@@ -9,13 +9,13 @@ import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-import { projects } from "../../data";
 import {
   useProjectLineHover,
   useProjectLineIntro,
   useProjectLineScrollAnimation,
 } from "./animations";
 import scrollToProject from "./utils/scrollToProject";
+import { useColorContext } from "../../../../../../hooks/useColorContext";
 
 type Props = {
   project: Project;
@@ -25,6 +25,7 @@ type Props = {
 
 export const ProjectLine = ({ project, idx, isLast }: Props) => {
   const formattedIdx = (idx + 1).toString().padStart(2, "0");
+  const { colors } = useColorContext();
 
   const container = useRef<HTMLAnchorElement>(null);
   const shadowLine = useRef<HTMLDivElement>(null);
@@ -59,8 +60,18 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
       className={isLast ? "pb-2" : "pb-10"}
     >
       <div className="relative pt-6 grid grid-cols-6 gap-6 cursor-pointer">
-        <div className="Project-Line__line absolute top-0 bg-dark h-[1px] w-full origin-left opacity-30" />
-        <div className="Project-Line__shadow-line absolute top-0 bg-dark h-[1px] w-full origin-left scale-x-0" />
+        <div
+          className="Project-Line__line absolute top-0 h-[1px] w-full origin-left opacity-30"
+          style={{
+            background: colors.secondaryColor,
+          }}
+        />
+        <div
+          className="Project-Line__shadow-line absolute top-0 h-[1px] w-full origin-left scale-x-0"
+          style={{
+            background: colors.secondaryColor,
+          }}
+        />
         <div className="col-span-3 grid grid-cols-6">
           <div className="Project-Line__index font-medium text-xs ">
             {splitWords(formattedIdx)}

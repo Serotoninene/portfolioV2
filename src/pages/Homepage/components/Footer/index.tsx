@@ -17,7 +17,7 @@ export const Footer = () => {
   return (
     <div
       className="relative pt-[20vh] px-[32px] flex flex-col gap-[12px] md:gap-[56px] pb-[80px]"
-      style={{ backgroundColor: colors.dark }}
+      style={{ backgroundColor: colors.secondaryColor }}
     >
       <div className="flex flex-col gap-1 justify-between md:flex-row">
         <a>pujol.alexandre@hotmail.fr</a>

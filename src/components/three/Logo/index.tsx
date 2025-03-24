@@ -1,12 +1,12 @@
 import { Float, useGLTF } from "@react-three/drei";
 
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
 
-const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/untitled2.glb";
+const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/serotonine_icon.glb";
 
 type Props = {
   scale?: vec3;

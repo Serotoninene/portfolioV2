@@ -1,14 +1,18 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
-import React, { MutableRefObject, useRef } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Menu } from ".";
 import { ProjectProvider } from "../../contexts/ProjectContext";
 import { useMediaQuery } from "../../hooks";
 import { useColorContext } from "../../hooks/useColorContext";
 import { CustomCursor, Navbar } from "../molecules";
+import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
+import path from "path";
+import gsap from "gsap";
+import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;
@@ -20,6 +24,12 @@ export const Layout = ({ children }: Props) => {
   const isMobile = useMediaQuery(768);
   const { pathname } = useLocation();
 
+  useEffect(() => {
+    gsap.set("#Navbar", {
+      borderColor: colors.secondaryColor,
+    });
+  }, [pathname]);
+
   return (
     <ProjectProvider>
       <div id="mainContainer">
@@ -27,8 +37,8 @@ export const Layout = ({ children }: Props) => {
           id="Layout"
           ref={eventSource}
           style={{
-            background: colors.light,
-            color: colors.dark,
+            background: colors.mainColor,
+            color: colors.secondaryColor,
           }}
         >
           <div className="fixed inset-0 grid grid-cols-8 gap-5 mx-5">
@@ -55,6 +65,7 @@ export const Layout = ({ children }: Props) => {
           <div>
             <Menu />
             <Navbar />
+
             {children}
             <GlobalCanvas
               shadows={true}
@@ -68,11 +79,12 @@ export const Layout = ({ children }: Props) => {
               <Noise />
             </GlobalCanvas>
           </div>
+          <ColorButton />
         </main>
         <div
           id="transition_panel"
           className="fixed top-full h-screen w-screen shadow-sm"
-          style={{ background: colors.light }}
+          style={{ background: colors.mainColor }}
         />
       </div>
     </ProjectProvider>

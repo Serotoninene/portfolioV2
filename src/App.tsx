@@ -6,6 +6,7 @@ import { ColorProvider } from "./contexts/ColorContext";
 import Experiments from "./pages/Experiments";
 import Homepage from "./pages/Homepage";
 import ExperimentLayout from "./pages/Experiments/components/ExperimentLayout";
+import { useWindowSize } from "./hooks";
 
 type Props = {
   component: React.ReactNode;
@@ -14,10 +15,11 @@ type Props = {
 const WithLayout = ({ component }: Props) => <Layout>{component}</Layout>;
 
 function App() {
+  const { height } = useWindowSize();
   useEffect(() => {
     const screen = window.innerHeight;
     document.documentElement.style.setProperty("--fullScreen", screen + "px");
-  }, []);
+  }, [height]);
 
   const router = createBrowserRouter([
     {

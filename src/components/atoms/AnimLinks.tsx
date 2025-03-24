@@ -10,7 +10,7 @@ type Props = {
   onClick?: () => void;
 };
 
-const HoverSpace = () => {
+export const HoverSpace = () => {
   const { setCursorStyle } = useCursorStore();
 
   return (

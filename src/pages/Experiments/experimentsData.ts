@@ -1,7 +1,7 @@
 import {
   DistortedRectangle,
-  DistortedText,
   InstancedBlocks,
+  ParticleMorph,
   Portal,
 } from "./components";
 import { ASCIIEffect } from "./components/ASCIIEffect";
@@ -18,6 +18,12 @@ export interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
+  particle_morph: {
+    title: "Particle Morph",
+    slug: "particle_morph",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L64KpUP9YwZtzx7Q9CFTRXqpa2cuhlneBdVkOE",
+    component: ParticleMorph,
+  },
   refraction_glass: {
     title: "Refraction glass",
     slug: "refraction_glass",
@@ -60,12 +66,7 @@ export const experimentsData: Record<string, Experiment> = {
     img: "/assets/Experiments/Portal.webp",
     component: Portal,
   },
-  distorted_text: {
-    title: "Distorted Text",
-    slug: "distorted_text",
-    img: "/assets/Photos/s-eychenne-les-routes-de-mon-enfance.jpeg",
-    component: DistortedText,
-  },
+
   instancedblocks: {
     title: "Instanced Blocks",
     slug: "instancedblocks",

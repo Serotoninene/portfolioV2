@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useColorContext } from "../../../../hooks/useColorContext";
 import { splitWords } from "../../../../utils";
-import { useChangeBackgroundColor } from "./animations/useChangeBackgroundColor";
 import { useIntroAnim } from "./animations/useIntroAnim";
 import { useScrollAnim } from "./animations/useScrollAnim";
 import { Form } from "./components/Form";
@@ -11,8 +10,7 @@ export const Contact = () => {
   const container = useRef<HTMLDivElement>(null);
 
   useIntroAnim();
-  const backgroundTl = useChangeBackgroundColor();
-  useScrollAnim(container, backgroundTl);
+  useScrollAnim(container);
 
   return (
     <div ref={container} className="h-screen">
@@ -20,7 +18,7 @@ export const Contact = () => {
         id="Contact"
         className="px-2 pt-14 pb-10 h-screen grid gap-8 sm:gap-0 sm:grid-cols-2 sm:px-5 sm:pt-14sm:pb-6 m-auto"
         style={{
-          background: colors.dark,
+          background: colors.secondaryColor,
           clipPath: "polygon(40% 20%, 60% 20%, 60% 80%, 40% 80%)",
         }}
       >
@@ -38,7 +36,7 @@ export const Contact = () => {
         {/* right part */}
         <div
           className="relative px-2 flex flex-col sm:justify-center sm:items-center sm:px-4 md:px-20"
-          style={{ color: colors.light }}
+          style={{ color: colors.mainColor }}
         >
           <div className="w-fit">
             <div id="ContactHeader" className="mb-14">

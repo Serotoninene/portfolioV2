@@ -64,7 +64,7 @@ const Lines = ({ scrollScene }: Props) => {
       uQuadSize: {
         value: new THREE.Vector2(scrollScene.scale.x, scrollScene.scale.y),
       },
-      uColor: { value: new THREE.Color(colors.light) },
+      uColor: { value: new THREE.Color(colors.mainColor) },
       uDispZ: { value: 0 },
       uDispY: { value: 20 },
       uMouse: { value: new THREE.Vector2(0, 0) },
@@ -77,6 +77,12 @@ const Lines = ({ scrollScene }: Props) => {
     stripeGeometries,
     nbStripes: NB_STRIPES,
   });
+
+  useEffect(() => {
+    if (!shaderRef.current) return;
+
+    shaderRef.current.uniforms.uColor.value = new THREE.Color(colors.mainColor);
+  }, [colors]);
 
   useEffect(() => {
     const dimensions = scrollScene.track.current.getBoundingClientRect();

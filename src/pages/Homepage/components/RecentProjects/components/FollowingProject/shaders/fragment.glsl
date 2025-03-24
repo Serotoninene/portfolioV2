@@ -46,5 +46,6 @@ void main() {
   vec4 t2 = texture2D(uTexture2, vec2(vUv.x, vUv.y + (1.0 - uMixFactor) * (displace1 * uIntensity)));
 
   gl_FragColor = mix(t1, t2, uMixFactor);
+  // gl_FragColor = vec4(1., 0., 0., 1.);
   // gl_FragColor = vec4(0.,0., uProgress, 1.0);
 }

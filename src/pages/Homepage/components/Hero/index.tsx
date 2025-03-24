@@ -98,14 +98,9 @@ export const Hero = () => {
   const container = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      id="Hero"
-      ref={container}
-      className="relative h-[--fullScreen] z-20 text-black"
-    >
+    <div id="Hero" ref={container} className="relative h-screen ">
       <HeroThree />
       <HeroText />
-      <div className="absolute bottom-3 left-3  w-5 aspect-square bg-dark md:left-5" />
     </div>
   );
 };

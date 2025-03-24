@@ -1,3 +1,5 @@
+import { useColorContext } from "../../../../../hooks/useColorContext";
+
 // Types
 interface Props {
   field: string;
@@ -6,6 +8,7 @@ interface Props {
 }
 
 export const Input = ({ type = "text", field, required }: Props) => {
+  const { colors } = useColorContext();
   return (
     <div className="relative overflow-hidden">
       <input
@@ -13,7 +16,11 @@ export const Input = ({ type = "text", field, required }: Props) => {
         name={field.toLowerCase()}
         type={type}
         placeholder={field}
-        className="bg-transparent border-secondary-200 border-b-[0.5px] placeholder-secondary-600 w-full mb-2 px-2 py-2 appearance-none rounded-smd focus:outline-none "
+        className="bg-transparent w-full mb-2 px-2 py-2 appearance-none rounded-smd focus:outline-none"
+        style={{
+          color: colors.mainColor,
+          borderBottom: `0.5px solid ${colors.mainColor}`,
+        }}
       ></input>
     </div>
   );

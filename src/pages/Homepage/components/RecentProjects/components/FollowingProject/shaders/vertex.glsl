@@ -53,7 +53,7 @@ void main() {
     // // Translation with modified progress
     newposition += vec3(
         -1. *(1.0 - modifiedProgress),
-        (1.0 - modifiedProgress) * 2.5,
+        (1.0 - modifiedProgress) * 4.,
         (1.0 - modifiedProgress) * 0.01
     );
 
