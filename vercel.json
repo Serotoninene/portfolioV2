@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/experiments/:slug", "destination": "/index.html" },
+    { "source": "/experiments", "destination": "/index.html" },
+    { "source": "/:path*", "destination": "/index.html" }
+  ]
+}
