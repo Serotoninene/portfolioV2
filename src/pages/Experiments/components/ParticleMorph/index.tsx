@@ -6,45 +6,64 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Shaders
-import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
+import fragmentShaderDensity from "./shaders/fragmentShaderDensity.glsl";
 import fragmentShaderPosition from "./shaders/fragmentShaderPosition.glsl";
 import fragmentShaderVelocity from "./shaders/fragmentShaderVelocity.glsl";
-import fragmentShaderDensity from "./shaders/fragmentShaderDensity.glsl";
+import vertexShader from "./shaders/vertex.glsl";
 
-import { useControls } from "leva";
+import { useGSAP } from "@gsap/react";
+import gsap, { Power3 } from "gsap";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 
-const SIZE = 1024;
+const SIZE = 512 + 256;
 const LENGTH = SIZE * SIZE;
 
 const fillPositionTexture = (gpuCompute, model) => {
   const positionTexture = gpuCompute.createTexture();
   const positionData = positionTexture.image.data;
 
-  if (!model?.Plane) return data;
+  // SERoto icon
+  const data = model.Plane || null;
+  // Hand
+  // const data = model.Object_4 || null;
+  // ADN
+  // const data = model.DNA || null;
 
-  const geometry = model.Plane.geometry;
+  if (!data) return data;
+
+  const geometry = data.geometry;
   const originalPosition = geometry.attributes.position.array;
+  const vertexCount = geometry.attributes.position.count; // Total number of vertices
+
   // Rotation Matrix (90 degrees around Z-axis)
   const rotationMatrix = new THREE.Matrix4().makeRotationY(Math.PI / 2);
 
   for (let i = 0; i < LENGTH; i++) {
     let i4 = i * 4;
 
+    // Ensure we don't go out of bounds
+    const index = i < vertexCount ? i : Math.floor(Math.random() * vertexCount);
+
     // Original vertex position
     const vertex = new THREE.Vector3(
-      originalPosition[i * 3], // x
-      originalPosition[i * 3 + 1], // y
-      originalPosition[i * 3 + 2] // z
+      originalPosition[index * 3], // x
+      originalPosition[index * 3 + 1], // y
+      originalPosition[index * 3 + 2] // z
     );
 
     // Apply rotation
     vertex.applyMatrix4(rotationMatrix);
 
+    const noiseStrength = 0.1; // Adjust strength based on gaps
+
+    vertex.x += (Math.random() - 0.5) * noiseStrength;
+    vertex.y += (Math.random() - 0.5) * noiseStrength;
+    // vertex.z += noise;
+
     // Store rotated position
-    positionData[i4] = vertex.x + (Math.random() - 0.5) * 0.05;
-    positionData[i4 + 1] = vertex.y + (Math.random() - 0.5) * 0.05;
+    positionData[i4] = vertex.x;
+    positionData[i4 + 1] = vertex.y;
     positionData[i4 + 2] = 0;
     positionData[i4 + 3] = 1; // w component for homogeneous coordinates
   }
@@ -56,8 +75,11 @@ const ParticleMesh = () => {
   const pointsRef = useRef(null);
   const materialRef = useRef(null);
   const { nodes } = useGLTF(
-    "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGEld38l0QWy37Bbrxkg1OpSnGeljiUFKDvahc"
+    "/assets/ThreeModels/Serotonine_Icon/icon_remeshed_subdivided.glb"
   );
+  // const { nodes } = useGLTF(
+  //   "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGEld38l0QWy37Bbrxkg1OpSnGeljiUFKDvahc"
+  // );
 
   // --------- HANDLING THE OG PARTICLES POSITION AND UVS ---------
   const particlesPosition = useMemo(() => {
@@ -106,63 +128,72 @@ const ParticleMesh = () => {
     () => ({
       uTime: { value: 0 },
       uDelta: { value: 0 },
+      uIntroProgress: { value: 0 },
       uTexturePosition: { value: null },
     }),
     []
   );
 
-  // Leva GUI controls
-  const controls = useControls(
-    "Physics",
-    {
-      uVortexStrength: {
-        value: 0.85,
-        min: 0,
-        max: 2,
-        step: 0.01,
-        onChange: (e) => {
-          velocityUniforms.uVortexStrength.value = e;
-        },
-      },
-      uVortexMultiplicator: {
-        value: 0.25,
-        min: 0.01,
-        max: 20,
-        step: 0.01,
-        onChange: (e) => {
-          velocityUniforms.uVortexMultiplicator.value = e;
-        },
-      },
-      uTurbulenceStrength: {
-        value: 0.2,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        onChange: (e) => {
-          velocityUniforms.uTurbulenceStrength.value = e;
-        },
-      },
-      uVelocityStrength: {
-        value: 5,
-        min: 1,
-        max: 50,
-        step: 1,
-        onChange: (e) => {
-          velocityUniforms.uVelocityStrength.value = e;
-        },
-      },
-      uVelocityReduce: {
-        value: 0.85,
-        min: 0.5,
-        max: 1,
-        step: 0.01,
-        onChange: (e) => {
-          velocityUniforms.uVelocityReduce.value = e;
-        },
-      },
-    },
-    { hidden: true }
-  );
+  // const positionControls = useControls("intro", {
+  //   uIntroProgress: {
+  //     value: 0.0,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.01,
+  //     onChange: (e) => {
+  //       positionUniforms.uIntroProgress.value = e;
+  //     },
+  //   },
+  // });
+
+  // // Leva GUI controls
+  // const controls = useControls("Physics", {
+  //   uVortexStrength: {
+  //     value: 0.7,
+  //     min: 0,
+  //     max: 2,
+  //     step: 0.01,
+  //     onChange: (e) => {
+  //       velocityUniforms.uVortexStrength.value = e;
+  //     },
+  //   },
+  //   uVortexMultiplicator: {
+  //     value: 1.02,
+  //     min: 0.01,
+  //     max: 20,
+  //     step: 0.01,
+  //     onChange: (e) => {
+  //       velocityUniforms.uVortexMultiplicator.value = e;
+  //     },
+  //   },
+  //   uTurbulenceStrength: {
+  //     value: 0.8,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.01,
+  //     onChange: (e) => {
+  //       velocityUniforms.uTurbulenceStrength.value = e;
+  //     },
+  //   },
+  //   uVelocityStrength: {
+  //     value: 19,
+  //     min: 1,
+  //     max: 50,
+  //     step: 1,
+  //     onChange: (e) => {
+  //       velocityUniforms.uVelocityStrength.value = e;
+  //     },
+  //   },
+  //   uVelocityReduce: {
+  //     value: 0.64,
+  //     min: 0.5,
+  //     max: 1,
+  //     step: 0.01,
+  //     onChange: (e) => {
+  //       velocityUniforms.uVelocityReduce.value = e;
+  //     },
+  //   },
+  // });
 
   const velocityUniforms = useMemo(
     () => ({
@@ -171,15 +202,15 @@ const ParticleMesh = () => {
       uMouse: { value: new THREE.Vector2(-1) },
 
       // Vortex Uniforms
-      uVortexStrength: { value: 0.85 },
-      uVortexMultiplicator: { value: 0.25 },
+      uVortexStrength: { value: 0.7 },
+      uVortexMultiplicator: { value: 1.02 },
 
       // Turbulence
-      uTurbulenceStrength: { value: 0.2 },
+      uTurbulenceStrength: { value: 0.82 },
 
       // Velocity
-      uVelocityStrength: { value: 4 },
-      uVelocityReduce: { value: 0.85 },
+      uVelocityStrength: { value: 19 },
+      uVelocityReduce: { value: 0.64 },
     }),
     []
   );
@@ -241,6 +272,14 @@ const ParticleMesh = () => {
     if (error) {
       console.error("❌ GPU Compute init error:", error);
     }
+  }, []);
+
+  useGSAP(() => {
+    gsap.to(positionUniforms.uIntroProgress, {
+      value: 1,
+      duration: 2,
+      ease: Power3.easeOut,
+    });
   }, []);
 
   useFrame((state, delta) => {
@@ -310,7 +349,7 @@ export const ParticleMorph = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center h-[--fullScreen]">
-        <Canvas camera={{ position: new THREE.Vector3(0, 0, 8) }}>
+        <Canvas camera={{ position: new THREE.Vector3(0, 0, 5) }}>
           <Scene />
         </Canvas>
       </div>

@@ -1,13 +1,22 @@
 varying vec3 vPos;
+varying vec2 vRef;
+
+uniform sampler2D uPositions;
+uniform sampler2D uDensityTexture;
 
 uniform vec2 uMouse;
 
 void main(){
-  float INTENSITY = 1000.0;
-  float THRESHOLD_LOW = 0.; // Start fading effect
-  float THRESHOLD_HIGH = 1.; // Fully applied at this point
-  float factor = smoothstep(THRESHOLD_LOW, THRESHOLD_HIGH, abs(vPos.x) * 1000.);
-  float heightColor = factor * clamp(abs(vPos.x) , 0.0, 1.0);
 
-  gl_FragColor = vec4(vec3(heightColor), 1.0);
+  float density = texture2D(uDensityTexture, vRef).x;
+
+
+  vec3 white = vec3(0.0);
+  vec3 lightGrey = vec3(0.0);
+  vec3 darkGrey = vec3(0.);
+
+  vec3 color = mix(darkGrey, lightGrey, step(0.5, density));
+  color = mix(color, white, step(0.8, density));
+
+  gl_FragColor = vec4(color, 1.0);
 }
