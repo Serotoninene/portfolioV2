@@ -18,7 +18,7 @@ void main() {
 
   gl_Position = projectedPosition;
 
-  gl_PointSize = 1.;
+  gl_PointSize = 3.;
   // Size attenuation;
   // gl_PointSize *= step(1.0 - (1.0/64.0), position.x) + 0.3;
 }

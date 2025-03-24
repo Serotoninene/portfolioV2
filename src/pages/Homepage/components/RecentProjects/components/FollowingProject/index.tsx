@@ -167,7 +167,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
 
   return (
     <mesh ref={ref} {...scrollScene}>
-      <planeGeometry args={[1, 1, 32, 32]} />
+      <planeGeometry args={[1, 1, 64, 64]} />
       <shaderMaterial
         ref={shader}
         vertexShader={vertex}
