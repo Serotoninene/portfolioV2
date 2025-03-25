@@ -16,7 +16,7 @@ import { useGSAP } from "@gsap/react";
 import gsap, { Power3 } from "gsap";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 
-const SIZE = 512 + 256;
+const SIZE = 512;
 const LENGTH = SIZE * SIZE;
 
 const fillPositionTexture = (gpuCompute, model) => {
