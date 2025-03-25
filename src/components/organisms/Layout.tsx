@@ -10,9 +10,7 @@ import { CustomCursor, Navbar } from "../molecules";
 import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
-import path from "path";
 import gsap from "gsap";
-import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;

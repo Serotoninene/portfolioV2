@@ -12,7 +12,4 @@ export default defineConfig({
       compress: false,
     }),
   ],
-  server: {
-    historyApiFallback: true, // 👈 Add this!
-  },
 });
