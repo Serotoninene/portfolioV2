@@ -116,10 +116,8 @@ uniform float uVelocityReduce;
 
 
 const float PI = 3.141592653589793;
-const float RADIUS = 0.5;
-const float XY_STRENGTH = 0.3; // Controls rotation intensity
-const float RESTORE_SPEED = 20.;  // Smooth return effect
-const float VORTEX_RADIUS = 0.2; // Radius of the vortex effect
+const float RADIUS = 1.;
+const float RESTORE_SPEED = 5.;  // Smooth return effect
 
 // 🌪️ Vortex Function
 vec3 vorticityAroundZ(vec3 targetPositions, vec3 center, float xyStrength) {
