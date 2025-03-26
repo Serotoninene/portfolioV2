@@ -22,7 +22,7 @@ export const experimentsData: Record<string, Experiment> = {
   text_morph: {
     title: "Text Morph",
     slug: "text_morph",
-    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L64KpUP9YwZtzx7Q9CFTRXqpa2cuhlneBdVkOE",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6ojqpOAgdCyMawJf59NTSEA2n1Veogzv6Icbq",
     component: TextMorph,
   },
   particle_morph: {
