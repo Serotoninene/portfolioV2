@@ -10,14 +10,14 @@ import { AnimatedCurvedText3D } from "../../../../components/three/AnimatedCurve
 
 interface RefractionMeshProps {
   children: React.ReactNode;
-  position: [number, number, number];
-  scale: number;
+  position?: [number, number, number];
+  scale?: number;
 }
 
 export const RefractionMesh = ({
   children,
-  position,
-  scale,
+  position = [1, 1, 1],
+  scale = 1,
 }: RefractionMeshProps) => {
   const mesh = useRef<THREE.Mesh>(null);
   const material = useRef<THREE.ShaderMaterial>(null);
@@ -112,6 +112,7 @@ export const RefractionMesh = ({
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
+        side={THREE.DoubleSide}
       />
     </mesh>
   );

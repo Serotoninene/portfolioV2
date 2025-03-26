@@ -96,7 +96,6 @@ void main() {
     float iorRatioRed = 1.0/uIorR;
     float iorRatioGreen = 1.0/uIorG;
     float iorRatioBlue = 1.0/uIorB;
-
     
     vec3 color = vec3(1.0);
     

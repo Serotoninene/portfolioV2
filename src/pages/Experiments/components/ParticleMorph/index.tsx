@@ -348,7 +348,7 @@ const Scene = () => {
 export const ParticleMorph = () => {
   return (
     <>
-      <div className="flex flex-col justify-center items-center h-[--fullScreen]">
+      <div className="h-[--fullScreen]">
         <Canvas camera={{ position: new THREE.Vector3(0, 0, 5) }}>
           <Scene />
         </Canvas>

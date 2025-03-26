@@ -9,6 +9,7 @@ import { BlurEffect } from "./components/BlurEffect";
 import { MotoyoshiInfiniteGrid } from "./components/MotoyoshiInfiniteGrid";
 import { NormalLightEffect } from "./components/NormalLightEffect";
 import { RefractionGlass } from "./components/RefractionGlass";
+import { TextMorph } from "./components/TextMorph";
 
 export interface Experiment {
   title: string;
@@ -18,6 +19,12 @@ export interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
+  text_morph: {
+    title: "Text Morph",
+    slug: "text_morph",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L64KpUP9YwZtzx7Q9CFTRXqpa2cuhlneBdVkOE",
+    component: TextMorph,
+  },
   particle_morph: {
     title: "Particle Morph",
     slug: "particle_morph",

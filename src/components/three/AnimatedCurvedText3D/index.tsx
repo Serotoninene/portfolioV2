@@ -12,6 +12,7 @@ interface AnimatedCurvedText3DProps {
   children: string;
   position?: [number, number, number];
   size?: number;
+  rotation?: [number, number, number];
   radius?: number;
 }
 
@@ -19,6 +20,7 @@ export const AnimatedCurvedText3D = ({
   color = "fff",
   children = "",
   position = [0, 0, 0],
+  rotation = [0, 0, 0],
   size = 1,
   radius = 3.14,
 }: AnimatedCurvedText3DProps) => {
@@ -64,7 +66,7 @@ export const AnimatedCurvedText3D = ({
   });
 
   return (
-    <group ref={groupRef} position={position}>
+    <group ref={groupRef} position={position} rotation={rotation}>
       <Text
         ref={textRef}
         font="https://o1vj7bm9yy.ufs.sh/f/YS7X7tdqhV1FA7KxBhgER1qt6JFlP5UTNYh2kKHzviujeDwO"
