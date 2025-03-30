@@ -19,15 +19,23 @@ export default class TouchTexture {
   private size: number;
   private maxAge: number;
   private radius: number;
+  private introAnim: boolean;
   private trail: Point[];
   private canvas: HTMLCanvasElement | null;
   private ctx: CanvasRenderingContext2D | null;
   private timeout: NodeJS.Timeout | null;
 
-  constructor(isOnScreen = false, size = 128, maxAge = 120, radius = 0.2) {
+  constructor(
+    isOnScreen = false,
+    size = 128,
+    maxAge = 120,
+    radius = 0.2,
+    introAnim = true
+  ) {
     this.size = size;
     this.maxAge = maxAge;
     this.radius = radius;
+    this.introAnim;
     this.trail = [];
     this.canDraw = true;
 
@@ -71,8 +79,8 @@ export default class TouchTexture {
 
     gsap.to(value, {
       radius: targetRadius,
-      delay: 3,
-      duration: 3,
+      delay: this.introAnim ? 3 : 0,
+      duration: this.introAnim ? 3 : 0,
       onUpdate: () => {
         this.radius = value.radius;
       },
