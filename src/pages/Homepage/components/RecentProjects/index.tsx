@@ -1,4 +1,5 @@
-import { Marquee, ProjectLines } from "./components";
+import { Marquee } from "../../../../components/molecules/Marquee";
+import { ProjectLines } from "./components";
 
 export const RecentProjects = () => {
   return (

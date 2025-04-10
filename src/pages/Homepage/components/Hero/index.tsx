@@ -83,8 +83,7 @@ const HeroText = () => {
         className="text-center text-base font-base leading-[130%] px-6 sm:w-[360px] z-10"
       >
         <AnimWords
-          string="I'm a passionate creative developer dedicated to turning ideas into
-  immersive digital experiences. From elegant websites to interactive applications."
+          string="I'm a passionate creative developer dedicated to turning ideas into  immersive digital experiences. From elegant websites to interactive applications."
           stagger={0.01}
           delay={0.5}
           start={hasLoaded}

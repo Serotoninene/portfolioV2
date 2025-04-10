@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
 import * as THREE from "three";
 
 // Shaders
 import fragmentShader from "./shaders/fragment.glsl";
-import fragmentShaderDensity from "./shaders/fragmentShaderDensity.glsl";
 import fragmentShaderPosition from "./shaders/fragmentShaderPosition.glsl";
 import fragmentShaderVelocity from "./shaders/fragmentShaderVelocity.glsl";
 import vertexShader from "./shaders/vertex.glsl";
@@ -16,54 +15,21 @@ import { useGSAP } from "@gsap/react";
 import gsap, { Power3 } from "gsap";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 
-const SIZE = 512;
+const SIZE = 256;
 const LENGTH = SIZE * SIZE;
 
-const fillPositionTexture = (gpuCompute, model) => {
+const fillPositionTexture = (gpuCompute, viewport) => {
   const positionTexture = gpuCompute.createTexture();
   const positionData = positionTexture.image.data;
 
-  // SERoto icon
-  const data = model.Plane || null;
-  // Hand
-  // const data = model.Object_4 || null;
-  // ADN
-  // const data = model.DNA || null;
-
-  if (!data) return data;
-
-  const geometry = data.geometry;
-  const originalPosition = geometry.attributes.position.array;
-  const vertexCount = geometry.attributes.position.count; // Total number of vertices
-
-  // Rotation Matrix (90 degrees around Z-axis)
-  const rotationMatrix = new THREE.Matrix4().makeRotationY(Math.PI / 2);
-
   for (let i = 0; i < LENGTH; i++) {
-    let i4 = i * 4;
-
-    // Ensure we don't go out of bounds
-    const index = i < vertexCount ? i : Math.floor(Math.random() * vertexCount);
-
-    // Original vertex position
-    const vertex = new THREE.Vector3(
-      originalPosition[index * 3], // x
-      originalPosition[index * 3 + 1], // y
-      originalPosition[index * 3 + 2] // z
-    );
-
-    // Apply rotation
-    vertex.applyMatrix4(rotationMatrix);
-
-    const noiseStrength = 0.1; // Adjust strength based on gaps
-
-    vertex.x += (Math.random() - 0.5) * noiseStrength;
-    vertex.y += (Math.random() - 0.5) * noiseStrength;
-    // vertex.z += noise;
+    const i4 = i * 4;
 
     // Store rotated position
-    positionData[i4] = vertex.x;
-    positionData[i4 + 1] = vertex.y;
+    positionData[i4] =
+      ((i % SIZE) / SIZE) * viewport.width * 1.2 - viewport.width / 2;
+    positionData[i4 + 1] =
+      (i / SIZE / SIZE) * viewport.height - viewport.height / 2;
     positionData[i4 + 2] = 0;
     positionData[i4 + 3] = 1; // w component for homogeneous coordinates
   }
@@ -74,18 +40,14 @@ const fillPositionTexture = (gpuCompute, model) => {
 const ParticleMesh = () => {
   const pointsRef = useRef(null);
   const materialRef = useRef(null);
-  const { nodes } = useGLTF(
-    "/assets/ThreeModels/Serotonine_Icon/icon_remeshed_subdivided.glb"
-  );
-  // const { nodes } = useGLTF(
-  //   "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGEld38l0QWy37Bbrxkg1OpSnGeljiUFKDvahc"
-  // );
+
+  const { viewport } = useThree();
 
   // --------- HANDLING THE OG PARTICLES POSITION AND UVS ---------
   const particlesPosition = useMemo(() => {
     const particles = new Float32Array(LENGTH * 3);
     for (let i = 0; i < LENGTH; i++) {
-      let i3 = i * 3;
+      const i3 = i * 3;
       particles[i3 + 0] = (i % SIZE) / SIZE - 0.5;
       particles[i3 + 1] = i / SIZE / SIZE - 0.5;
       particles[i3 + 2] = 0;
@@ -120,9 +82,8 @@ const ParticleMesh = () => {
     [gl]
   );
 
-  const positionVariable = useRef(null);
-  const velocityVariable = useRef(null);
-  const densityVariable = useRef(null);
+  const positionVariable = useRef();
+  const velocityVariable = useRef();
 
   const positionUniforms = useMemo(
     () => ({
@@ -133,67 +94,6 @@ const ParticleMesh = () => {
     }),
     []
   );
-
-  // const positionControls = useControls("intro", {
-  //   uIntroProgress: {
-  //     value: 0.0,
-  //     min: 0,
-  //     max: 1,
-  //     step: 0.01,
-  //     onChange: (e) => {
-  //       positionUniforms.uIntroProgress.value = e;
-  //     },
-  //   },
-  // });
-
-  // // Leva GUI controls
-  // const controls = useControls("Physics", {
-  //   uVortexStrength: {
-  //     value: 0.7,
-  //     min: 0,
-  //     max: 2,
-  //     step: 0.01,
-  //     onChange: (e) => {
-  //       velocityUniforms.uVortexStrength.value = e;
-  //     },
-  //   },
-  //   uVortexMultiplicator: {
-  //     value: 1.02,
-  //     min: 0.01,
-  //     max: 20,
-  //     step: 0.01,
-  //     onChange: (e) => {
-  //       velocityUniforms.uVortexMultiplicator.value = e;
-  //     },
-  //   },
-  //   uTurbulenceStrength: {
-  //     value: 0.8,
-  //     min: 0,
-  //     max: 1,
-  //     step: 0.01,
-  //     onChange: (e) => {
-  //       velocityUniforms.uTurbulenceStrength.value = e;
-  //     },
-  //   },
-  //   uVelocityStrength: {
-  //     value: 19,
-  //     min: 1,
-  //     max: 50,
-  //     step: 1,
-  //     onChange: (e) => {
-  //       velocityUniforms.uVelocityStrength.value = e;
-  //     },
-  //   },
-  //   uVelocityReduce: {
-  //     value: 0.64,
-  //     min: 0.5,
-  //     max: 1,
-  //     step: 0.01,
-  //     onChange: (e) => {
-  //       velocityUniforms.uVelocityReduce.value = e;
-  //     },
-  //   },
-  // });
 
   const velocityUniforms = useMemo(
     () => ({
@@ -218,9 +118,8 @@ const ParticleMesh = () => {
   useEffect(() => {
     if (!gl) return;
 
-    const positionTexture = fillPositionTexture(gpuCompute, nodes);
+    const positionTexture = fillPositionTexture(gpuCompute, viewport);
     const velocityTexture = gpuCompute.createTexture();
-    const densityTexture = gpuCompute.createTexture();
 
     velocityVariable.current = gpuCompute.addVariable(
       "uTextureVelocity",
@@ -234,36 +133,20 @@ const ParticleMesh = () => {
       positionTexture
     );
 
-    densityVariable.current = gpuCompute.addVariable(
-      "uTextureDensity",
-      fragmentShaderDensity,
-      densityTexture
-    );
-
     gpuCompute.setVariableDependencies(velocityVariable.current, [
       positionVariable.current,
       velocityVariable.current,
-      densityVariable.current,
     ]);
 
     gpuCompute.setVariableDependencies(positionVariable.current, [
       positionVariable.current,
       velocityVariable.current,
-      densityVariable.current,
-    ]);
-
-    gpuCompute.setVariableDependencies(densityVariable.current, [
-      positionVariable.current,
-      densityVariable.current,
     ]);
 
     positionVariable.current.material.uniforms = positionUniforms;
     velocityVariable.current.material.uniforms = velocityUniforms;
 
     velocityVariable.current.material.uniforms.uOriginalPosition = {
-      value: positionTexture,
-    };
-    densityVariable.current.material.uniforms.uOriginalPosition = {
       value: positionTexture,
     };
 
@@ -305,9 +188,6 @@ const ParticleMesh = () => {
     materialRef.current.uniforms.uPositionTexture.value =
       gpuCompute.getCurrentRenderTarget(positionVariable.current).texture;
 
-    materialRef.current.uniforms.uDensityTexture.value =
-      gpuCompute.getCurrentRenderTarget(densityVariable.current).texture;
-
     materialRef.current.uniforms.uMouse.value = mouse;
   });
 
@@ -340,7 +220,6 @@ const Scene = () => {
     <>
       <ParticleMesh />
       <OrbitControls />
-      {/* <ambientLight intensity={1000} /> */}
     </>
   );
 };

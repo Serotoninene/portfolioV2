@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Loader } from "../../components/organisms";
 import {
+  AboutMe,
   Contact,
   Footer,
   Hero,
@@ -32,8 +33,9 @@ export default function Homepage() {
   return (
     <div id="Homepage" className="overflow-clip" onScroll={handleScroll}>
       {!hasAlreadyLoaded && <Loader />}
-      <Hero />
-      <Showreal />
+      {/* <Hero />
+      <Showreal /> */}
+      <AboutMe />
       <StickyText />
       <RecentProjects />
       <Contact />
