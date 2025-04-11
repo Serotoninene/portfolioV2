@@ -42,7 +42,7 @@ export const Contact = () => {
             <div id="ContactHeader" className="mb-14">
               <h2
                 id="ContactHeader_Title"
-                className="text-3xl font-light mb-2 sm:text-4xl overflow-hidden"
+                className="text-3xl font-bold mb-2 sm:text-4xl overflow-hidden"
               >
                 {splitWords("Let's work together !")}
               </h2>
