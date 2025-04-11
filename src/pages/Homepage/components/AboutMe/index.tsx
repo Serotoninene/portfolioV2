@@ -32,17 +32,16 @@ export const AboutMe = () => {
       <div className="pt-10 pb-14 ">
         <Marquee text="ABOUT ME" direction={1} />
       </div>
-      <div className="grid grid-cols-5 md:gap-10 ">
-        <div className="grid-filler"></div>
-        <div className="flex justify-center max-w-[267px]">
+      <div className="grid md:grid-cols-3 gap-5 md:gap-10 md:max-w-[820px] md:m-auto">
+        <div className="order-1 md:-order-none">
           <img
-            className="w-full object-cover"
+            className="h-40 w-full md:h-full object-cover"
             alt="portrait of Alex, the developer we're talking about here"
             src="https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6gxPAZgX7uwKTALhUXFxjOEWvyHartPDzflVN"
           />
         </div>
 
-        <div id="description" className="col-span-2 max-w-[570px]">
+        <div id="description" className="md:col-span-2">
           <p className="text-justify">
             In a previous life, I worked in the music industry, navigating the
             worlds of marketing and sales. From that time, I’ve carried over a
@@ -75,8 +74,6 @@ export const AboutMe = () => {
             ))}
           </div>
         </div>
-
-        <div className="grid-filler"></div>
       </div>
     </div>
   );
