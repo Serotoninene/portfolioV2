@@ -13,7 +13,7 @@ export const Showreal = () => {
   return (
     <div
       id="showreal__main-container"
-      className="flex justify-center items-center will-change-transform"
+      className="flex justify-center items-center will-change-transform mb-[20vh]"
     >
       <div
         id="showreal__video-container"

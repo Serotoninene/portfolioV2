@@ -1,7 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import { Marquee } from "../../../../components/molecules/Marquee";
 import { useEffect, useRef, useState } from "react";
-import gsap, { Power3 } from "gsap";
+import gsap, { Expo, Power3, Power4 } from "gsap";
 import { AnimLetters } from "../../../../components/atoms";
 
 const Highlight = ({ children }: { children: React.ReactNode }) => (
@@ -40,7 +40,7 @@ export const AboutMe = () => {
         defaults: { ease: Power3.easeOut, duration: 0.7 },
         scrollTrigger: {
           trigger: ref.current,
-          start: "top 50%",
+          start: "top 60%",
           markers: true,
         },
       });
@@ -52,7 +52,11 @@ export const AboutMe = () => {
       gsap.set(paragraphs, { opacity: 0 });
       gsap.set(stackPills, { opacity: 0, y: 54 });
 
-      tl.to("#About_Picture-wrapper", { clipPath: "inset(0 0 0% 0)" });
+      tl.to("#About_Picture-wrapper", {
+        clipPath: "inset(0 0 0% 0)",
+        duration: 0.8,
+        ease: Expo.easeInOut,
+      });
       tl.to(paragraphs, { opacity: 1, stagger: 0.1 }, "<0.1");
       tl.add(() => {
         setIsStackAnimated(true);
@@ -115,7 +119,7 @@ export const AboutMe = () => {
           </p>
           <h3 id="About_Stack-title" className="mt-10 mb-2 font-bold text-4xl">
             <AnimLetters
-              string="Techs I love to use (stack)"
+              string="Techs I love to use"
               start={isStackAnimated}
               stagger={0.01}
               delay={0}

@@ -56,7 +56,7 @@ export const Navbar = () => {
 
       <div
         id="Center_Navbar"
-        className="gap-10 text-sm font-medium overflow-hidden md:flex"
+        className="gap-10 text-sm font-medium overflow-hidden hidden md:flex"
       >
         <AnimLetters
           string="Portfolio 2025"
