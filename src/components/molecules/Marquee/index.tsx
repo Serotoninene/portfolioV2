@@ -10,7 +10,7 @@ interface MarqueeProps {
 
 export const Marquee = ({
   text = "RECENT PROJECT",
-  speed = 0.2,
+  speed = 0.1,
   direction = -1,
 }: MarqueeProps) => {
   const slider = React.useRef<HTMLDivElement[]>([]);
@@ -44,7 +44,7 @@ export const Marquee = ({
   const textArray = new Array(5).fill(text);
 
   return (
-    <div className="relative  italic w-fit font-semibold text-[32px] md:text-[64px] lg:text-[80px]">
+    <div className="relative  italic w-fit font-extrabold text-[32px] md:text-[64px] lg:text-[80px]">
       <h2 ref={(e) => e && slider.current.push(e)}>{text} -&nbsp;</h2>
 
       <p

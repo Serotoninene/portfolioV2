@@ -42,13 +42,13 @@ export const Contact = () => {
             <div id="ContactHeader" className="mb-14">
               <h2
                 id="ContactHeader_Title"
-                className="text-3xl font-bold mb-2 sm:text-4xl overflow-hidden"
+                className="text-3xl font-light mb-2 sm:text-4xl overflow-hidden"
               >
                 {splitWords("Let's work together !")}
               </h2>
               <div
                 id="ContactHeader_Paragraph"
-                className="font-thin leading-[110%]"
+                className="font-normal leading-[110%]"
               >
                 {splitWords(
                   "Drop me a message, and let's turn your ideas into reality. Excited to collaborate on your next creative project!"

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import * as THREE from "three";
-import gsap, { Power1 } from "gsap";
+import gsap, { Power1, Power3 } from "gsap";
 
 import { useProjectContext } from "../../../../../../../hooks/useProjectContext";
 import { projects } from "../../../data";
@@ -48,8 +48,8 @@ export const useUpdateTexture = ({
       gsap.killTweensOf(mixFactor);
       await gsap.to(mixFactor, {
         value: 1,
-        duration: 0.2,
-        ease: Power1.easeIn,
+        duration: 0.5,
+        ease: Power3.easeOut,
       });
 
       // Set the first texture to the second texture

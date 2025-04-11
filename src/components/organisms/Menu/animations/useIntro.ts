@@ -7,7 +7,7 @@ export const useIntro = (container: RefObject<HTMLDivElement>) => {
   // set up the timeline for the animation
   useLayoutEffect(() => {
     const sectionTl = gsap.timeline({
-      defaults: { ease: Power3.easeOut },
+      defaults: { ease: Power3.easeOut, duration: 0.45 },
     });
     const sections = gsap.utils.toArray(".menu-section");
 
