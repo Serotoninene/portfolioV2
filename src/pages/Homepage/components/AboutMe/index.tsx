@@ -1,8 +1,9 @@
 import { useGSAP } from "@gsap/react";
 import { Marquee } from "../../../../components/molecules/Marquee";
-import { useEffect, useRef, useState } from "react";
-import gsap, { Expo, Power3, Power4 } from "gsap";
+import { useRef, useState } from "react";
+import gsap, { Expo, Power3 } from "gsap";
 import { AnimLetters } from "../../../../components/atoms";
+import { useColorContext } from "../../../../hooks/useColorContext";
 
 const Highlight = ({ children }: { children: React.ReactNode }) => (
   <span className="font-semibold">{children}</span>
@@ -26,12 +27,24 @@ const techsArray = [
   "GitLab",
 ];
 
-const TechPill = ({ text }: { text: string }) => (
-  <div className="px-2 py-1 rounded-lg border border-dark text-sm">{text}</div>
+const TechPill = ({
+  text,
+  secondaryColor,
+}: {
+  text: string;
+  secondaryColor: string;
+}) => (
+  <div
+    className="px-2 py-1 rounded-lg border border-[] text-sm"
+    style={{ border: `1px solid ${secondaryColor}` }}
+  >
+    {text}
+  </div>
 );
 
 export const AboutMe = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const { colors } = useColorContext();
   const [isStackAnimated, setIsStackAnimated] = useState(false);
 
   useGSAP(
@@ -41,7 +54,6 @@ export const AboutMe = () => {
         scrollTrigger: {
           trigger: ref.current,
           start: "top 60%",
-          markers: true,
         },
       });
 
@@ -60,15 +72,15 @@ export const AboutMe = () => {
       tl.to(paragraphs, { opacity: 1, stagger: 0.1 }, "<0.1");
       tl.add(() => {
         setIsStackAnimated(true);
-      }, "<0.1");
+      }, "<");
       tl.to(stackPills, { opacity: 1, y: 0, stagger: 0.02 }, "<0.1");
     },
     { scope: ref }
   );
 
   return (
-    <div id="AboutMe" className="relative pb-5 px-5">
-      <div className="pt-10 pb-14 ">
+    <div id="About" className="relative pb-5 px-5">
+      <div className="pt-10 pb-6 md:pb-14 ">
         <Marquee text="ABOUT ME" direction={1} />
       </div>
       <div
@@ -130,7 +142,11 @@ export const AboutMe = () => {
             className="flex flex-wrap gap-y-2 gap-x-4"
           >
             {techsArray.map((tech, idx) => (
-              <TechPill key={idx} text={tech} />
+              <TechPill
+                key={idx}
+                text={tech}
+                secondaryColor={colors.secondaryColor}
+              />
             ))}
           </div>
         </div>

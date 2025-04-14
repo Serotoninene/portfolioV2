@@ -8,10 +8,10 @@ import { Section } from "./components/Section";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 
 const sections = [
-  { idx: 1, name: "WORK", href: "/#RecentProjects" },
+  { idx: 1, name: "HOME", href: "/" },
   { idx: 2, name: "EXPERIMENTS", href: "/experiments" },
-  { idx: 3, name: "ABOUT", isIncoming: true },
-  { idx: 4, name: "CONTACT ME", isIncoming: true },
+  { idx: 3, name: "ABOUT", href: "#About" },
+  { idx: 4, name: "CONTACT ME", href: "#Contact" },
 ];
 
 const coordonnees = [

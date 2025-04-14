@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHover } from "./animations/useHover";
 
@@ -42,7 +42,14 @@ export const Section = ({ idx, name, href, isIncoming }: SectionProps) => {
     if (isIncoming) return;
 
     setIsMenuOpen(false);
-    href && navigate(href);
+    if (!href) return;
+
+    if (href?.startsWith("#")) {
+      const element = document.querySelector(href);
+      element?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(href);
+    }
   };
 
   return (

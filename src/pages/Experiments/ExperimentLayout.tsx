@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
-import { AnimLink } from "../../../components/atoms";
-import { experimentsData } from "../experimentsData";
+
+import { experimentsData } from "./experimentsData";
+import { AnimLink } from "../../components/atoms";
 
 const BackButton = () => {
   return (
