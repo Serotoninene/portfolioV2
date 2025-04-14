@@ -9,13 +9,13 @@ import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
 gsap.registerPlugin(ScrollToPlugin);
 
+import { useColorContext } from "../../../../../../hooks/useColorContext";
 import {
   useProjectLineHover,
   useProjectLineIntro,
   useProjectLineScrollAnimation,
 } from "./animations";
 import scrollToProject from "./utils/scrollToProject";
-import { useColorContext } from "../../../../../../hooks/useColorContext";
 
 type Props = {
   project: Project;

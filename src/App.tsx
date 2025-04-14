@@ -29,7 +29,7 @@ function App() {
       element: <WithLayout component={<Homepage />} />,
     },
     {
-      path: "/project/:id",
+      path: "/projects/:id",
       element: <WithLayout component={<ProjectLayout />} />,
     },
     {

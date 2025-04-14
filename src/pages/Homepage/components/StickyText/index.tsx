@@ -1,63 +1,60 @@
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
 import { splitWords } from "../../../../utils";
 
 export const StickyText = () => {
   const container = useRef<HTMLDivElement>(null);
-  const letters = useRef<HTMLSpanElement[]>([]);
-  const block = useRef<HTMLDivElement>(null);
-  const line = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline>();
 
   const phrase =
     "From Paris, France. Creative developer driven by a love for crafting digital magic. With a passion for innovative solutions, I transform ideas into captivating online experiences. ";
 
-  useEffect(() => {
-    gsap.set(letters.current, { opacity: 0.3 });
-    gsap.set(block.current, { yPercent: -120, rotate: 45 });
-    gsap.set(line.current, { scaleX: 0 });
+  useGSAP(
+    () => {
+      gsap.set("span", { opacity: 0.3 });
+      gsap.set("#Sticky-Text__block", { yPercent: -120, rotate: 45 });
+      gsap.set("#Sticky-Text__line", { scaleX: 0 });
 
-    tl.current = gsap.timeline({
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top center",
-        end: "bottom center",
-        scrub: 0.7,
-      },
-    });
+      tl.current = gsap.timeline({
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: 0.7,
+        },
+      });
 
-    tl.current.to(letters.current, {
-      opacity: 1,
-      stagger: 0.05,
-    });
-    tl.current.to(
-      block.current,
-      {
-        yPercent: 0,
-        rotate: 0,
-        duration: 5,
-      },
-      "<"
-    );
-    tl.current.to(
-      line.current,
-      {
-        scaleX: 1,
-        duration: 10,
-      },
-      "<"
-    );
+      tl.current.to("span", {
+        opacity: 1,
+        stagger: 0.05,
+      });
+      tl.current.to(
+        "#Sticky-Text__block",
+        {
+          yPercent: 0,
+          rotate: 0,
+          duration: 5,
+        },
+        "<"
+      );
+      tl.current.to(
+        "#Sticky-Text__line",
+        {
+          scaleX: 1,
+          duration: 10,
+        },
+        "<"
+      );
 
-    tl.current.to(line.current, {
-      scaleX: 0,
-      duration: 2,
-      xPercent: 100,
-    });
-
-    return () => {
-      tl.current?.kill();
-    };
-  }, []);
+      tl.current.to("#Sticky-Text__line", {
+        scaleX: 0,
+        duration: 2,
+        xPercent: 100,
+      });
+    },
+    { scope: container }
+  );
 
   return (
     <div
@@ -67,15 +64,18 @@ export const StickyText = () => {
     >
       <div className="sticky top-[64px] flex justify-end items-end w-full">
         <div className="text-[24px] md:text-[32px] font-medium text-right leading-[150%] w-[640px]">
-          {splitWords(phrase, letters)}
+          {splitWords(phrase)}
         </div>
       </div>
 
       <div className="hidden absolute bottom-0 left-0 items-end gap-6 w-screen pl-5 pr-20 pb-5 md:flex ">
         <div className="overflow-hidden">
-          <div ref={block} className=" w-6 aspect-square bg-dark" />
+          <div id="Sticky-Text__block" className="w-6 aspect-square bg-dark" />
         </div>
-        <div ref={line} className="h-[1px] w-full bg-dark origin-left" />
+        <div
+          id="Sticky-Text__line"
+          className="h-[1px] w-full bg-dark origin-left"
+        />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 import { useHover } from "./animations/useHover";
 
 import { useIsMenuOpen } from "../../../../../store/useIsMenuOpen";
@@ -35,27 +34,21 @@ export const Section = ({ idx, name, href, isIncoming }: SectionProps) => {
   const lineShadow = useRef<HTMLDivElement>(null);
   const hoverTl = useHover(arrows, lineShadow);
   const { setIsMenuOpen } = useIsMenuOpen();
-  const navigate = useNavigate();
 
   const redirectToSection = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (isIncoming) return;
+    if (isIncoming) {
+      e.preventDefault();
+      return;
+    }
 
     setIsMenuOpen(false);
-    if (!href) return;
-
-    if (href?.startsWith("#")) {
-      const element = document.querySelector(href);
-      element?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      navigate(href);
-    }
   };
 
   return (
-    <li
+    <a
       className="menu-section relative flex justify-between max-w-[480px] pb-[20px]"
       style={{ cursor: isIncoming ? "not-allowed" : "pointer" }}
+      href={isIncoming ? undefined : href}
       onClick={redirectToSection}
       onMouseEnter={() => hoverTl.current?.play()}
       onMouseLeave={() => hoverTl.current?.reverse()}
@@ -94,6 +87,6 @@ export const Section = ({ idx, name, href, isIncoming }: SectionProps) => {
         ref={lineShadow}
         className="menu-section__line__shadow absolute bottom-0 left-0 right-0 h-[0.5px] bg-secondary-400 origin-left scale-x-0"
       />
-    </li>
+    </a>
   );
 };
