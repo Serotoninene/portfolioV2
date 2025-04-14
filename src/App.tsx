@@ -3,11 +3,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/organisms";
 
 import { ColorProvider } from "./contexts/ColorContext";
-import Experiments from "./pages/Experiments";
-import Homepage from "./pages/Homepage";
 import { useWindowSize } from "./hooks";
-import { ProjectLayout } from "./pages/Project/ProjectLayout";
+import Experiments from "./pages/Experiments";
 import ExperimentLayout from "./pages/Experiments/ExperimentLayout";
+import Homepage from "./pages/Homepage";
+import Project from "./pages/Project";
 
 type Props = {
   component: React.ReactNode;
@@ -30,7 +30,7 @@ function App() {
     },
     {
       path: "/projects/:id",
-      element: <WithLayout component={<ProjectLayout />} />,
+      element: <WithLayout component={<Project />} />,
     },
     {
       path: "/experiments",
