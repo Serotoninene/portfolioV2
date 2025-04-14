@@ -38,12 +38,16 @@ export function ProjectContent({ data }: { data: ProjectData }) {
           <div className="h-[80vh] col-span-2">
             <img className="h-full w-full object-cover" src={chunk[0]} />
           </div>
-          <div className="h-[80vh]">
-            <img className="h-full w-full object-cover" src={chunk[1]} />
-          </div>
-          <div className="h-[80vh]">
-            <img className="h-full w-full object-cover" src={chunk[2]} />
-          </div>
+          {chunk[1] && (
+            <div className="h-[80vh]">
+              <img className="h-full w-full object-cover" src={chunk[1]} />
+            </div>
+          )}
+          {chunk[2] && (
+            <div className="h-[80vh]">
+              <img className="h-full w-full object-cover" src={chunk[2]} />
+            </div>
+          )}
           {paragraphs[index + 1] ? (
             <div
               className={`col-span-2 md:my-10 flex ${getAlignmentClass(
@@ -57,25 +61,6 @@ export function ProjectContent({ data }: { data: ProjectData }) {
           ) : null}
         </section>
       ))}
-      {/* 
-      {paragraphs && paragraphs.length > 1 ? (
-        <div className="col-span-2 my-10 flex justify-center">
-          <p className="text-[24px] md:text-[32px] font-medium leading-[150%] max-w-[640px] my-10 md:my-32">
-            {paragraphs[1]}
-          </p>
-        </div>
-      ) : null}
-
-      <div className="h-[80vh] col-span-2">
-        <img className="h-full w-full object-cover" src={photos[3]} />
-      </div>
-      {paragraphs && paragraphs.length > 2 ? (
-        <div className="col-span-2 my-10 flex justify-end">
-          <p className="text-[24px] md:text-[32px] font-medium leading-[150%] max-w-[640px] my-10 md:my-32">
-            {paragraphs[2]}
-          </p>
-        </div>
-      ) : null} */}
     </div>
   );
 }
