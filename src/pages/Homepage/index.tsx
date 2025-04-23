@@ -32,7 +32,7 @@ export default function Homepage() {
 
   return (
     <div id="Homepage" className="overflow-clip" onScroll={handleScroll}>
-      {!hasAlreadyLoaded && <Loader />}
+      <Loader />
       <Hero />
       <Showreal />
       <AboutMe />

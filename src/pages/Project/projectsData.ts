@@ -3,6 +3,8 @@ export interface ProjectData {
   slug: string;
   introParagraph: string;
   client: string;
+  color?: string;
+  clientUrl?: string;
   project: string;
   websiteName: string;
   websiteUrl: string;
@@ -15,68 +17,30 @@ export const projectsData: Record<string, ProjectData> = {
   avaa_architects: {
     title: "Avaa Architects",
     slug: "avaa_architects",
-    introParagraph: ` The grid system and layout were developed from scratch with a custom
-      CSS framework. Handling transitions — especially within the menu — was
-      a major challenge, but it became one of the project’s key
-      achievements. All animations were crafted in CSS and controlled via
-      JavaScript. This project was particularly challenging due to the sheer
-      number of videos, assets, and animations, but it was also one of the
-      most enjoyable and rewarding experiences I've had. Every effort was
-      made to adhere to HTML markup best practices.`,
+    color: "#ff0000",
+    introParagraph: `This Webflow-based website is a sleek and elegant portfolio designed by Polish Studio for Avaa Architect. It highlights the agency’s architectural work, introduces their team, and showcases their expertise — all within a clean, fluid interface enhanced by thoughtful motion design.
+
+`,
     client: "Polish Studio",
+    clientUrl: "https://www.polish-studio.fr/",
     project: "Avaa Architects portfolio",
     websiteName: "avaa-architectes.webflow.io",
     websiteUrl: "https://avaa-architectes.webflow.io/",
+    video:
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6IgRftQOM64X29GTPJjpSlksgFUAZu1DWOmez",
     photos: [
-      "/assets/Photos/hp-projects/s-eychenne.png",
-      "/assets/Photos/hp-projects/s-eychenne.png",
-      "/assets/Photos/hp-projects/s-eychenne.png",
-      "/assets/Photos/hp-projects/s-eychenne.png",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6Rbto8vkoXGl569imgek8qhVTc0NspE24ZYdP",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L62QgIsWcRxgZjY9rsJPfv4GwtTAndpIBhKUbm",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6QELs1fZIiwGZoPng4uEMaqKWm6XRBp1kV89N",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6b6VJ9VYLwrgLu7cHh3FYli2Z45BCESAaPsXG",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6e9JFCFwmSiAoR9BqIWsc2YmnNt540jMXpfGD",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6YkxKKpb21rOcCJiaDP0HsGk83SNQE2AXKuB5",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6AOoNjjlHp4jJ7x9HMZr2VFukXLhNsC8wI1lm",
     ],
     paragraphs: [
-      "Hello i'm the additional paragraph, just here for test so far, but needs to bea bit long so it doesn't look too bad.",
-    ],
-  },
-  d: {
-    title: "Avaa Architects",
-    slug: "avaa_architects",
-    introParagraph: ` The grid system and layout were developed from scratch with a custom
-      CSS framework. Handling transitions — especially within the menu — was
-      a major challenge, but it became one of the project’s key
-      achievements. All animations were crafted in CSS and controlled via
-      JavaScript. This project was particularly challenging due to the sheer
-      number of videos, assets, and animations, but it was also one of the
-      most enjoyable and rewarding experiences I've had. Every effort was
-      made to adhere to HTML markup best practices.`,
-    client: "Polish Studio",
-    project: "Avaa Architects portfolio",
-    websiteName: "avaa-architectes.webflow.io",
-    websiteUrl: "https://avaa-architectes.webflow.io/",
-    video: "https://www.youtube.com/watch?v=8gk0v1r7x2A",
-    photos: [
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGihb4FDPiPrmf1A6ZJzpKuwSvakosCneUBXyH",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGhrjq7CzJxvWinK18Uar9tDYMRGzFsybum3XZ",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGPbseOlxB1RqTnNFd5t9IskZDfWGgh3Axue0i",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUgPswjFnTS31BKxvozY6Rc9XiAEC07r524Vy",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUMwyuiFnTS31BKxvozY6Rc9XiAEC07r524Vy",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGPdhsQGbxB1RqTnNFd5t9IskZDfWGgh3Axue0",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAFrm4ordHpEckhiwbCf52orVMZau8P6dBOQz",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXntgd45f1OuCjGxsiovyYSkHE5be2Rp7Z3I4",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGGBrepFWpKtZaehzdVbw3L9Mc2xsjfXInr1Sk",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGX9cSjl5f1OuCjGxsiovyYSkHE5be2Rp7Z3I4",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGTphvODQMEmWIjKoDvpOiat3Rq42fJL1dCuSw",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGQKUyKMXxy3LjqpuHb6m7GfiwIBaWSevTOc9R",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAMzsMwdHpEckhiwbCf52orVMZau8P6dBOQzY",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXkodMuJ5f1OuCjGxsiovyYSkHE5be2Rp7Z3I",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBlwPBMTXEYlhq87yGp6ZoMIQC4zc2rFA3VKv",
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGKyxb8d6gsn8bwcJy3NrxkXYj50qdQMuHAezP",
-    ],
-    paragraphs: [
-      "Hello i'm the additional paragraph, just here for test so far, but needs to bea bit long so it doesn't look too bad.",
-      "Second additional paragraph, just here for test so far, but needs to bea bit long so it doesn't look too bad.",
-      "Third additional paragraph, just here for test so far, but needs to bea bit long so it doesn't look too bad.",
-      "Foruth additional paragraph, just here for test so far, but needs to bea bit long so it doesn't look too bad.",
+      "My main contribution to this project was the development of an infinite slider built with Three.js and custom shaders, adding a dynamic visual layer to the homepage. I also implemented seamless page transitions using Barba.js to enhance the overall browsing experience.",
+      "Although it was my first time working with Webflow, most of my contributions were developed using standard HTML, CSS, and JavaScript. I integrated these custom elements directly into the Webflow project to extend its capabilities beyond the built-in features.",
+      "It was a great experience collaborating with Polish Studio — their attention to detail and creative direction made the process both inspiring and rewarding. This project was a perfect blend of design and interactivity, and a solid first step into working with Webflow.",
     ],
   },
 };

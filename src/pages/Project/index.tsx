@@ -9,26 +9,30 @@ export default function Project() {
   const { id } = useParams<{ id: string }>();
   const projectData = projectsData[id] as ProjectData;
 
-  // if (!id || !projectsData[id]) {
-  //   return (
-  //     <>
-  //       <div className="h-screen relative px-5 pt-[128px]">
-  //         Project not found
-  //       </div>
-  //     </>
-  //   );
-  // }
+  if (!id || !projectsData[id]) {
+    return (
+      <>
+        <div className="h-screen relative px-5 pt-[128px]">
+          Project not found
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen relative">
-      <header className="mb-6 pt-14 md:pt-[120px] px-3 md:px-5">
+      <header className="mb-6 pt-14 md:pt-[240px] px-3 md:px-5">
         <h1 className="font-bold text:2xl md:text-6xl">{projectData.title}</h1>
-        <p className="w-full text-justify md:text-xl mt-6">
+        <p className="md:w-[75%] text-justify md:text-xl mt-6">
           {projectData.introParagraph}
         </p>
 
         <div className="grid md:grid-cols-6 gap-5 mt-10">
-          <HeaderDuo idx={0} content={projectData.client} />
+          <HeaderDuo
+            idx={0}
+            content={projectData.client}
+            url={projectData.clientUrl}
+          />
           <HeaderDuo idx={1} content={projectData.project} />
           <HeaderDuo
             idx={2}

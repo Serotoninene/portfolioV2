@@ -41,7 +41,7 @@ export const ProjectLines = () => {
       <div
         ref={container}
         id="ProjectLines"
-        className="h-[400vh] mt-0 mx-5 grid grid-cols-5 gap-0 md:gap-10 lg:mt-[64px] xl:gap-[112px] "
+        className="h-[400vh] mt-0 mx-5 grid grid-cols-5 gap-0 md:gap-10 lg:mt-[64px] xl:gap-[112px]"
       >
         <div className="sticky justify-between top-[64px] h-screen md:h-fit col-span-5 lg:col-span-2 flex flex-col z-10 md:pt-[80px] md:top-0">
           {projects.map((item, index) => (
