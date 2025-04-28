@@ -4,10 +4,16 @@ import { useParams } from "react-router-dom";
 import { HeaderDuo } from "./components/HeaderDuo";
 import { ProjectData, projectsData } from "./projectsData";
 import { ProjectContent } from "./components/ProjectContent";
+import { useMemo } from "react";
 
 export default function Project() {
   const { id } = useParams<{ id: string }>();
   const projectData = projectsData[id] as ProjectData;
+  // I need to get the index of the project in the array
+  const projects = useMemo(() => Object.keys(projectsData), [projectsData]);
+  const projectIndex = projects.findIndex((project) => project === id);
+
+  // use this index to get the next project
 
   if (!id || !projectsData[id]) {
     return (
