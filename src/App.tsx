@@ -1,7 +1,13 @@
-import { useEffect } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Layout } from "./components/organisms";
+import { useEffect, useRef } from "react";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useLocation,
+} from "react-router-dom";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import gsap from "gsap";
 
+import { Layout } from "./components/organisms";
 import { ColorProvider } from "./contexts/ColorContext";
 import { useWindowSize } from "./hooks";
 import Experiments from "./pages/Experiments";
@@ -29,7 +35,7 @@ function App() {
       element: <WithLayout component={<Homepage />} />,
     },
     {
-      path: "/projects/:id",
+      path: "/projects/:slug",
       element: <WithLayout component={<Project />} />,
     },
     {

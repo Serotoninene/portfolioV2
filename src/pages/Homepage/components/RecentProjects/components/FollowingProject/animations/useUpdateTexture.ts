@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import * as THREE from "three";
-import gsap, { Power1, Power3 } from "gsap";
+import gsap, { Power3 } from "gsap";
 
 import { useProjectContext } from "../../../../../../../hooks/useProjectContext";
-import { projects } from "../../../data";
+import { projects } from "../../../../../../../data";
 
 type Props = {
   shader: THREE.ShaderMaterial | null;

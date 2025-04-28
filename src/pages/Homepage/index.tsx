@@ -12,9 +12,6 @@ import {
 import { ScrollIndicator } from "../../components/molecules";
 
 export default function Homepage() {
-  const hasAlreadyLoaded =
-    sessionStorage.getItem("hasAlreadyLoaded") === "true";
-
   useEffect(() => {
     const handleBeforeUnload = () => {
       window.scrollTo(0, 0);

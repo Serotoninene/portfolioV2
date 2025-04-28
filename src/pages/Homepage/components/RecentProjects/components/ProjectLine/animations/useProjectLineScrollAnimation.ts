@@ -1,9 +1,9 @@
 import { RefObject, useEffect, useRef } from "react";
 import { useProjectContext } from "../../../../../../../hooks/useProjectContext";
-import { projects } from "../../../data";
+import { projects } from "../../../../../../../data";
 
 import gsap, { Power3 } from "gsap";
-import { Project } from "../../../types";
+import { Project } from "../../../../../../../types/custom";
 
 export const useProjectLineScrollAnimation = (
   shadowLine: RefObject<HTMLDivElement>,

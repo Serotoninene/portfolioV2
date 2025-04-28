@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { FollowingProject, ProjectLine } from "..";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
-import { projects } from "../../data";
+import { projects } from "../../../../../../data";
 
 export const ProjectLines = () => {
   const container = useRef(null);

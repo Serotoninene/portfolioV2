@@ -1,4 +1,4 @@
-import { ProjectData } from "../projectsData";
+import { ProjectData } from "../../../types/custom";
 
 const MobilePhoto = ({ data }) => (
   <div className="col-span-2 h-[80vh]  my-10 md:my-32 md:col-span-1">

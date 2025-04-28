@@ -1,9 +1,8 @@
 import { useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
-import { Project } from "../../types";
 
-import gsap from "gsap";
+import gsap, { Expo } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
@@ -16,6 +15,8 @@ import {
   useProjectLineScrollAnimation,
 } from "./animations";
 import scrollToProject from "./utils/scrollToProject";
+import { Project } from "../../../../../../types/custom";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   project: Project;
@@ -24,6 +25,7 @@ type Props = {
 };
 
 export const ProjectLine = ({ project, idx, isLast }: Props) => {
+  const navigate = useNavigate();
   const formattedIdx = (idx + 1).toString().padStart(2, "0");
   const { colors } = useColorContext();
 
@@ -35,9 +37,37 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
 
   const isSelected = selectedProject?.title === project.title;
 
+  const handleClick = (e: MouseEvent) => {
+    e.preventDefault();
+    const tl = gsap.timeline({
+      defaults: { ease: Expo.easeInOut, duration: 0.6 },
+      onComplete: () => {
+        navigate(`/projects/${project.slug}`);
+        gsap.set("#Layout", { clearProps: "all" });
+        gsap.set("#transition_panel", { clearProps: "all" });
+        window.scrollTo({ top: 0, behavior: "instant" });
+      },
+    });
+
+    tl.to("#Layout", {
+      rotate: 4,
+      opacity: 0.3,
+      scale: 0.8,
+    });
+    tl.fromTo(
+      "#transition_panel",
+      { scale: 0.8 },
+      {
+        yPercent: -100,
+        scale: 1,
+      },
+      "<+=0.1"
+    );
+  };
+
   const handleMouseEnter = () => {
     setCursorStyle("none");
-    scrollToProject(project);
+    scrollToProject(idx);
     hoverTl.current?.play();
     setSelectedProject(project);
   };
@@ -53,8 +83,9 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
 
   return (
     <a
-      href={project.href}
+      href={`/projects/${project.slug}`}
       ref={container}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={isLast ? "pb-2" : "pb-10"}

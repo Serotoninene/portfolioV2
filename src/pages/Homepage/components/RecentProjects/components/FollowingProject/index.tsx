@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
-import { projects } from "../../data";
+import { projects } from "../../../../../../data";
 import { useUpdateTexture } from "./animations";
 
 import { useGSAP } from "@gsap/react";

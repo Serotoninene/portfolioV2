@@ -2,20 +2,22 @@ import { useParams } from "react-router-dom";
 
 // Components
 import { HeaderDuo } from "./components/HeaderDuo";
-import { ProjectData, projectsData } from "./projectsData";
 import { ProjectContent } from "./components/ProjectContent";
-import { useMemo } from "react";
+
+// Data + Types
+import { projects, projectsData } from "../../data";
+import { ProjectData } from "../../types/custom";
 
 export default function Project() {
-  const { id } = useParams<{ id: string }>();
-  const projectData = projectsData[id] as ProjectData;
+  const { slug } = useParams<{ slug: string }>();
+  const projectData = projectsData[slug!] as ProjectData;
+
   // I need to get the index of the project in the array
-  const projects = useMemo(() => Object.keys(projectsData), [projectsData]);
-  const projectIndex = projects.findIndex((project) => project === id);
+  const projectIndex = projects.findIndex((project) => project.slug === slug);
+  const nextProjectIndex = (projectIndex + 1) % projects.length;
+  const nextProject = projects[nextProjectIndex];
 
-  // use this index to get the next project
-
-  if (!id || !projectsData[id]) {
+  if (!slug || !projectsData[slug]) {
     return (
       <>
         <div className="h-screen relative px-5 pt-[128px]">
@@ -48,11 +50,12 @@ export default function Project() {
         </div>
       </header>
       <ProjectContent data={projectData} />
-      <footer className="relative  mt-6 md:mt-10 h-[50vh]">
-        <img
-          className="h-full w-full object-cover"
-          src="/assets/Photos/hp-projects/s-eychenne.png"
+      <footer className="relative w-full mt-6 md:mt-10 h-[50vh]">
+        <a
+          className="absolute inset-0 z-10"
+          href={`/projects/${nextProject.slug}`}
         />
+        <img className="h-full w-full object-cover" src={nextProject.img} />
         <h3 className="absolute inset-0 flex justify-center items-center text-secondary-400 text-3xl font-semibold">
           NEXT PROJECT
         </h3>
