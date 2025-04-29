@@ -11,7 +11,6 @@ import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
 import gsap from "gsap";
-import { TransitionWrapper } from "../../App";
 
 type Props = {
   children: React.ReactNode;

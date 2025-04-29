@@ -1,22 +1,22 @@
-import { useRef } from "react";
+import { MouseEvent, useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
 
-import gsap, { Expo } from "gsap";
+import gsap, { Power4 } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
 gsap.registerPlugin(ScrollToPlugin);
 
+import { useNavigate } from "react-router-dom";
 import { useColorContext } from "../../../../../../hooks/useColorContext";
+import { Project } from "../../../../../../types/custom";
 import {
   useProjectLineHover,
   useProjectLineIntro,
   useProjectLineScrollAnimation,
 } from "./animations";
 import scrollToProject from "./utils/scrollToProject";
-import { Project } from "../../../../../../types/custom";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   project: Project;
@@ -40,12 +40,11 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
     const tl = gsap.timeline({
-      defaults: { ease: Expo.easeInOut, duration: 0.6 },
+      defaults: { ease: Power4.easeOut, duration: 0.6 },
       onComplete: () => {
         navigate(`/projects/${project.slug}`);
         gsap.set("#Layout", { clearProps: "all" });
-        gsap.set("#transition_panel", { clearProps: "all" });
-        window.scrollTo({ top: 0, behavior: "instant" });
+        gsap.to("#transition_panel", { yPercent: 0 });
       },
     });
 

@@ -1,14 +1,22 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 // Components
 import { HeaderDuo } from "./components/HeaderDuo";
 import { ProjectContent } from "./components/ProjectContent";
+import { AnimLetters } from "../../components/atoms";
+
+// GSAP
+import { useGSAP } from "@gsap/react";
+import gsap, { Expo } from "gsap";
 
 // Data + Types
 import { projects, projectsData } from "../../data";
 import { ProjectData } from "../../types/custom";
 
 export default function Project() {
+  const { pathname } = useLocation();
+  const container = useRef<HTMLDivElement>(null);
   const { slug } = useParams<{ slug: string }>();
   const projectData = projectsData[slug!] as ProjectData;
 
@@ -16,6 +24,18 @@ export default function Project() {
   const projectIndex = projects.findIndex((project) => project.slug === slug);
   const nextProjectIndex = (projectIndex + 1) % projects.length;
   const nextProject = projects[nextProjectIndex];
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 500);
+  }, []);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({ default: { ease: Expo.easeInOut } });
+
+    // Set all he elements so they are transparent
+  });
 
   if (!slug || !projectsData[slug]) {
     return (
@@ -28,9 +48,11 @@ export default function Project() {
   }
 
   return (
-    <div className="min-h-screen relative">
+    <div ref={container} className="min-h-screen relative">
       <header className="mb-6 pt-14 md:pt-[240px] px-3 md:px-5">
-        <h1 className="font-bold text:2xl md:text-6xl">{projectData.title}</h1>
+        <h1 className="font-bold text:2xl md:text-6xl">
+          <AnimLetters string={projectData.title} stagger={0.01} delay={0.75} />
+        </h1>
         <p className="md:w-[75%] text-justify md:text-xl mt-6">
           {projectData.introParagraph}
         </p>
