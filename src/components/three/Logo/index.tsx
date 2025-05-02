@@ -1,25 +1,21 @@
-import { Float, useGLTF, useProgress } from "@react-three/drei";
+import { Float, useProgress } from "@react-three/drei";
 
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
-import { MathUtils, Mesh } from "three";
+import { BufferGeometry, MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
-
-const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/serotonine_icon.glb";
 
 type Props = {
   scale?: vec3;
   inViewport?: boolean;
+  geometry: BufferGeometry;
 };
 
-export const Logo = ({ scale, inViewport }: Props) => {
+export const Logo = ({ scale, inViewport, geometry }: Props) => {
   const ref = useRef<Mesh>(null);
   const tl = useRef<gsap.core.Timeline>();
   const { active } = useProgress();
-
-  const { nodes } = useGLTF(LOGO_SRC) as any;
-  const geometry = nodes.Plane.geometry;
 
   const targetRotationY = useRef(1.6);
   const targetRotationX = useRef(-0.2);
