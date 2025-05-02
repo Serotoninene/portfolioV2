@@ -1,4 +1,4 @@
-import { Float, useGLTF } from "@react-three/drei";
+import { Float, useGLTF, useProgress } from "@react-three/drei";
 
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
@@ -16,8 +16,8 @@ type Props = {
 export const Logo = ({ scale, inViewport }: Props) => {
   const ref = useRef<Mesh>(null);
   const tl = useRef<gsap.core.Timeline>();
-  const hasAlreadyLoaded =
-    sessionStorage.getItem("hasAlreadyLoaded") === "true";
+  const { active } = useProgress();
+
   const { nodes } = useGLTF(LOGO_SRC) as any;
   const geometry = nodes.Plane.geometry;
 
@@ -27,12 +27,18 @@ export const Logo = ({ scale, inViewport }: Props) => {
   useEffect(() => {
     if (!ref.current) return;
 
-    tl.current = gsap.timeline({ delay: !hasAlreadyLoaded ? 2.2 : 0 });
+    tl.current = gsap.timeline({ delay: 2.1, paused: true });
     ref.current.rotation.set(-0.2, 2, 0);
 
     tl.current.from(ref.current.rotation, { x: 1 });
     tl.current.from(ref.current.position, { y: -300, z: -600 }, "<");
   }, []);
+
+  useEffect(() => {
+    if (!active && tl.current) {
+      tl.current.play();
+    }
+  }, [active]);
 
   useFrame(({ pointer }) => {
     if (!ref.current || !inViewport) return;

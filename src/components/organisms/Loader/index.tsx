@@ -23,7 +23,6 @@ export const Loader = () => {
     });
     if (progress === 100 && tl.current) {
       tl.current.play();
-      sessionStorage.setItem("hasAlreadyLoaded", "true");
     }
   }, [progress]);
 
