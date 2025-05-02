@@ -7,7 +7,6 @@ import {
 import { ASCIIEffect } from "./components/ASCIIEffect";
 import { BlurEffect } from "./components/BlurEffect";
 import { KineticType } from "./components/KineticType";
-import { LettersRain } from "./components/LettersRain";
 import { MotoyoshiInfiniteGrid } from "./components/MotoyoshiInfiniteGrid";
 import { NormalLightEffect } from "./components/NormalLightEffect";
 import { RefractionGlass } from "./components/RefractionGlass";
@@ -21,12 +20,12 @@ export interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
-  letters_rain: {
-    title: "Letters Rain",
-    slug: "letters_rain",
-    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6RuiPfPkoXGl569imgek8qhVTc0NspE24ZYdP",
-    component: LettersRain,
-  },
+  // letters_rain: {
+  //   title: "Letters Rain",
+  //   slug: "letters_rain",
+  //   img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6RuiPfPkoXGl569imgek8qhVTc0NspE24ZYdP",
+  //   component: LettersRain,
+  // },
   kinetic_type: {
     title: "KineticType",
     slug: "kinetic_type",
