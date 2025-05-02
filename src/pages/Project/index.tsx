@@ -99,7 +99,7 @@ export default function Project() {
           href={`/projects/${nextProject.slug}`}
         />
         <img className="h-full w-full object-cover" src={nextProject.img} />
-        <h3 className="absolute inset-0 flex justify-center items-center text-secondary-400 text-3xl font-semibold">
+        <h3 className="absolute inset-0 flex justify-center items-center text-dark text-3xl font-semibold">
           NEXT PROJECT
         </h3>
       </footer>

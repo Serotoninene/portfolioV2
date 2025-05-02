@@ -1,6 +1,6 @@
 precision mediump float;
 
-uniform sampler2D uTouchTexture;
+// uniform sampler2D uTouchTexture;
 uniform float uTime;
 
 varying vec2 vUv;
@@ -13,10 +13,10 @@ float random (vec2 st) {
 
 void main() {
     vec2 st = gl_FragCoord.xy/vUv;
-    float mouse = texture2D(uTouchTexture, vUv).r;
+    // float mouse = texture2D(uTouchTexture, vUv).r;
 
     float rnd = random( st * 0.01 );
-    rnd +=  -mouse / 1.;
+
 
     gl_FragColor = vec4(vec3(rnd,rnd,rnd),0.1);
 }

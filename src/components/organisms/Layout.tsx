@@ -54,7 +54,7 @@ export const Layout = ({ children }: Props) => {
           <SmoothScrollbar
             enabled={!isMobile}
             config={{
-              wheelMultiplier: 0.8,
+              wheelMultiplier: 0.5,
               lerp: 0.1,
               autoResize: true,
             }}
