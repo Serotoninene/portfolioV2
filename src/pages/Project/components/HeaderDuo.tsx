@@ -11,7 +11,7 @@ export const HeaderDuo = ({ idx, content, url }: HeaderDuoProps) => {
 
   return (
     <Component
-      className="Project_Header-Duo col-span-2"
+      className="Project_Header-Duo opacity-0 col-span-2"
       href={url}
       target="_blank"
     >

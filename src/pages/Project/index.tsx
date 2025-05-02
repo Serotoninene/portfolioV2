@@ -8,7 +8,7 @@ import { AnimLetters } from "../../components/atoms";
 
 // GSAP
 import { useGSAP } from "@gsap/react";
-import gsap, { Expo } from "gsap";
+import gsap, { Expo, Power3 } from "gsap";
 
 // Data + Types
 import { projects, projectsData } from "../../data";
@@ -37,16 +37,22 @@ export default function Project() {
       const headerDuos = gsap.utils.toArray(".Project_Header-Duo");
 
       const tl = gsap.timeline({
-        default: { ease: Expo.easeInOut, duration: 0.5 },
+        default: { ease: Expo.easeInOut, duration: 0.2, delay: 0.5 },
         delay: 0.8,
       });
+
+      tl.set("video", { yPercent: 10 });
 
       tl.to(".Project_intro-paragraph", {
         opacity: 1,
         y: 0,
       });
-      tl.to(headerDuos, { opacity: 1, y: 0, rotate: 0 }, "<0.2");
-      tl.to("video", { opacity: 1, y: 0, rotate: 0 }, "<0.2");
+      tl.to(headerDuos, { opacity: 1, y: 0, rotate: 0, stagger: 0.13 }, "<0.2");
+      tl.to(
+        "video",
+        { opacity: 1, yPercent: 0, rotate: 0, ease: Power3.easeOut },
+        "<0.2"
+      );
       tl.to(images, { opacity: 1, y: 0, rotate: 0 }, "<0.2");
     },
     { scope: container }

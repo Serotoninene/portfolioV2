@@ -23,7 +23,7 @@
     "flubber": "^0.4.2",
     "glsl-rotate": "^2.0.0",
     "glslify": "^7.1.1",
-    "gsap": "^3.12.4",
+    "gsap": "^3.13.0",
     "leva": "^0.9.35",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.3",

@@ -1,4 +1,10 @@
+import { useGSAP } from "@gsap/react";
 import { ProjectData } from "../../../types/custom";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
 
 const MobilePhoto = ({ data }) => (
   <div className="col-span-2 h-[80vh]  my-10 md:my-32 md:col-span-1">
@@ -8,6 +14,52 @@ const MobilePhoto = ({ data }) => (
     />
   </div>
 );
+
+interface ParagraphProps {
+  content: string;
+}
+
+const ProjectParagraph = ({ content }: ParagraphProps) => {
+  const container = useRef(null);
+
+  useGSAP(
+    () => {
+      const split = SplitText.create(container.current, {
+        type: "words, chars",
+        onSplit: (self) => {
+          gsap.set(self.chars, {
+            opacity: 0,
+            filter: "blur(12px)",
+          });
+        },
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top bottom",
+          end: "bottom center",
+          markers: true,
+          scrub: 1,
+        },
+      });
+      tl.to(split.chars, {
+        opacity: 1,
+        filter: "blur(0px)",
+        stagger: 0.05,
+      });
+    },
+    { scope: container }
+  );
+  return (
+    <p
+      ref={container}
+      className=" text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px] my-10 md:my-32"
+    >
+      {content}
+    </p>
+  );
+};
 
 export function ProjectContent({ data }: { data: ProjectData }) {
   const { video, photos, paragraphs } = data;
@@ -41,9 +93,7 @@ export function ProjectContent({ data }: { data: ProjectData }) {
         />
       </div>
       <div className="col-span-2 my-10">
-        <p className="opacity-0 text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px] my-10 md:my-32">
-          {paragraphs![0]}
-        </p>
+        <ProjectParagraph content={paragraphs![0]} />
       </div>
 
       {photoChunks.map((chunk, index) => (
@@ -62,9 +112,7 @@ export function ProjectContent({ data }: { data: ProjectData }) {
                 index + 1
               )}`}
             >
-              <p className="opacity-0 text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px]">
-                {paragraphs[index + 1]}
-              </p>
+              <ProjectParagraph content={paragraphs[index + 1]} />
             </div>
           ) : null}
         </section>
