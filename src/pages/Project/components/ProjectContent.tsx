@@ -1,19 +1,56 @@
+import { useRef } from "react";
+
+import gsap, { Power0 } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ProjectData } from "../../../types/custom";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
+
+import { ProjectData } from "../../../types/custom";
 
 gsap.registerPlugin(SplitText);
 
-const MobilePhoto = ({ data }) => (
-  <div className="col-span-2 h-[80vh]  my-10 md:my-32 md:col-span-1">
-    <img
-      className="opacity-0 h-full mx-auto object-cover md:object-contain rounded "
-      src={data}
-    />
-  </div>
-);
+interface MobilePhotoProps {
+  data: string;
+  idx: number;
+}
+
+const MobilePhoto = ({ data, idx }: MobilePhotoProps) => {
+  const container = useRef(null);
+
+  useGSAP(
+    () => {
+      const direction = idx % 2 === 0 ? 50 : -50; // Left goes up, right goes down
+
+      gsap.fromTo(
+        container.current,
+        { y: direction, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top bottom",
+            end: "top 50%",
+            scrub: true,
+          },
+        }
+      );
+    },
+    { scope: container }
+  );
+
+  return (
+    <div
+      ref={container}
+      className="col-span-2 h-[80vh]  my-10 md:my-32 md:col-span-1"
+    >
+      <img
+        className="opacity-0 h-full mx-auto object-cover md:object-contain rounded "
+        src={data}
+      />
+    </div>
+  );
+};
 
 interface ParagraphProps {
   content: string;
@@ -29,7 +66,7 @@ const ProjectParagraph = ({ content }: ParagraphProps) => {
         onSplit: (self) => {
           gsap.set(self.chars, {
             opacity: 0,
-            filter: "blur(12px)",
+            filter: "blur(4px)",
           });
         },
       });
@@ -39,14 +76,13 @@ const ProjectParagraph = ({ content }: ParagraphProps) => {
           trigger: container.current,
           start: "top bottom",
           end: "bottom center",
-          markers: true,
           scrub: 1,
         },
       });
       tl.to(split.chars, {
         opacity: 1,
         filter: "blur(0px)",
-        stagger: 0.05,
+        stagger: 0.01,
       });
     },
     { scope: container }
@@ -104,8 +140,8 @@ export function ProjectContent({ data }: { data: ProjectData }) {
               src={chunk[0]}
             />
           </div>
-          {chunk[1] && <MobilePhoto data={chunk[1]} />}
-          {chunk[2] && <MobilePhoto data={chunk[2]} />}
+          {chunk[1] && <MobilePhoto data={chunk[1]} idx={0} />}
+          {chunk[2] && <MobilePhoto data={chunk[2]} idx={1} />}
           {paragraphs[index + 1] ? (
             <div
               className={`col-span-2 my-10 md:my-24 flex ${getAlignmentClass(
