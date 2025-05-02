@@ -116,7 +116,9 @@ export const Menu = () => {
         </div>
       </div>
       <div className="menu-tagline">
-        <img src="./assets/Icons/Menu_Text.svg" className=" w-full" />
+        <h1 className="text-center text-[7.9vw] leading-[100%] font-bold md:text-[8.3vw]">
+          CREATIVITY IN MOTION
+        </h1>
       </div>
     </div>
   );

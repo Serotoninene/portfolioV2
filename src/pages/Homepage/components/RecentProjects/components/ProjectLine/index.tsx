@@ -8,7 +8,7 @@ import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useColorContext } from "../../../../../../hooks/useColorContext";
 import { Project } from "../../../../../../types/custom";
 import {
@@ -42,9 +42,10 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
     const tl = gsap.timeline({
       defaults: { ease: Power4.easeOut, duration: 0.6 },
       onComplete: () => {
+        const tl = gsap.timeline();
         navigate(`/projects/${project.slug}`);
-        gsap.set("#Layout", { clearProps: "all" });
-        gsap.to("#transition_panel", { yPercent: 0 });
+        tl.set("#Layout", { clearProps: "all" });
+        tl.to("#transition_panel", { yPercent: 0 });
       },
     });
 
@@ -81,8 +82,8 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
   const hoverTl = useProjectLineHover(container);
 
   return (
-    <a
-      href={`/projects/${project.slug}`}
+    <Link
+      to={`/projects/${project.slug}`}
       ref={container}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
@@ -132,6 +133,6 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };

@@ -15,7 +15,6 @@ import { projects, projectsData } from "../../data";
 import { ProjectData } from "../../types/custom";
 
 export default function Project() {
-  const { pathname } = useLocation();
   const container = useRef<HTMLDivElement>(null);
   const { slug } = useParams<{ slug: string }>();
   const projectData = projectsData[slug!] as ProjectData;
@@ -31,11 +30,27 @@ export default function Project() {
     }, 500);
   }, []);
 
-  useGSAP(() => {
-    const tl = gsap.timeline({ default: { ease: Expo.easeInOut } });
+  // Intro animation
+  useGSAP(
+    () => {
+      const images = gsap.utils.toArray("img");
+      const headerDuos = gsap.utils.toArray(".Project_Header-Duo");
 
-    // Set all he elements so they are transparent
-  });
+      const tl = gsap.timeline({
+        default: { ease: Expo.easeInOut, duration: 0.5 },
+        delay: 0.8,
+      });
+
+      tl.to(".Project_intro-paragraph", {
+        opacity: 1,
+        y: 0,
+      });
+      tl.to(headerDuos, { opacity: 1, y: 0, rotate: 0 }, "<0.2");
+      tl.to("video", { opacity: 1, y: 0, rotate: 0 }, "<0.2");
+      tl.to(images, { opacity: 1, y: 0, rotate: 0 }, "<0.2");
+    },
+    { scope: container }
+  );
 
   if (!slug || !projectsData[slug]) {
     return (
@@ -53,7 +68,7 @@ export default function Project() {
         <h1 className="font-bold text:2xl md:text-6xl">
           <AnimLetters string={projectData.title} stagger={0.01} delay={0.75} />
         </h1>
-        <p className="md:w-[75%] text-justify md:text-xl mt-6">
+        <p className="Project_intro-paragraph opacity-0 md:w-[75%] text-justify md:text-xl mt-6">
           {projectData.introParagraph}
         </p>
 

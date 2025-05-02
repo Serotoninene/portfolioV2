@@ -3,7 +3,7 @@ import { ProjectData } from "../../../types/custom";
 const MobilePhoto = ({ data }) => (
   <div className="col-span-2 h-[80vh]  my-10 md:my-32 md:col-span-1">
     <img
-      className="h-full mx-auto object-cover md:object-contain rounded "
+      className="opacity-0 h-full mx-auto object-cover md:object-contain rounded "
       src={data}
     />
   </div>
@@ -31,17 +31,17 @@ export function ProjectContent({ data }: { data: ProjectData }) {
   return (
     <div className="grid grid-cols-2 gap-3 px-3 md:px-5 md:gap-6 mt-10 md:mt-32">
       {/* INTRO ALWAYS STAYS LIKE THIS */}
-      <div className="h-[calc(100vw*9/16)] border col-span-2">
+      <div className="h-[calc(100vw*9/16)] border col-span-2 overflow-hidden">
         <video
           src={video}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-0"
           autoPlay
           playsInline
           loop
         />
       </div>
       <div className="col-span-2 my-10">
-        <p className="text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px] my-10 md:my-32">
+        <p className="opacity-0 text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px] my-10 md:my-32">
           {paragraphs![0]}
         </p>
       </div>
@@ -49,7 +49,10 @@ export function ProjectContent({ data }: { data: ProjectData }) {
       {photoChunks.map((chunk, index) => (
         <section key={index} className="col-span-2 grid grid-cols-2 gap-3">
           <div className="h-[calc(100vw*9/16)] col-span-2 my-10 md:my-32">
-            <img className="h-full w-full object-cover" src={chunk[0]} />
+            <img
+              className="opacity-0 h-full w-full object-cover"
+              src={chunk[0]}
+            />
           </div>
           {chunk[1] && <MobilePhoto data={chunk[1]} />}
           {chunk[2] && <MobilePhoto data={chunk[2]} />}
@@ -59,7 +62,7 @@ export function ProjectContent({ data }: { data: ProjectData }) {
                 index + 1
               )}`}
             >
-              <p className="text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px]">
+              <p className="opacity-0 text-[16px] md:text-[24px] font-medium leading-[150%] max-w-[640px]">
                 {paragraphs[index + 1]}
               </p>
             </div>

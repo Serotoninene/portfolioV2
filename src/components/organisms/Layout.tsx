@@ -26,6 +26,7 @@ export const Layout = ({ children }: Props) => {
     gsap.set("#Navbar", {
       borderColor: colors.secondaryColor,
     });
+    gsap.set("#transition_panel", { yPercent: 0 });
   }, [pathname]);
 
   return (
