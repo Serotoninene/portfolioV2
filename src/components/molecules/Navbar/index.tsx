@@ -1,6 +1,6 @@
 import { useProgress } from "@react-three/drei";
 import { startTransition, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useColorContext } from "../../../hooks/useColorContext";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 import { getFormattedDate } from "../../../utils";
@@ -39,13 +39,7 @@ export const Navbar = () => {
         borderColor: colors.secondaryColor,
       }}
     >
-      <button
-        onClick={() => {
-          startTransition(() => {
-            navigate("/");
-          });
-        }}
-      >
+      <Link to="/">
         <h2
           id="Logo_Alex"
           className="relative bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
@@ -59,7 +53,7 @@ export const Navbar = () => {
           />
           <HoverSpace />
         </h2>
-      </button>
+      </Link>
       <div
         id="Center_Navbar"
         className="gap-10 text-sm font-medium overflow-hidden hidden md:flex"

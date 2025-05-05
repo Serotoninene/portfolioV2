@@ -1,11 +1,5 @@
-import { Suspense, useEffect, useRef } from "react";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useLocation,
-} from "react-router-dom";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-import gsap from "gsap";
+import { Suspense, useEffect } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import { Layout } from "./components/organisms";
 import { ColorProvider } from "./contexts/ColorContext";
