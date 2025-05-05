@@ -31,7 +31,7 @@ export const Loader = () => {
   return (
     <div
       ref={container as RefObject<HTMLDivElement>}
-      className="fixed -top-[10vh] opacity-50 -left-[10vw] w-[120vw] h-[120vh] bg-secondary-200 z-50 flex flex-col justify-center items-center gap-4"
+      className="fixed -top-[10vh] -left-[10vw] w-[120vw] h-[120vh] bg-secondary-200 z-50 flex flex-col justify-center items-center gap-4"
     >
       {/* Multiple LoadingLoops */}
       {loadingArr.map((_, i) => (
