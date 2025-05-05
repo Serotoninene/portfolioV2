@@ -1,17 +1,18 @@
 import { useProgress } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { startTransition, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useColorContext } from "../../../hooks/useColorContext";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 import { getFormattedDate } from "../../../utils";
 import { AnimLetters, AnimLink, HoverSpace } from "../../atoms";
 import { useAlexReveal, useIntro } from "./animations";
-import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { colors } = useColorContext();
 
   const { progress } = useProgress();
+  const navigate = useNavigate();
 
   const { setIsMenuOpen } = useIsMenuOpen();
 
@@ -38,7 +39,13 @@ export const Navbar = () => {
         borderColor: colors.secondaryColor,
       }}
     >
-      <Link to="/">
+      <button
+        onClick={() => {
+          startTransition(() => {
+            navigate("/");
+          });
+        }}
+      >
         <h2
           id="Logo_Alex"
           className="relative bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
@@ -52,8 +59,7 @@ export const Navbar = () => {
           />
           <HoverSpace />
         </h2>
-      </Link>
-
+      </button>
       <div
         id="Center_Navbar"
         className="gap-10 text-sm font-medium overflow-hidden hidden md:flex"

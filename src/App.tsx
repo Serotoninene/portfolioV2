@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -50,7 +50,9 @@ function App() {
 
   return (
     <ColorProvider>
-      <RouterProvider router={router} />
+      <Suspense>
+        <RouterProvider router={router} />
+      </Suspense>
     </ColorProvider>
   );
 }
