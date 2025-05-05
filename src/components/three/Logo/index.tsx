@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { BufferGeometry, MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
+import { useHasLoadedStore } from "../../../store/useHasLoaded";
 
 type Props = {
   scale?: vec3;
@@ -15,7 +16,7 @@ type Props = {
 export const Logo = ({ scale, inViewport, geometry }: Props) => {
   const ref = useRef<Mesh>(null);
   const tl = useRef<gsap.core.Timeline>();
-  const { active } = useProgress();
+  const { hasLoaded } = useHasLoadedStore();
 
   const targetRotationY = useRef(1.6);
   const targetRotationX = useRef(-0.2);
@@ -23,7 +24,7 @@ export const Logo = ({ scale, inViewport, geometry }: Props) => {
   useEffect(() => {
     if (!ref.current) return;
 
-    tl.current = gsap.timeline({ delay: 2.1, paused: true });
+    tl.current = gsap.timeline({ paused: true });
     ref.current.rotation.set(-0.2, 2, 0);
 
     tl.current.from(ref.current.rotation, { x: 1 });
@@ -31,10 +32,10 @@ export const Logo = ({ scale, inViewport, geometry }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!active && tl.current) {
-      tl.current.play();
+    if (hasLoaded) {
+      tl.current?.play();
     }
-  }, [active]);
+  }, [hasLoaded]);
 
   useFrame(({ pointer }) => {
     if (!ref.current || !inViewport) return;

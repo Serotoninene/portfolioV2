@@ -1,10 +1,8 @@
-import { useLogo } from "./hooks/useLogo";
-
+import { useScrollRig } from "@14islands/r3f-scroll-rig";
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useWindowSize } from "../../../hooks";
-import { useScrollRig } from "@14islands/r3f-scroll-rig";
 
 interface Props {
   geometry: THREE.BufferGeometry;

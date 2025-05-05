@@ -73,7 +73,6 @@ export const Layout = ({ children }: Props) => {
               key={location.pathname}
               orthographic={pathname === "/" ? true : false}
             >
-              <Perf position="top-left" />
               <Lights />
               <Noise />
             </GlobalCanvas>

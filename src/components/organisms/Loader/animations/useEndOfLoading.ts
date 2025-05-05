@@ -1,13 +1,13 @@
-import { RefObject, useLayoutEffect, useRef } from "react";
 import gsap, { Power4 } from "gsap";
+import { RefObject, useLayoutEffect, useRef } from "react";
 import { useHasLoadedStore } from "../../../../store/useHasLoaded";
 
 export const useEndOfLoading = (
   ref: RefObject<HTMLDivElement>,
   container: RefObject<HTMLDivElement>
 ) => {
-  const { setHasLoaded } = useHasLoadedStore();
   const tl = useRef<gsap.core.Timeline>();
+  const { setHasLoaded } = useHasLoadedStore();
 
   // End of the loading animation
   useLayoutEffect(() => {
@@ -17,6 +17,7 @@ export const useEndOfLoading = (
         duration: 1,
         ease: Power4.easeOut,
       },
+
       paused: true,
       delay: 0.5,
     });
@@ -24,6 +25,7 @@ export const useEndOfLoading = (
     const loadingLoops: HTMLElement[] = gsap.utils.toArray(".loading-loop");
     const length = loadingLoops.length;
 
+    // Removes all the "LOADING" except the one in the center
     loadingLoops.forEach((loop, i) => {
       tl.current?.to(
         loop.children,
@@ -39,6 +41,8 @@ export const useEndOfLoading = (
         "<0.03"
       );
     });
+
+    // removes the "LOADING" in the center
     tl.current?.to(
       loadingLoops[3].children,
       {

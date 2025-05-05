@@ -1,9 +1,9 @@
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import { MutableRefObject, useRef } from "react";
 
+import { useGLTF } from "@react-three/drei";
 import { Logo } from "../../../../../components/three";
 import { FallingLogos } from "../../../../../components/three/FallingLogos";
-import { useGLTF } from "@react-three/drei";
 
 const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/serotonine_icon.glb";
 
