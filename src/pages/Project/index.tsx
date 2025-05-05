@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Components
+import { AnimLetters } from "../../components/atoms";
 import { HeaderDuo } from "./components/HeaderDuo";
 import { ProjectContent } from "./components/ProjectContent";
-import { AnimLetters } from "../../components/atoms";
 
 // GSAP
 import { useGSAP } from "@gsap/react";
