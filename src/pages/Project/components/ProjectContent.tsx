@@ -124,6 +124,7 @@ export function ProjectContent({ data }: { data: ProjectData }) {
       <div className="h-[calc(100vw*9/16)] border col-span-2 overflow-hidden">
         <video
           src={video}
+          poster={photos[0]}
           className="w-full h-full object-cover opacity-0"
           autoPlay
           playsInline
