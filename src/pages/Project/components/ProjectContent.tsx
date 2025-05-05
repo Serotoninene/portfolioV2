@@ -74,8 +74,8 @@ const ProjectParagraph = ({ content }: ParagraphProps) => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
-          start: "top bottom",
-          end: "bottom center",
+          start: "top 95%",
+          end: "center center",
           scrub: true,
         },
       });
@@ -83,6 +83,7 @@ const ProjectParagraph = ({ content }: ParagraphProps) => {
         opacity: 1,
         filter: "blur(0px)",
         stagger: 0.01,
+        ease: "none",
       });
     },
     { scope: container }

@@ -1,16 +1,14 @@
 import { useFrame } from "@react-three/fiber";
-import { RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 import gsap, { Power3 } from "gsap";
 import { InfiniteGridProps } from "..";
-import { MixColorPost } from "../../../../../components/three/PostProcessing/MixColorPost";
+import { AnimatedText3D } from "../../../../../components/three/AnimatedText3D";
 import { useWindowSize } from "../../../../../hooks";
+import { useColorContext } from "../../../../../hooks/useColorContext";
 import { ThreeVignette } from "../ThreeVignette";
 import { useScrollEvents } from "./hooks/useInfiniteScroll";
-import { EffectComposer } from "@react-three/postprocessing";
-import { AnimatedText3D } from "../../../../../components/three/AnimatedText3D";
-import { useColorContext } from "../../../../../hooks/useColorContext";
 
 interface SceneProps extends InfiniteGridProps {
   imgRefs: RefObject<HTMLDivElement[]>;
@@ -41,9 +39,6 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
 
   const width = useWindowSize();
 
-  // Post processing effect
-  const mixColorPostEffect = useMemo(() => new MixColorPost(), []);
-
   useEffect(() => {
     setGridSize(getTrueGridHeight(gridRef));
   }, [gridRef, width]);
@@ -69,9 +64,6 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
       duration: 0.5,
       delay: 2,
       ease: Power3.easeOut,
-      onUpdate: () => {
-        mixColorPostEffect.updateintroProcess(dummyValue.value);
-      },
     });
   }, []);
 
@@ -79,7 +71,7 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
   const scrollSpeedFactor = 1000;
   const momentumDamping = 0.9; // Higher value = more momentum (slower stop)
 
-  useFrame(({ viewport, clock }, delta) => {
+  useFrame(({ viewport }, delta) => {
     if (!groupRef.current) return;
 
     // // Calculate scroll position with momentum
@@ -134,10 +126,6 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
         mesh.position.y += gridSize + GAP_SIZE;
       }
     });
-
-    // Handling the postprocessing
-    mixColorPostEffect.updateTime(clock.getElapsedTime());
-    mixColorPostEffect.updateMomentum(momentum.current);
   });
 
   return (
@@ -161,9 +149,6 @@ export const Scene = ({ experimentsArray, imgRefs, gridRef }: SceneProps) => {
           />
         ))}
       </group>
-      <EffectComposer disableNormalPass multisampling={8}>
-        <primitive object={mixColorPostEffect} />
-      </EffectComposer>
     </>
   );
 };
