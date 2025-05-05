@@ -1,4 +1,4 @@
-import { useEffect, useRef, Fragment } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 
 interface Props {
@@ -21,20 +21,18 @@ export const AnimWords = ({
 }: Props) => {
   const containerRef = useRef<HTMLSpanElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (start && containerRef.current) {
       const targets = gsap.utils.toArray(".word");
-      gsap.fromTo(
-        targets,
-        { y: "120%" },
-        {
-          y: 0,
-          ease: ease,
-          duration: duration,
-          stagger: stagger,
-          delay: delay,
-        }
-      );
+      // Set initial state immediately to prevent flash
+
+      gsap.to(targets, {
+        y: 0,
+        ease: ease,
+        duration: duration,
+        stagger: stagger,
+        delay: delay,
+      });
     }
   }, [start, delay, ease, duration, stagger]);
 
@@ -48,7 +46,7 @@ export const AnimWords = ({
             key={`${word}-${string}-${idx}`}
             className="overflow-hidden  inline-block align-bottom"
           >
-            <span className="inline-block word">{word}</span>{" "}
+            <span className="inline-block word translate-y-[120%]">{word}</span>{" "}
           </span>{" "}
         </Fragment>
       ))}

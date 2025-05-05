@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
-import gsap, { Power0 } from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 
 import { ProjectData } from "../../../types/custom";
@@ -76,7 +76,7 @@ const ProjectParagraph = ({ content }: ParagraphProps) => {
           trigger: container.current,
           start: "top bottom",
           end: "bottom center",
-          scrub: 1,
+          scrub: true,
         },
       });
       tl.to(split.chars, {
@@ -87,6 +87,7 @@ const ProjectParagraph = ({ content }: ParagraphProps) => {
     },
     { scope: container }
   );
+
   return (
     <p
       ref={container}

@@ -1,12 +1,19 @@
 import { ScrollScene, UseCanvas } from "@14islands/r3f-scroll-rig";
 import { MutableRefObject, useRef } from "react";
 
+import { useGLTF } from "@react-three/drei";
 import { Logo } from "../../../../../components/three";
 import { FallingLogos } from "../../../../../components/three/FallingLogos";
+
+const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/serotonine_icon.glb";
 
 export const HeroThree = () => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Instancing the geometry for the children components
+  const { nodes } = useGLTF(LOGO_SRC) as any;
+  const geometry = nodes.Plane.geometry;
 
   return (
     <div
@@ -23,8 +30,12 @@ export const HeroThree = () => {
           {({ scale, inViewport }) => {
             return (
               <>
-                <FallingLogos />
-                <Logo scale={scale} inViewport={inViewport} />
+                <FallingLogos geometry={geometry} />
+                <Logo
+                  scale={scale}
+                  inViewport={inViewport}
+                  geometry={geometry}
+                />
               </>
             );
           }}

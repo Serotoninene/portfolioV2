@@ -1,71 +1,94 @@
-import { useLogo } from "./hooks/useLogo";
-
+import { useScrollRig } from "@14islands/r3f-scroll-rig";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useWindowSize } from "../../../hooks";
-import { useScrollRig } from "@14islands/r3f-scroll-rig";
 
-type Tuple = [number, number, number];
+interface Props {
+  geometry: THREE.BufferGeometry;
+}
 
-export const FallingLogos = () => {
-  const COUNT = 5;
-  const ARR = new Array(COUNT).fill(0);
+export const FallingLogos = ({ geometry }: Props) => {
+  const COUNT = 10;
+  const SPEED = 200;
+  const { width, height } = useWindowSize();
   const { hasSmoothScrollbar } = useScrollRig();
 
-  const { width, height } = useWindowSize();
-  const { geometry } = useLogo();
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const ARR = new Array(COUNT).fill(0);
+  const positions = useMemo(() => {
+    if (!width || !height) return null;
+    return ARR.map((_, i) => {
+      const range = i % 2 === 0 ? -width : width;
 
-  const logos = useRef<THREE.Mesh[]>([]);
+      const x = Math.random() * range;
+      const y = (-height - i * height) / 2;
+
+      return new THREE.Vector3(x, y, -500);
+    });
+  }, [width, height]);
+  const rotations = useMemo(() => {
+    return ARR.map(() => ({
+      x: Math.random() * Math.PI,
+      y: Math.random() * Math.PI,
+      z: Math.random() * Math.PI,
+    }));
+  }, []);
+  const scaleMultipliers = useMemo(() => {
+    return new Array(COUNT)
+      .fill(null)
+      .map(() => THREE.MathUtils.lerp(0.5, 0.7, Math.random()));
+  }, [COUNT]);
 
   useFrame((_, delta) => {
-    if (!logos.current || !height || !width) return;
+    if (
+      !positions ||
+      !height ||
+      !width ||
+      !meshRef.current ||
+      !hasSmoothScrollbar
+    )
+      return;
     const scrollY = window.scrollY;
-    const speed = 500;
 
-    logos.current.forEach((logo, i) => {
-      if (!logo) return;
-      logo.position.y += delta * speed;
-      logo.rotation.x += delta;
-      logo.rotation.y += delta;
+    for (let i = 0; i < COUNT; i++) {
+      const range = i % 2 === 0 ? -width : width;
+      const pos = positions[i];
+      const rot = rotations[i];
+      const scale = scaleMultipliers[i];
+      pos.y += delta * SPEED;
 
-      if (scrollY === 0 && logo.position.y > height * 1.5) {
-        const range = i % 2 === 0 ? -width : width;
-        logo.position.x = Math.random() * range;
-        // logo.position.x = width * Math.random();
-        logo.position.y = -height - (i * height) / 1.5;
+      // Reset when off screen or when start scrolling
+      if (scrollY === 0 && pos.y > height * 1.5) {
+        pos.y = -height - (i * height) / 2;
+        pos.x = Math.random() * range;
       }
-    });
+
+      // Smooth rotation
+      rot.x += delta * 0.5;
+      rot.z += delta * 0.3;
+
+      dummy.position.copy(pos);
+      dummy.rotation.set(rot.x, rot.y, rot.z);
+
+      dummy.scale.set(100 * scale, 160 * scale, 160 * scale);
+      dummy.updateMatrix();
+
+      meshRef.current.setMatrixAt(i, dummy.matrix);
+      meshRef.current.instanceMatrix.needsUpdate = true;
+    }
   });
 
   if (!width || !height || !hasSmoothScrollbar) return null;
 
   return (
-    <>
-      {ARR.map((_, i) => {
-        const range = i % 2 === 0 ? -width : width;
-        const x = Math.random() * range;
-        const y = (-height - i * height) / 2;
-        const position: Tuple = [x, y, -500];
-        const rotation: Tuple = [Math.random() * 90, 0, Math.random() * 90]; // Set your initial rotation here
-
-        return (
-          <mesh
-            key={i}
-            ref={(e) => (logos.current[i] = e as THREE.Mesh)}
-            scale={[100, 160, 160]}
-            position={position}
-            rotation={rotation}
-          >
-            <bufferGeometry {...geometry} />
-            <meshStandardMaterial color="#ebe9e5" />
-          </mesh>
-        );
-      })}
-      <mesh position={[0, height ? height : 0, 0]}>
-        <planeGeometry args={[width, height]} />
-        <meshBasicMaterial color={new THREE.Color("#fdfcfc")} />
-      </mesh>
-    </>
+    <instancedMesh
+      ref={meshRef}
+      args={[geometry, undefined, COUNT]}
+      frustumCulled={false}
+    >
+      <meshStandardMaterial color="#fe0505" />
+    </instancedMesh>
   );
 };

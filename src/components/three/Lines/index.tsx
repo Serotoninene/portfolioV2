@@ -23,7 +23,7 @@ type Props = {
 const Lines = ({ scrollScene }: Props) => {
   // -------------------- SETTING CONSTANTS -------------------- //
   const GAP = 16;
-  const VERTICES = 128;
+  const VERTICES = 32;
   const NB_STRIPES = 24;
   const ARRAY_STRIPES = new Array(NB_STRIPES).fill(0);
   const WIDTH = scrollScene.scale.x;

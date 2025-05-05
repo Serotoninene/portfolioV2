@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Components
+import { AnimLetters } from "../../components/atoms";
 import { HeaderDuo } from "./components/HeaderDuo";
 import { ProjectContent } from "./components/ProjectContent";
-import { AnimLetters } from "../../components/atoms";
 
 // GSAP
 import { useGSAP } from "@gsap/react";
@@ -99,7 +99,7 @@ export default function Project() {
           href={`/projects/${nextProject.slug}`}
         />
         <img className="h-full w-full object-cover" src={nextProject.img} />
-        <h3 className="absolute inset-0 flex justify-center items-center text-secondary-400 text-3xl font-semibold">
+        <h3 className="absolute inset-0 flex justify-center items-center text-dark text-3xl font-semibold">
           NEXT PROJECT
         </h3>
       </footer>

@@ -1,25 +1,22 @@
-import { Float, useGLTF, useProgress } from "@react-three/drei";
+import { Float, useProgress } from "@react-three/drei";
 
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
-import { MathUtils, Mesh } from "three";
+import { BufferGeometry, MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
-
-const LOGO_SRC = "./assets/ThreeModels/Serotonine_Icon/serotonine_icon.glb";
+import { useHasLoadedStore } from "../../../store/useHasLoaded";
 
 type Props = {
   scale?: vec3;
   inViewport?: boolean;
+  geometry: BufferGeometry;
 };
 
-export const Logo = ({ scale, inViewport }: Props) => {
+export const Logo = ({ scale, inViewport, geometry }: Props) => {
   const ref = useRef<Mesh>(null);
   const tl = useRef<gsap.core.Timeline>();
-  const { active } = useProgress();
-
-  const { nodes } = useGLTF(LOGO_SRC) as any;
-  const geometry = nodes.Plane.geometry;
+  const { hasLoaded } = useHasLoadedStore();
 
   const targetRotationY = useRef(1.6);
   const targetRotationX = useRef(-0.2);
@@ -27,7 +24,7 @@ export const Logo = ({ scale, inViewport }: Props) => {
   useEffect(() => {
     if (!ref.current) return;
 
-    tl.current = gsap.timeline({ delay: 2.1, paused: true });
+    tl.current = gsap.timeline({ paused: true });
     ref.current.rotation.set(-0.2, 2, 0);
 
     tl.current.from(ref.current.rotation, { x: 1 });
@@ -35,10 +32,10 @@ export const Logo = ({ scale, inViewport }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!active && tl.current) {
-      tl.current.play();
+    if (hasLoaded) {
+      tl.current?.play();
     }
-  }, [active]);
+  }, [hasLoaded]);
 
   useFrame(({ pointer }) => {
     if (!ref.current || !inViewport) return;

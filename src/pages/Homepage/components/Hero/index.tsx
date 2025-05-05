@@ -11,13 +11,7 @@ const HeroText = () => {
   const paragraph = useRef<HTMLParagraphElement>(null);
 
   const tl = useRef<gsap.core.Timeline>();
-  const { hasLoaded, setHasLoaded } = useHasLoadedStore();
-
-  useEffect(() => {
-    if (sessionStorage.getItem("hasAlreadyLoaded") === "true") {
-      setHasLoaded(true);
-    }
-  }, []);
+  const { hasLoaded } = useHasLoadedStore();
 
   // scroll anim
   useEffect(() => {
@@ -71,10 +65,7 @@ const HeroText = () => {
           <AnimLetters string=" ALEX" start={hasLoaded} />
         </div>
         <div className="block md:hidden">
-          <AnimLetters
-            string="HI, I'M ALEX"
-            // start={hasLoaded}
-          />
+          <AnimLetters string="HI, I'M ALEX" start={hasLoaded} delay={0} />
         </div>
       </h1>
 

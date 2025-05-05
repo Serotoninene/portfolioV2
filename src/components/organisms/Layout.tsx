@@ -11,6 +11,7 @@ import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
 import gsap from "gsap";
+import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;
@@ -54,7 +55,7 @@ export const Layout = ({ children }: Props) => {
           <SmoothScrollbar
             enabled={!isMobile}
             config={{
-              wheelMultiplier: 0.8,
+              wheelMultiplier: 0.5,
               lerp: 0.1,
               autoResize: true,
             }}
@@ -72,7 +73,6 @@ export const Layout = ({ children }: Props) => {
               key={location.pathname}
               orthographic={pathname === "/" ? true : false}
             >
-              {/* <Perf position="top-left" /> */}
               <Lights />
               <Noise />
             </GlobalCanvas>
