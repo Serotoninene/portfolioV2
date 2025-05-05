@@ -44,7 +44,7 @@ function App() {
 
   return (
     <ColorProvider>
-      <Suspense>
+      <Suspense fallback={}>
         <RouterProvider router={router} />
       </Suspense>
     </ColorProvider>
