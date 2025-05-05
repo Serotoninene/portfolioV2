@@ -45,7 +45,6 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
         const tl = gsap.timeline();
         navigate(`/projects/${project.slug}`);
         tl.set("#Layout", { clearProps: "all" });
-        tl.to("#transition_panel", { yPercent: 0 });
       },
     });
 

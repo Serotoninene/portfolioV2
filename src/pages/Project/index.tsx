@@ -13,10 +13,12 @@ import gsap, { Expo, Power3 } from "gsap";
 // Data + Types
 import { projects, projectsData } from "../../data";
 import { ProjectData } from "../../types/custom";
+import { useColorContext } from "../../hooks/useColorContext";
 
 export default function Project() {
   const container = useRef<HTMLDivElement>(null);
   const { slug } = useParams<{ slug: string }>();
+  const { colors } = useColorContext();
   const projectData = projectsData[slug!] as ProjectData;
 
   // I need to get the index of the project in the array
@@ -38,7 +40,11 @@ export default function Project() {
 
       const tl = gsap.timeline({
         default: { ease: Expo.easeInOut, duration: 0.2, delay: 0.5 },
-        delay: 0.8,
+        delay: 1,
+      });
+
+      tl.to(".intro-layer", {
+        yPercent: 100,
       });
 
       tl.set("video", { yPercent: 10 });
@@ -70,6 +76,10 @@ export default function Project() {
 
   return (
     <div ref={container} className="min-h-screen relative">
+      <div
+        className="intro-layer fixed inset-0 top-0 left-0"
+        style={{ background: colors.mainColor }}
+      ></div>
       <header className="mb-6 pt-14 md:pt-[240px] px-3 md:px-5">
         <h1 className="font-bold text:2xl md:text-6xl">
           <AnimLetters string={projectData.title} stagger={0.01} delay={0.75} />
