@@ -11,6 +11,7 @@ import { MotoyoshiInfiniteGrid } from "./components/MotoyoshiInfiniteGrid";
 import { NormalLightEffect } from "./components/NormalLightEffect";
 import { RefractionGlass } from "./components/RefractionGlass";
 import { TextMorph } from "./components/TextMorph";
+import { SphereCarrousel } from "./components/SphereCarrousel";
 
 export interface Experiment {
   title: string;
@@ -20,12 +21,12 @@ export interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
-  // letters_rain: {
-  //   title: "Letters Rain",
-  //   slug: "letters_rain",
-  //   img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6RuiPfPkoXGl569imgek8qhVTc0NspE24ZYdP",
-  //   component: LettersRain,
-  // },
+  letters_rain: {
+    title: "Letters Rain",
+    slug: "letters_rain",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6RuiPfPkoXGl569imgek8qhVTc0NspE24ZYdP",
+    component: SphereCarrousel,
+  },
   kinetic_type: {
     title: "KineticType",
     slug: "kinetic_type",
