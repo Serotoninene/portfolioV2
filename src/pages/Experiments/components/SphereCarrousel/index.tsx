@@ -3,26 +3,38 @@ import * as THREE from "three";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-// Data
-import { photos } from "../../experimentsData";
-
 // Shaders
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 import { useControls } from "leva";
+import gsap from "gsap";
+
+const photos = [
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUgPswjFnTS31BKxvozY6Rc9XiAEC07r524Vy",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUMwyuiFnTS31BKxvozY6Rc9XiAEC07r524Vy",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAFrm4ordHpEckhiwbCf52orVMZau8P6dBOQz",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGGBrepFWpKtZaehzdVbw3L9Mc2xsjfXInr1Sk",
+  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXkodMuJ5f1OuCjGxsiovyYSkHE5be2Rp7Z3I",
+];
 
 function Scene() {
+  const dispTexture = useLoader(THREE.TextureLoader, "/textures/disp1.jpg");
   const textures = useLoader(THREE.TextureLoader, photos);
 
   const meshRef = useRef<THREE.Mesh>(null);
   const targetRotation = useRef(new THREE.Vector3(0, 0, 0));
 
   const [textureIndex, setTextureIndex] = useState(0);
+  const [isMouseRotation, setIsMouseRotation] = useState(true);
 
   const { lerp } = THREE.MathUtils;
 
   const uniforms = useMemo(
     () => ({
+      uProgress: { value: 0 },
+      uIntensity: { value: 0.5 },
+      uDispTexture: { value: dispTexture },
       uTexture1: { value: textures[textureIndex] },
       uTexture2: { value: textures[textureIndex + 1] },
       uRefractionStrength: { value: 0.1 },
@@ -31,7 +43,23 @@ function Scene() {
     []
   );
 
-  const controls = useControls({
+  useControls({
+    uProgress: {
+      value: uniforms.uProgress.value,
+      min: 0,
+      max: 1,
+      onChange: (value) => {
+        uniforms.uProgress.value = value;
+      },
+    },
+    uIntensity: {
+      value: uniforms.uIntensity.value,
+      min: 0,
+      max: 1,
+      onChange: (value) => {
+        uniforms.uIntensity.value = value;
+      },
+    },
     refractionStrength: {
       value: uniforms.uRefractionStrength.value,
       min: 0,
@@ -50,25 +78,78 @@ function Scene() {
     },
   });
 
-  const [rotation, setRotation] = useState([0, 0, 0]);
+  useEffect(() => {
+    textures.forEach((texture) => {
+      texture.minFilter = THREE.LinearFilter;
+    });
+
+    const switchTextures = () => {
+      setTextureIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % textures.length;
+        const afterNext = (prevIndex + 2) % textures.length;
+
+        // I need to update the uniforms inside the state update function to ensure they are in sync as setState is asynchronous
+        uniforms.uTexture1.value = textures[nextIndex];
+        uniforms.uTexture2.value = textures[afterNext];
+        uniforms.uProgress.value = 0;
+
+        return nextIndex;
+      });
+    };
+
+    const animateTransition = () => {
+      if (!meshRef.current) return;
+
+      const tl = gsap.timeline({
+        defaults: { duration: 1, ease: "expo.inOut" },
+        onStart: () => {
+          setIsMouseRotation(false);
+        },
+        onComplete: () => {
+          setIsMouseRotation(true);
+          switchTextures();
+          tl.kill();
+        },
+      });
+
+      tl.to(uniforms.uProgress, {
+        value: 1,
+      });
+
+      tl.to(
+        meshRef.current.rotation,
+        {
+          y: `+=${Math.PI * 2}deg`,
+          overwrite: "auto",
+        },
+        "<"
+      );
+    };
+
+    const interval = setInterval(animateTransition, 3000); // Change texture every 3 seconds
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useFrame(({ pointer }) => {
     // Target rotation range: -PI/10 to PI/10
-    const maxRotation = Math.PI / 10;
+    const maxRotation = Math.PI / 20;
 
-    // Update target rotation based on current mouse position
-    targetRotation.current.x = THREE.MathUtils.lerp(
-      targetRotation.current.x,
-      pointer.y * maxRotation,
-      0.1
-    );
-    targetRotation.current.y = THREE.MathUtils.lerp(
-      targetRotation.current.y,
-      pointer.x * maxRotation + Math.PI / 2,
-      0.1
-    );
+    if (isMouseRotation && meshRef.current) {
+      // Update target rotation based on current mouse position
+      targetRotation.current.x = lerp(
+        targetRotation.current.x,
+        pointer.y * maxRotation,
+        0.1
+      );
+      targetRotation.current.y = lerp(
+        targetRotation.current.y,
+        pointer.x * maxRotation,
+        0.1
+      );
 
-    if (meshRef.current) {
       meshRef.current.rotation.x = targetRotation.current.x;
       meshRef.current.rotation.y = targetRotation.current.y;
     }
@@ -76,7 +157,7 @@ function Scene() {
 
   return (
     <>
-      <mesh ref={meshRef} scale={7} rotation={[0, Math.PI / 2, 0]}>
+      <mesh ref={meshRef} scale={7} rotation={[0, 0, 0]}>
         <sphereGeometry />
         <shaderMaterial
           vertexShader={vertexShader}
