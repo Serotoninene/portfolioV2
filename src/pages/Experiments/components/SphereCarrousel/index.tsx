@@ -63,7 +63,8 @@ function Scene() {
     refractionStrength: {
       value: uniforms.uRefractionStrength.value,
       min: 0,
-      max: 1,
+      max: 0.1,
+      step: 0.001,
       onChange: (value) => {
         uniforms.uRefractionStrength.value = value;
       },
