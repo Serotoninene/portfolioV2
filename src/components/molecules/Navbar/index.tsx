@@ -1,6 +1,7 @@
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+
 import { useProgress } from "@react-three/drei";
-import { startTransition, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useColorContext } from "../../../hooks/useColorContext";
 import { useIsMenuOpen } from "../../../store/useIsMenuOpen";
 import { getFormattedDate } from "../../../utils";
@@ -12,7 +13,6 @@ export const Navbar = () => {
   const { colors } = useColorContext();
 
   const { progress } = useProgress();
-  const navigate = useNavigate();
 
   const { setIsMenuOpen } = useIsMenuOpen();
 

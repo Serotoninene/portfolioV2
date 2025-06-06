@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
 import * as THREE from "three";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 
 // Shaders
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 import { useControls } from "leva";
-import gsap from "gsap";
+import { Overlay } from "./Overlay";
+import { useSphereCarrouselIndex } from "../../../../store/useSphereCarrouselIndex";
 
 const photos = [
   "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
@@ -79,9 +81,16 @@ function Scene() {
     },
   });
 
+  const { setIndex } = useSphereCarrouselIndex();
+
   useEffect(() => {
+    // set the textures properties
     textures.forEach((texture) => {
       texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      // texture.generateMipmaps = false;
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
     });
 
     const switchTextures = () => {
@@ -134,6 +143,10 @@ function Scene() {
     };
   }, []);
 
+  useEffect(() => {
+    setIndex(textureIndex);
+  }, [textureIndex]);
+
   useFrame(({ pointer }) => {
     // Target rotation range: -PI/10 to PI/10
     const maxRotation = Math.PI / 20;
@@ -179,6 +192,7 @@ export function SphereCarrousel() {
         <Scene />
         <color attach="background" args={[new THREE.Color("#030303")]} />
       </Canvas>
+      <Overlay />
     </div>
   );
 }
