@@ -22,7 +22,7 @@ const Title = ({ index }: { index: number }) => {
       y: 20,
       opacity: 0,
       duration: 0.3,
-      ease: "power2.out",
+      ease: "expo.inOut",
       onComplete: () => {
         setDisplayedIndex(index); // switch title text after out animation
       },
@@ -32,7 +32,7 @@ const Title = ({ index }: { index: number }) => {
       y: 0,
       opacity: 1,
       duration: 0.4,
-      ease: "power2.out",
+      ease: "power3.out",
     });
   }, [index]);
 
@@ -44,8 +44,18 @@ const Title = ({ index }: { index: number }) => {
 };
 
 const Button = ({ children }: ButtonProps) => {
+  const { index, setIndex } = useSphereCarrouselIndex();
   const handleClick = () => {
-    console.log("Button clicked");
+    let newIndex = index;
+    if (children === "NEXT") {
+      newIndex = (index + 1) % data.length;
+    } else if (children === "PREV") {
+      newIndex = (index - 1 + data.length) % data.length; // Ensure it wraps around correctly
+    } else {
+      return; // If children is not "NEXT" or "PREV", do nothing
+    }
+
+    setIndex(newIndex);
   };
   return (
     <button
@@ -58,7 +68,20 @@ const Button = ({ children }: ButtonProps) => {
 };
 
 export const Overlay = () => {
-  const { index } = useSphereCarrouselIndex();
+  const { index, setIndex } = useSphereCarrouselIndex();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      setIndex((prev) => (prev + 1) % data.length);
+    }, 4000);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [index]);
 
   return (
     <div className="top-0 left-0 absolute h-screen w-screen text-white pointer-events-none">

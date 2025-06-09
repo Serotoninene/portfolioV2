@@ -15,6 +15,12 @@ import { useSphereCarrouselIndex } from "../../../../store/useSphereCarrouselInd
 export const data = [
   {
     photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGQKUyKMXxy3LjqpuHb6m7GfiwIBaWSevTOc9R",
+
+    title: "Photo 1",
+  },
+  {
+    photo:
       "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
     title: "Photo 1",
   },
@@ -54,129 +60,71 @@ function Scene() {
 
   const meshRef = useRef<THREE.Mesh>(null);
   const targetRotation = useRef(new THREE.Vector3(0, 0, 0));
+  const interval = useRef<NodeJS.Timeout | null>(null);
 
-  const [textureIndex, setTextureIndex] = useState(0);
-  const [indexCounter, setIndexCounter] = useState(0);
   const [isMouseRotation, setIsMouseRotation] = useState(true);
 
   const { lerp } = THREE.MathUtils;
+  const { index } = useSphereCarrouselIndex();
+
+  const animateTransition = () => {
+    if (!meshRef.current) return;
+
+    const tl = gsap.timeline({
+      defaults: { duration: 1, ease: "expo.inOut" },
+      onStart: () => {
+        setIsMouseRotation(false);
+        uniforms.uTexture2.value = textures[index];
+      },
+      onComplete: () => {
+        setIsMouseRotation(true);
+        uniforms.uTexture1.value = textures[index];
+        uniforms.uProgress.value = 0;
+        tl.kill();
+      },
+    });
+
+    tl.to(uniforms.uProgress, {
+      value: 1,
+    });
+
+    tl.to(
+      meshRef.current.rotation,
+      {
+        y: `+=${Math.PI * 2}deg`,
+        overwrite: "auto",
+      },
+      "<"
+    );
+  };
 
   const uniforms = useMemo(
     () => ({
       uProgress: { value: 0 },
       uIntensity: { value: 0.5 },
       uDispTexture: { value: dispTexture },
-      uTexture1: { value: textures[textureIndex] },
-      uTexture2: { value: textures[textureIndex + 1] },
+      uTexture1: { value: textures[0] },
+      uTexture2: { value: textures[1] },
       uRefractionStrength: { value: 0.21 },
       uCenterScale: { value: 2 },
     }),
     []
   );
 
-  useControls({
-    uProgress: {
-      value: uniforms.uProgress.value,
-      min: 0,
-      max: 1,
-      onChange: (value) => {
-        uniforms.uProgress.value = value;
-      },
-    },
-    uIntensity: {
-      value: uniforms.uIntensity.value,
-      min: 0,
-      max: 1,
-      onChange: (value) => {
-        uniforms.uIntensity.value = value;
-      },
-    },
-    refractionStrength: {
-      value: uniforms.uRefractionStrength.value,
-      min: 0,
-      max: 0.1,
-      step: 0.001,
-      onChange: (value) => {
-        uniforms.uRefractionStrength.value = value;
-      },
-    },
-    centerScale: {
-      value: uniforms.uCenterScale.value,
-      min: 1,
-      max: 10,
-      onChange: (value) => {
-        uniforms.uCenterScale.value = value;
-      },
-    },
-  });
-
-  const { index, setIndex } = useSphereCarrouselIndex();
-
   useEffect(() => {
     // set the textures properties
     textures.forEach((texture) => {
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
-      // texture.generateMipmaps = false;
+      texture.generateMipmaps = false;
       texture.wrapS = THREE.ClampToEdgeWrapping;
       texture.wrapT = THREE.ClampToEdgeWrapping;
     });
-
-    const switchTextures = () => {
-      setTextureIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % textures.length;
-        const afterNext = (prevIndex + 2) % textures.length;
-
-        // I need to update the uniforms inside the state update function to ensure they are in sync as setState is asynchronous
-        uniforms.uTexture1.value = textures[nextIndex];
-        uniforms.uTexture2.value = textures[afterNext];
-        uniforms.uProgress.value = 0;
-
-        return nextIndex;
-      });
-    };
-
-    const animateTransition = () => {
-      if (!meshRef.current) return;
-
-      const tl = gsap.timeline({
-        defaults: { duration: 1, ease: "expo.inOut" },
-        onStart: () => {
-          setIsMouseRotation(false);
-          setIndexCounter((prev) => prev + 1);
-        },
-        onComplete: () => {
-          setIsMouseRotation(true);
-          switchTextures();
-          tl.kill();
-        },
-      });
-
-      tl.to(uniforms.uProgress, {
-        value: 1,
-      });
-
-      tl.to(
-        meshRef.current.rotation,
-        {
-          y: `+=${Math.PI * 2}deg`,
-          overwrite: "auto",
-        },
-        "<"
-      );
-    };
-
-    const interval = setInterval(animateTransition, 3000); // Change texture every 3 seconds
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   useEffect(() => {
-    const nextIndex = indexCounter % data.length;
-    setIndex(nextIndex);
-  }, [indexCounter]);
+    animateTransition();
+  }, [index]);
 
   useFrame(({ pointer }) => {
     // Target rotation range: -PI/10 to PI/10

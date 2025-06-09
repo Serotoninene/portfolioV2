@@ -7,5 +7,8 @@ type SphereCarrouselIndex = {
 
 export const useSphereCarrouselIndex = create<SphereCarrouselIndex>((set) => ({
   index: 0,
-  setIndex: (i) => set({ index: i }),
+  setIndex: (updater) =>
+    set((state) => ({
+      index: typeof updater === "function" ? updater(state.index) : updater,
+    })),
 }));
