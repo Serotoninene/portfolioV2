@@ -32,18 +32,6 @@ void main() {
     tiledUv.x = 1.0 - tiledUv.x;
   }
 
-  // Refraction based on distance from center
-  vec2 center = vec2(0.5);
-  vec2 dir = tiledUv - center;
-  float dist = length(dir);
-
-  float strength = pow(dist, 2.) * uRefractionStrength;
-
-  // Normalize direction and apply radial displacement
-  vec2 distortedUv = tiledUv + normalize(dir) * strength;
-
-  distortedUv += dir.y * strength * 1.5;
-
 
   // Transition between two textures
   vec4 disp = texture2D(uDispTexture, tiledUv);

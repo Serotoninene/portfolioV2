@@ -7,27 +7,56 @@ import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 // Shaders
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
+
 import { useControls } from "leva";
 import { Overlay } from "./Overlay";
 import { useSphereCarrouselIndex } from "../../../../store/useSphereCarrouselIndex";
 
-const photos = [
-  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
-  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUgPswjFnTS31BKxvozY6Rc9XiAEC07r524Vy",
-  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUMwyuiFnTS31BKxvozY6Rc9XiAEC07r524Vy",
-  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAFrm4ordHpEckhiwbCf52orVMZau8P6dBOQz",
-  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGGBrepFWpKtZaehzdVbw3L9Mc2xsjfXInr1Sk",
-  "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXkodMuJ5f1OuCjGxsiovyYSkHE5be2Rp7Z3I",
+export const data = [
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
+    title: "Photo 1",
+  },
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUgPswjFnTS31BKxvozY6Rc9XiAEC07r524Vy",
+    title: "Photo 2",
+  },
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGUMwyuiFnTS31BKxvozY6Rc9XiAEC07r524Vy",
+    title: "Photo 3",
+  },
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGAFrm4ordHpEckhiwbCf52orVMZau8P6dBOQz",
+    title: "Photo 4",
+  },
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGGBrepFWpKtZaehzdVbw3L9Mc2xsjfXInr1Sk",
+    title: "Photo 5",
+  },
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGXkodMuJ5f1OuCjGxsiovyYSkHE5be2Rp7Z3I",
+    title: "Photo 6",
+  },
 ];
 
 function Scene() {
   const dispTexture = useLoader(THREE.TextureLoader, "/textures/disp1.jpg");
-  const textures = useLoader(THREE.TextureLoader, photos);
+  const textures = useLoader(
+    THREE.TextureLoader,
+    data.map((item) => item.photo)
+  );
 
   const meshRef = useRef<THREE.Mesh>(null);
   const targetRotation = useRef(new THREE.Vector3(0, 0, 0));
 
   const [textureIndex, setTextureIndex] = useState(0);
+  const [indexCounter, setIndexCounter] = useState(0);
   const [isMouseRotation, setIsMouseRotation] = useState(true);
 
   const { lerp } = THREE.MathUtils;
@@ -39,7 +68,7 @@ function Scene() {
       uDispTexture: { value: dispTexture },
       uTexture1: { value: textures[textureIndex] },
       uTexture2: { value: textures[textureIndex + 1] },
-      uRefractionStrength: { value: 0.1 },
+      uRefractionStrength: { value: 0.21 },
       uCenterScale: { value: 2 },
     }),
     []
@@ -81,7 +110,7 @@ function Scene() {
     },
   });
 
-  const { setIndex } = useSphereCarrouselIndex();
+  const { index, setIndex } = useSphereCarrouselIndex();
 
   useEffect(() => {
     // set the textures properties
@@ -114,6 +143,7 @@ function Scene() {
         defaults: { duration: 1, ease: "expo.inOut" },
         onStart: () => {
           setIsMouseRotation(false);
+          setIndexCounter((prev) => prev + 1);
         },
         onComplete: () => {
           setIsMouseRotation(true);
@@ -144,8 +174,9 @@ function Scene() {
   }, []);
 
   useEffect(() => {
-    setIndex(textureIndex);
-  }, [textureIndex]);
+    const nextIndex = indexCounter % data.length;
+    setIndex(nextIndex);
+  }, [indexCounter]);
 
   useFrame(({ pointer }) => {
     // Target rotation range: -PI/10 to PI/10

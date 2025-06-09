@@ -10,7 +10,7 @@ void main(){
   gl_Position = projectedPosition;
 
   vUv = uv;
-  eyeVector = normalize(modelPosition.xyz - cameraPosition);
+  eyeVector = normalize(vec3(3.,3.,0.) - cameraPosition);
   vec3 transformedNormal = normalMatrix * normal;
   worldNormal = normalize(transformedNormal);
 }
