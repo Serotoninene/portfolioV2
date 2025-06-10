@@ -7,6 +7,7 @@ uniform float uProgress;
 uniform float uIntensity;
 uniform float uRefractionStrength;
 uniform float uCenterScale;
+uniform float uIorRatio;
 
 varying vec2 vUv;
 varying vec3 eyeVector;
@@ -38,7 +39,7 @@ void main() {
   vec2 dispVec = vec2(disp.b, disp.g);
 
   // Testing a refraction effect
-  float iorRatio = 1.0/1.31;
+  float iorRatio = uIorRatio;
   vec3 refractVec = refract(eyeVector, worldNormal, iorRatio) * uRefractionStrength;
 
   vec2 distortedPos1 = tiledUv + getRotM(angle1) * dispVec * uIntensity * uProgress;

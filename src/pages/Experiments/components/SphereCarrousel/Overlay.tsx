@@ -68,20 +68,7 @@ const Button = ({ children }: ButtonProps) => {
 };
 
 export const Overlay = () => {
-  const { index, setIndex } = useSphereCarrouselIndex();
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-
-    intervalRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % data.length);
-    }, 4000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [index]);
+  const { index } = useSphereCarrouselIndex();
 
   return (
     <div className="top-0 left-0 absolute h-screen w-screen text-white pointer-events-none">
