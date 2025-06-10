@@ -18,14 +18,10 @@ type Props = {
 };
 
 export const Layout = ({ children }: Props) => {
-  const { colors, switchColors } = useColorContext();
+  const { colors } = useColorContext();
   const eventSource = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery(768);
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    switchColors();
-  }, []);
 
   useEffect(() => {
     gsap.set("#Navbar", {

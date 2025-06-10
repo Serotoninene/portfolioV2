@@ -131,7 +131,7 @@ const Button = ({ children, isIntroDone }: ButtonProps) => {
     <button
       ref={ref}
       onClick={handleClick}
-      className="px-4 py-2 rounded-3xl hover:bg-white hover:text-black transition-colors ease-out duration-200 pointer-events-auto"
+      className="px-4 py-2 rounded-3xl hover:bg-white hover:text-black transition-colors ease-out duration-200 pointer-events-auto outline-none"
     >
       {children}
     </button>

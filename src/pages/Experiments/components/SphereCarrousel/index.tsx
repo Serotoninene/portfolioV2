@@ -186,14 +186,14 @@ export function SphereCarrousel() {
   const [isIntroDone, setIsIntroDone] = useState(false);
 
   useEffect(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if (!isIntroDone) return;
-    intervalRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % data.length);
-    }, 4000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+    // if (intervalRef.current) clearInterval(intervalRef.current);
+    // if (!isIntroDone) return;
+    // intervalRef.current = setInterval(() => {
+    //   setIndex((prev) => (prev + 1) % data.length);
+    // }, 4000);
+    // return () => {
+    //   if (intervalRef.current) clearInterval(intervalRef.current);
+    // };
   }, [index, isIntroDone]);
 
   return (

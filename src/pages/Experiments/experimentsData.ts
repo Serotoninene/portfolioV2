@@ -24,7 +24,7 @@ export const experimentsData: Record<string, Experiment> = {
   sphere_carrousel: {
     title: "Sphere Carrousel",
     slug: "sphere_carrousel",
-    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6RuiPfPkoXGl569imgek8qhVTc0NspE24ZYdP",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6I4eSqEOM64X29GTPJjpSlksgFUAZu1DWOmez",
     component: SphereCarrousel,
   },
   kinetic_type: {
