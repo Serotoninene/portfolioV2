@@ -21,9 +21,9 @@ export interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
-  letters_rain: {
-    title: "Letters Rain",
-    slug: "letters_rain",
+  sphere_carrousel: {
+    title: "Sphere Carrousel",
+    slug: "sphere_carrousel",
     img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6RuiPfPkoXGl569imgek8qhVTc0NspE24ZYdP",
     component: SphereCarrousel,
   },

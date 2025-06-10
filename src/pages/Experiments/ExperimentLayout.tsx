@@ -13,6 +13,7 @@ const BackButton = () => {
 
 const ExperimentLayout = () => {
   const { id } = useParams<{ id: string }>();
+  console.log(id);
 
   if (!id || !experimentsData[id]) {
     return (
