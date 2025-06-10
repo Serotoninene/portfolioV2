@@ -14,20 +14,19 @@ import { OrbitControls } from "@react-three/drei";
 export const data = [
   {
     photo:
-      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGQKUyKMXxy3LjqpuHb6m7GfiwIBaWSevTOc9R",
-
-    title: "Photo 0",
-  },
-  {
-    photo:
       "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGBX6BYfxTXEYlhq87yGp6ZoMIQC4zc2rFA3VK",
-    title: "Photo 1",
+    title: "Reflections twist in liquid chrome and light",
   },
-
   {
     photo:
       "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGGBrepFWpKtZaehzdVbw3L9Mc2xsjfXInr1Sk",
-    title: "Photo 5",
+    title: "Petals unfold slowly in a digital tide",
+  },
+  {
+    photo:
+      "https://5f6x5qowvd.ufs.sh/f/skRwIEbJ4UkGQKUyKMXxy3LjqpuHb6m7GfiwIBaWSevTOc9R",
+
+    title: "Memories dissolve in fluid, shifting form and color",
   },
 ];
 
@@ -188,12 +187,10 @@ export function SphereCarrousel() {
 
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-
     if (!isIntroDone) return;
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % data.length);
     }, 4000);
-
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -208,7 +205,7 @@ export function SphereCarrousel() {
         </Suspense>
         <color attach="background" args={[new THREE.Color("#030303")]} />
       </Canvas>
-      <Overlay />
+      <Overlay isIntroDone={isIntroDone} />
     </div>
   );
 }
