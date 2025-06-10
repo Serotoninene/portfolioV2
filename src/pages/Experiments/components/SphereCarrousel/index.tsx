@@ -197,7 +197,7 @@ export function SphereCarrousel() {
   }, [index, isIntroDone]);
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-[#030303]">
       <Canvas>
         <OrbitControls />
         <Suspense fallback={<></>}>

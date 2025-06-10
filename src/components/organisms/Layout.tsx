@@ -1,5 +1,6 @@
 import { GlobalCanvas, SmoothScrollbar } from "@14islands/r3f-scroll-rig";
 
+import gsap from "gsap";
 import React, { MutableRefObject, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Menu } from ".";
@@ -10,8 +11,6 @@ import { CustomCursor, Navbar } from "../molecules";
 import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
-import gsap from "gsap";
-import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;
