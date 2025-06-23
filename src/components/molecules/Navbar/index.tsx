@@ -39,7 +39,7 @@ export const Navbar = () => {
         borderColor: colors.secondaryColor,
       }}
     >
-      <Link to="/">
+      <a href="/">
         <h2
           id="Logo_Alex"
           className="relative bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
@@ -53,7 +53,7 @@ export const Navbar = () => {
           />
           <HoverSpace />
         </h2>
-      </Link>
+      </a>
       <div
         id="Center_Navbar"
         className="gap-10 text-sm font-medium overflow-hidden hidden md:flex"
