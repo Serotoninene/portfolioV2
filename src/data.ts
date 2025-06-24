@@ -8,12 +8,6 @@ export const projects: Project[] = [
     slug: "costar",
   },
   {
-    title: "MAZARINE GENERATIVE WISHES",
-    subtitle: "New year special website",
-    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6AasoXWHp4jJ7x9HMZr2VFukXLhNsC8wI1lmQ",
-    slug: "genwish",
-  },
-  {
     title: "AVAA ARCHITECTS",
     slug: "avaa_architects",
     subtitle: "Architect's website",
@@ -24,6 +18,12 @@ export const projects: Project[] = [
     subtitle: "Photo portfolio",
     img: "/assets/Photos/hp-projects/s-eychenne.png",
     slug: "simon_eychenne",
+  },
+  {
+    title: "MAZARINE GENERATIVE WISHES",
+    subtitle: "New year special website",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6AasoXWHp4jJ7x9HMZr2VFukXLhNsC8wI1lmQ",
+    slug: "genwish",
   },
   {
     title: "SKOP",
