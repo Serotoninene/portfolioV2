@@ -8,6 +8,12 @@ export const projects: Project[] = [
     slug: "costar",
   },
   {
+    title: "MAZARINE GENERATIVE WISHES",
+    subtitle: "New year special website",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6AasoXWHp4jJ7x9HMZr2VFukXLhNsC8wI1lmQ",
+    slug: "genwish",
+  },
+  {
     title: "AVAA ARCHITECTS",
     slug: "avaa_architects",
     subtitle: "Architect's website",
@@ -63,6 +69,30 @@ export const projectsData: Record<string, ProjectData> = {
       "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6O4giuptjgW5nQ7itrKZ30okTFqxlmyURfMBb",
       "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L67dToJVrVvyJ8fsCuabP6XEDtAkFnrxLB9IQS",
       "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6k4icu7QEr5lhURcnwTv49iDOzKS6CkWxHPLq",
+    ],
+    paragraphs: [
+      "This project was built using React.js, with Framer Motion handling all the animation work. It was my first time using Framer Motion in a professional context, and it integrated seamlessly with React’s declarative syntax. I chose it specifically for its ability to manage page transitions and element animations in a clean, expressive way. The library’s tight integration with React made it easy to maintain smooth, state-driven animations across the site.",
+      "One of the main challenges of the project was managing background video playback across devices. The animation was split into two distinct phases: an intro sequence and a seamless transition into a looping animation. We also had to provide separate versions for desktop and mobile to maintain visual quality and performance. On top of that, mobile devices required additional logic to handle cases like low battery mode, where autoplay is restricted. Orchestrating all of this took more time than expected, but it taught me a lot about handling video with precision in production environments.",
+    ],
+  },
+  genwish: {
+    title: "Mazarine Generative wishes",
+    slug: "genwish",
+    introParagraph: `Every year, Mazarine, a leading agency in fashion and luxury, releases a unique interactive experience to celebrate the holiday season. For their 2022 edition, I was brought in to develop a web experience that invited users to make a wish tied to a meaningful cause — from supporting children’s education to protecting the planet. In return, the site generated a one-of-a-kind piece of generative art, created in real time based on the user's input. The site was filled with animations and smooth page transitions, all implemented using Framer Motion to create a fluid and immersive experience.`,
+    client: "Mazarine",
+    clientUrl: "https://www.mazarine.com/en/mazarine-digital",
+    project: "New year Website",
+    websiteName: "Generative wishes",
+    websiteUrl: "https://gen-wishes-test.vercel.app/",
+    video:
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6OTAkeSjgW5nQ7itrKZ30okTFqxlmyURfMBba",
+    photos: [
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6AasoXWHp4jJ7x9HMZr2VFukXLhNsC8wI1lmQ",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6PML6Xc0QtYIiMAHmh9VJFDW6c0zBXTf4vguL",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6XwwuAhqo7PpijR9NbI20zOGFncSfhrdMTwXL",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L64MVJymYwZtzx7Q9CFTRXqpa2cuhlneBdVkOE",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6vZLPMqnGURo4I1OkNdyrJwbSA0xK2fH3sX6c",
+      "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6yNC03A1vNqjHKfwX0pQFUoDY65uadbZneA1k",
     ],
     paragraphs: [
       "We built a fully custom front-end framework from scratch to power the Costar AI platform, relying only on GSAP for animation handling. Routing, state management, and component architecture were all developed in-house to meet the specific needs of the project. This approach gave us full control over the platform’s behavior and performance.",
