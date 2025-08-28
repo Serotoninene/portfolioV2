@@ -1,8 +1,9 @@
 import { useProgress } from "@react-three/drei";
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useRef } from "react";
 import { useEndOfLoading } from "./animations/useEndOfLoading";
 import { LoadingLoop } from "./components/LoadingLoop";
 
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 export const Loader = () => {
@@ -10,23 +11,69 @@ export const Loader = () => {
   const loadingArr = new Array(8).fill(0);
   const container = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const bgLines = useRef<HTMLDivElement[]>([]);
+
   const { progress } = useProgress();
+  const simulateProgress = useRef({ value: 0 });
 
   // The End of Loading animation = animates out the "LOADING" (loading loop) + the loading container
   const tl = useEndOfLoading(ref, container);
 
-  useEffect(() => {
-    gsap.set(bgLines.current, { scaleY: 0 });
-    gsap.to(bgLines.current, {
-      scaleY: progress / 100,
-      stagger: 0.01,
-    });
+  useGSAP(
+    () => {
+      const bgLines = gsap.utils.toArray<HTMLElement>(".bg-line");
+      const numLines = bgLines.length;
 
-    if (progress === 100 && tl.current) {
-      tl.current.play();
+      // Watch progress change
+      const updateBars = (simulatedProgress: number) => {
+        bgLines.forEach((line, i) => {
+          const segmentSize = 100 / numLines; // % per bar
+          const start = i * segmentSize;
+          const end = (i + 1) * segmentSize;
+
+          let fill = 0;
+          if (simulatedProgress >= end) {
+            fill = 1; // fully filled
+          } else if (simulatedProgress <= start) {
+            fill = 0; // empty
+          } else {
+            fill = (simulatedProgress - start) / segmentSize; // partial
+          }
+
+          // Animate to target fill
+          gsap.to(line, {
+            scaleY: fill,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+        });
+      };
+      // Animate simulated progress to 100 in 3s
+      gsap.to(simulateProgress.current, {
+        value: 100,
+        duration: 3,
+        ease: "power1.inOut",
+        onUpdate: () => {
+          updateBars(simulateProgress.current.value);
+        },
+      });
+
+      if (progress === 100) {
+        gsap.to(bgLines, {
+          scaleY: 1,
+          duration: 0.15, // give it some time to ramp
+          ease: "power4.in", // starts slow → accelerates hard
+          stagger: 0.05, // optio
+          onComplete: () => {
+            // Play the exit animation after lines are complete
+            tl.current?.play();
+          },
+        });
+      }
+    },
+    {
+      scope: container,
     }
-  }, [progress]);
+  );
 
   return (
     <div
@@ -47,15 +94,9 @@ export const Loader = () => {
       <div className="fixed inset-0 grid grid-cols-8 gap-5 mx-5">
         {new Array(8).fill(0).map((_, i) => (
           <div key={i}>
-            <div
-              ref={(e) => e && bgLines.current?.push(e)}
-              className="h-full w-[0.5px] bg-secondary-700 origin-top"
-            />
+            <div className="bg-line h-full w-[0.5px] bg-secondary-700 origin-top" />
             {i === 8 - 1 && (
-              <div
-                ref={(e) => e && bgLines.current?.push(e)}
-                className="absolute right-0 top-0 h-full w-[0.5px] bg-secondary-700 origin-top"
-              />
+              <div className="bg-line absolute right-0 top-0 h-full w-[0.5px] bg-secondary-700 origin-top" />
             )}
           </div>
         ))}

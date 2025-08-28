@@ -1,4 +1,6 @@
 import Lenis from "@studio-freight/lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, {
   createContext,
   useContext,
@@ -29,12 +31,13 @@ export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
       wheelMultiplier: 10000,
     });
 
-    function raf(time: number) {
-      lenis.current?.raf(time);
-      requestAnimationFrame(raf);
-    }
+    lenis.current.on("scroll", ScrollTrigger.update);
 
-    requestAnimationFrame(raf);
+    gsap.ticker.add((time) => {
+      lenis.current?.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
   }, [lenis.current]);
 
   return (
