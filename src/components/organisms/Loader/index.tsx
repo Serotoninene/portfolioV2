@@ -52,7 +52,6 @@ export const Loader = () => {
               scaleY: 1,
               duration: 0.5, // give it some time to ramp
               ease: "power4.in", // starts slow → accelerates hard
-              stagger: 0.05, // optional stagger for a wave effect
               onComplete: () => {
                 tl.current?.play();
               },
@@ -79,7 +78,7 @@ export const Loader = () => {
   return (
     <div
       ref={container as RefObject<HTMLDivElement>}
-      className="fixed -top-[10vh] -left-[10vw] w-[120vw] h-[120vh] bg-secondary-200 z-50 flex flex-col justify-center items-center gap-4"
+      className="fixed -top-[10vh] -left-[10vw] w-[120vw] h-[120vh] bg-secondary-200 z-50 flex flex-col justify-center items-center gap-4 "
     >
       {/* Multiple LoadingLoops */}
       {loadingArr.map((_, i) => (

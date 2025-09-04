@@ -33,7 +33,6 @@ export const useEndOfLoading = (
           yPercent: Math.sign(i - length / 2 + 1) * 100,
           ease: Power4.easeOut,
           duration: 0.5,
-          stagger: 0.3,
           onComplete: () => {
             setHasLoaded(true);
           },
