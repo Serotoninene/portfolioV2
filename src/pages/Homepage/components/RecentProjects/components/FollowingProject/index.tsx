@@ -1,17 +1,18 @@
-import { useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import * as THREE from "three";
+import { useFrame, useLoader } from "@react-three/fiber";
 
 import { ScrollSceneChildProps } from "@14islands/r3f-scroll-rig";
 import { projects } from "../../../../../../data";
 import { useUpdateTexture } from "./animations";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import { useTouchTexture } from "../../../../../../components/three/TouchTexture";
 import { useWindowSize } from "../../../../../../hooks";
 import { useProjectMeshRect } from "../../../../../../store/useProjectMeshRect";
+import { useLoadingProgress } from "../../../../../../store/useLoadingProgress";
+
 import fragment from "./shaders/fragment.glsl";
 import vertex from "./shaders/vertex.glsl";
 
@@ -24,6 +25,7 @@ export const FollowingProject = ({ scrollScene }: Props) => {
   const shader = useRef<THREE.ShaderMaterial>(null);
 
   const { rect } = useProjectMeshRect();
+  const setProgress = useLoadingProgress((state) => state.setProgress);
   const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
 
   const [mixFactor, setMixFactor] = useState({ value: 0 });
@@ -34,7 +36,20 @@ export const FollowingProject = ({ scrollScene }: Props) => {
     radius: 0.2,
   });
 
-  const textures = useTexture(projects.map((project) => project.img));
+  const manager = new THREE.LoadingManager();
+
+  manager.onProgress = (_, itemsLoaded, itemsTotal) => {
+    // Update the loading store with progress
+    setProgress(itemsLoaded, itemsTotal);
+  };
+
+  const textures = useLoader(
+    THREE.TextureLoader,
+    projects.map((p) => p.img),
+    (loader) => {
+      loader.manager = manager; // ✅ plug in your custom manager
+    }
+  );
 
   const { width } = useWindowSize();
 

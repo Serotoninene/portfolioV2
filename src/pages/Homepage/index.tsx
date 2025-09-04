@@ -10,6 +10,7 @@ import {
   Showreal,
   StickyText,
 } from "./components";
+import { LoadingProvider } from "../../contexts/LoadingContext";
 
 export default function Homepage() {
   useEffect(() => {

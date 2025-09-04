@@ -28,7 +28,8 @@
     "@/*": ["./src/*"],
     "@components/*": ["./src/components/*"],
     "@shaders/*": ["./src/shaders/*"],
-    "@hooks/*": ["./src/hooks/*"]
+    "@hooks/*": ["./src/hooks/*"],
+    "@contexts/*": ["./src/contexts/*"]
   },
   "include": ["src", "declarations.d.ts"],
   "exclude": ["src/components/three/utils/extendMaterial.ts"],

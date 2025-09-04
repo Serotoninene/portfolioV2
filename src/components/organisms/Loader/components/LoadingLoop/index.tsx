@@ -1,7 +1,7 @@
-import { useProgress } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { splitWords } from "../../../../../utils";
 import { useLoadingLoop } from "./animations/useLoadingLoop";
+import { useLoadingProgress } from "../../../../../store/useLoadingProgress";
 
 type Props = {
   className?: string;
@@ -10,7 +10,7 @@ type Props = {
 export const LoadingLoop = ({ className }: Props) => {
   const loading = useRef<HTMLSpanElement[]>([]);
   const shadowLoading = useRef<HTMLSpanElement[]>([]);
-  const { progress } = useProgress();
+  const progress = useLoadingProgress((state) => state.progress);
 
   const tl = useLoadingLoop(loading, shadowLoading);
 

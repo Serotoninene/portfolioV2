@@ -1,18 +1,17 @@
-import { useProgress } from "@react-three/drei";
 import { RefObject, useRef } from "react";
 import { useEndOfLoading } from "./animations/useEndOfLoading";
 import { LoadingLoop } from "./components/LoadingLoop";
+import { useLoadingProgress } from "../../../store/useLoadingProgress";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 export const Loader = () => {
-  // const ref = useRef<HTMLElement>();
   const loadingArr = new Array(8).fill(0);
   const container = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
 
-  const { progress } = useProgress();
+  const progress = useLoadingProgress((state) => state.progress);
   const simulateProgress = useRef({ value: 0 });
 
   // The End of Loading animation = animates out the "LOADING" (loading loop) + the loading container
@@ -26,19 +25,19 @@ export const Loader = () => {
       gsap.set(bgLines, { scaleY: 0 });
 
       // Watch progress change
-      const updateBars = (simulatedProgress: number) => {
+      const updateBars = () => {
         bgLines.forEach((line, i) => {
           const segmentSize = 100 / numLines; // % per bar
           const start = i * segmentSize;
           const end = (i + 1) * segmentSize;
 
           let fill = 0;
-          if (simulatedProgress >= end) {
+          if (progress >= end) {
             fill = 1; // fully filled
-          } else if (simulatedProgress <= start) {
+          } else if (progress <= start) {
             fill = 0; // empty
           } else {
-            fill = (simulatedProgress - start) / segmentSize; // partial
+            fill = (progress - start) / segmentSize; // partial
           }
 
           // Animate to target fill
@@ -67,12 +66,13 @@ export const Loader = () => {
         duration: 3,
         ease: "power1.inOut",
         onUpdate: () => {
-          updateBars(simulateProgress.current.value);
+          updateBars();
         },
       });
     },
     {
       scope: container,
+      dependencies: [progress],
     }
   );
 
