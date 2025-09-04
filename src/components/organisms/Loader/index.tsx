@@ -23,6 +23,8 @@ export const Loader = () => {
       const bgLines = gsap.utils.toArray<HTMLElement>(".bg-line");
       const numLines = bgLines.length;
 
+      gsap.set(bgLines, { scaleY: 0 });
+
       // Watch progress change
       const updateBars = (simulatedProgress: number) => {
         bgLines.forEach((line, i) => {
@@ -45,6 +47,18 @@ export const Loader = () => {
             duration: 0.4,
             ease: "power2.out",
           });
+
+          if (progress === 100) {
+            gsap.to(line, {
+              scaleY: 1,
+              duration: 0.5, // give it some time to ramp
+              ease: "power4.in", // starts slow → accelerates hard
+              stagger: 0.05, // optional stagger for a wave effect
+              onComplete: () => {
+                tl.current?.play();
+              },
+            });
+          }
         });
       };
       // Animate simulated progress to 100 in 3s
@@ -56,19 +70,6 @@ export const Loader = () => {
           updateBars(simulateProgress.current.value);
         },
       });
-
-      if (progress === 100) {
-        gsap.to(bgLines, {
-          scaleY: 1,
-          duration: 0.15, // give it some time to ramp
-          ease: "power4.in", // starts slow → accelerates hard
-          stagger: 0.05, // optio
-          onComplete: () => {
-            // Play the exit animation after lines are complete
-            tl.current?.play();
-          },
-        });
-      }
     },
     {
       scope: container,
