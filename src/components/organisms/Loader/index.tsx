@@ -25,49 +25,41 @@ export const Loader = () => {
       gsap.set(bgLines, { scaleY: 0 });
 
       // Watch progress change
-      const updateBars = () => {
-        bgLines.forEach((line, i) => {
-          const segmentSize = 100 / numLines; // % per bar
-          const start = i * segmentSize;
-          const end = (i + 1) * segmentSize;
 
-          let fill = 0;
-          if (progress >= end) {
-            fill = 1; // fully filled
-          } else if (progress <= start) {
-            fill = 0; // empty
-          } else {
-            fill = (progress - start) / segmentSize; // partial
-          }
+      bgLines.forEach((line, i) => {
+        const segmentSize = 100 / numLines; // % per bar
+        const start = i * segmentSize;
+        const end = (i + 1) * segmentSize;
 
-          // Animate to target fill
-          gsap.to(line, {
-            scaleY: fill,
-            duration: 0.4,
-            ease: "power2.out",
-          });
+        let fill = 0;
+        if (progress >= end) {
+          fill = 1; // fully filled
+        } else if (progress <= start) {
+          fill = 0; // empty
+        } else {
+          fill = (progress - start) / segmentSize; // partial
+        }
 
-          if (progress === 100) {
-            gsap.to(line, {
-              scaleY: 1,
-              duration: 0.5, // give it some time to ramp
-              ease: "power4.in", // starts slow → accelerates hard
-              onComplete: () => {
-                tl.current?.play();
-              },
-            });
-          }
+        // Animate to target fill
+        gsap.to(line, {
+          scaleY: fill,
+          duration: 0.4,
+          ease: "power2.out",
         });
-      };
-      // Animate simulated progress to 100 in 3s
-      gsap.to(simulateProgress.current, {
-        value: 100,
-        duration: 3,
-        ease: "power1.inOut",
-        onUpdate: () => {
-          updateBars();
-        },
+
+        if (progress === 100) {
+          gsap.to(line, {
+            scaleY: 1,
+            duration: 0.5, // give it some time to ramp
+            ease: "power4.in", // starts slow → accelerates hard
+            onComplete: () => {
+              tl.current?.play();
+            },
+          });
+        }
       });
+
+      // Animate simulated progress to 100 in 3s
     },
     {
       scope: container,

@@ -1,11 +1,10 @@
-import { Float, useProgress } from "@react-three/drei";
+import { Float } from "@react-three/drei";
 
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { BufferGeometry, MathUtils, Mesh } from "three";
 
 import gsap from "gsap";
-import { useHasLoadedStore } from "../../../store/useHasLoaded";
 import { useLoadingProgress } from "../../../store/useLoadingProgress";
 
 type Props = {
