@@ -11,6 +11,7 @@ import { CustomCursor, Navbar } from "../molecules";
 import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
+import { usePageTransition } from "../../hooks/usePageTransition";
 
 type Props = {
   children: React.ReactNode;
@@ -22,6 +23,8 @@ export const Layout = ({ children }: Props) => {
   const isMobile = useMediaQuery(768);
   const { pathname } = useLocation();
 
+  const { pageTransitionRef } = usePageTransition();
+
   useEffect(() => {
     gsap.set("#Navbar", {
       borderColor: colors.secondaryColor,
@@ -31,7 +34,7 @@ export const Layout = ({ children }: Props) => {
 
   return (
     <ProjectProvider>
-      <div id="mainContainer">
+      <div id="mainContainer" ref={pageTransitionRef}>
         <main
           id="Layout"
           ref={eventSource}

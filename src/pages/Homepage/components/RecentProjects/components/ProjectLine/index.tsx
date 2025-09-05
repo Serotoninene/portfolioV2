@@ -91,6 +91,11 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
     >
       <div className="relative pt-6 grid grid-cols-6 gap-6 cursor-pointer">
         <div
+          ref={shadowLine}
+          className="absolute w-full h-[1px] top-0 left-0 origin-left scale-x-0"
+          style={{ background: colors.secondaryColor }}
+        />
+        <div
           className="Project-Line__line absolute top-0 h-[1px] w-full origin-left opacity-30"
           style={{
             background: colors.secondaryColor,

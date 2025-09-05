@@ -6,10 +6,11 @@ import gsap, { Power3 } from "gsap";
 import { Project } from "../../../../../../../types/custom";
 
 export const useProjectLineScrollAnimation = (
-  shadowLine: RefObject<HTMLDivElement>,
+  shadowLine: RefObject<HTMLDivElement | null>,
   project: Project,
   idx: number
 ) => {
+  console.log(shadowLine.current);
   const tl = useRef<gsap.core.Timeline>();
 
   const { setSelectedProject } = useProjectContext();

@@ -3,7 +3,7 @@ import gsap, { Power3 } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 export const useProjectLineIntro = (
-  container: RefObject<HTMLAnchorElement>
+  container: RefObject<HTMLAnchorElement | null>
 ) => {
   const setInitialPositions = () => {
     gsap.set(".Project-Line__line", {
