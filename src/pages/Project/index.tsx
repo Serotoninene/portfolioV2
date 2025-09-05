@@ -109,7 +109,10 @@ export default function Project() {
           NEXT PROJECT
         </h3>
       </footer>
-      <div className="intro-layer fixed inset-0 top-0 left-0 shadow-sm bg-[#877B66]"></div>
+      <div
+        className="intro-layer fixed inset-0 top-0 left-0 shadow-sm"
+        style={{ background: colors.secondaryColor }}
+      ></div>
     </div>
   );
 }

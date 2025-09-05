@@ -79,7 +79,8 @@ export const Layout = ({ children }: Props) => {
 
         <div
           id="transition_panel"
-          className="fixed h-screen w-screen top-0 left-0 z-[9999] bg-[#877B66]"
+          className="fixed h-screen w-screen top-0 left-0 z-[9999]"
+          style={{ background: colors.secondaryColor }}
         />
       </div>
     </ProjectProvider>
