@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useRef } from "react";
+import { NavLink, useParams } from "react-router-dom";
 
 // Components
 import { AnimLetters } from "../../components/atoms";
@@ -12,8 +12,8 @@ import gsap, { Expo, Power3 } from "gsap";
 
 // Data + Types
 import { projects, projectsData } from "../../data";
-import { ProjectData } from "../../types/custom";
 import { useColorContext } from "../../hooks/useColorContext";
+import { ProjectData } from "../../types/custom";
 
 export default function Project() {
   const container = useRef<HTMLDivElement>(null);
@@ -26,22 +26,33 @@ export default function Project() {
   const nextProjectIndex = (projectIndex + 1) % projects.length;
   const nextProject = projects[nextProjectIndex];
 
-  useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 500);
-  }, []);
-
   // Intro animation
   useGSAP(
     () => {
       const images = gsap.utils.toArray("img");
       const headerDuos = gsap.utils.toArray(".Project_Header-Duo");
+      gsap.killTweensOf([
+        ".intro-layer",
+        ".Project_intro-paragraph",
+        headerDuos,
+        "video",
+        images,
+      ]);
 
       const tl = gsap.timeline({
-        default: { ease: Expo.easeInOut, duration: 0.2, delay: 0.5 },
-        delay: 1,
+        default: { ease: Expo.easeInOut, duration: 0.2 },
       });
+
+      // Reset all elements to initial state
+      tl.set(".intro-layer", { yPercent: 0 })
+        .set(".Project_intro-paragraph", { opacity: 0, y: 20 })
+        .set(headerDuos, { opacity: 0, y: 20, rotate: 5 })
+        .set("video", { opacity: 0, yPercent: 10, rotate: 2 })
+        .set(images, { opacity: 0, y: 20, rotate: 2 })
+        .set(window, { scrollTo: 0 });
+
+      tl.set(".intro-layer", { yPercent: 0 });
+      tl.set(window, { scrollTo: 0 });
 
       tl.to(".intro-layer", {
         yPercent: 100,
@@ -61,7 +72,7 @@ export default function Project() {
       );
       tl.to(images, { opacity: 1, y: 0, rotate: 0 }, "<0.2");
     },
-    { scope: container }
+    { scope: container, dependencies: [slug] }
   );
 
   if (!slug || !projectsData[slug]) {
@@ -100,12 +111,12 @@ export default function Project() {
       </header>
       <ProjectContent data={projectData} />
       <footer className="relative w-full mt-6 md:mt-10 h-[50vh]">
-        <a
+        <NavLink
           className="absolute inset-0 z-10"
-          href={`/projects/${nextProject.slug}`}
+          to={`/projects/${nextProject.slug}`}
         />
         <img className="h-full w-full object-cover" src={nextProject.img} />
-        <h3 className="absolute inset-0 flex justify-center items-center text-dark text-3xl font-semibold text-white">
+        <h3 className="absolute inset-0 flex justify-center items-center text-3xl font-semibold text-white">
           NEXT PROJECT
         </h3>
       </footer>

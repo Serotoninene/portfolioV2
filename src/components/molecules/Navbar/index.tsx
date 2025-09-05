@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { useProgress } from "@react-three/drei";
 import { useColorContext } from "../../../hooks/useColorContext";

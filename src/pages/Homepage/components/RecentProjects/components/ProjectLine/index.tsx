@@ -1,14 +1,14 @@
-import { MouseEvent, useRef } from "react";
+import { useRef } from "react";
 import { useProjectContext } from "../../../../../../hooks/useProjectContext";
 import { splitWords } from "../../../../../../utils";
 
-import gsap, { Power4 } from "gsap";
+import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useCursorStore } from "../../../../../../store/useCursorStyle";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useColorContext } from "../../../../../../hooks/useColorContext";
 import { Project } from "../../../../../../types/custom";
 import {
@@ -25,7 +25,6 @@ type Props = {
 };
 
 export const ProjectLine = ({ project, idx, isLast }: Props) => {
-  const navigate = useNavigate();
   const formattedIdx = (idx + 1).toString().padStart(2, "0");
   const { colors } = useColorContext();
 

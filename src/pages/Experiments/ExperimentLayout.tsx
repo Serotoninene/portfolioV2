@@ -2,10 +2,6 @@ import { useParams } from "react-router-dom";
 
 import { experimentsData } from "./experimentsData";
 import { AnimLink } from "../../components/atoms";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useColorContext } from "../../hooks/useColorContext";
 
 const BackButton = () => {
   return (

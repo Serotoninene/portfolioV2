@@ -20,15 +20,18 @@ const PageTransition = () => {
 
   useEffect(() => {
     {
+      console.log("displayed location : ", displayedLocation.pathname);
+      console.log("location : ", location.pathname);
+
       if (
         location.pathname !== displayedLocation.pathname &&
         location.pathname.startsWith("/projects/")
       ) {
+        console.log("trigger animation");
         const tl = gsap.timeline({
           defaults: { ease: Power4.easeOut, duration: 0.6 },
           onComplete: () => {
             setDisplayedLocation(location);
-            tl.set("#ScrollRig-canvas", { opacity: 1 });
           },
         });
 
