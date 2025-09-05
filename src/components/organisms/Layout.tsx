@@ -11,7 +11,6 @@ import { CustomCursor, Navbar } from "../molecules";
 import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
-import { usePageTransition } from "../../hooks/usePageTransition";
 
 type Props = {
   children: React.ReactNode;
@@ -23,21 +22,17 @@ export const Layout = ({ children }: Props) => {
   const isMobile = useMediaQuery(768);
   const { pathname } = useLocation();
 
-  const { pageTransitionRef } = usePageTransition();
-
   useEffect(() => {
     gsap.set("#Navbar", {
       borderColor: colors.secondaryColor,
     });
-    gsap.set("#transition_panel", { yPercent: 0 });
   }, [pathname]);
 
   return (
     <ProjectProvider>
-      <div id="mainContainer" ref={pageTransitionRef}>
+      <div ref={eventSource} id="mainContainer">
         <main
           id="Layout"
-          ref={eventSource}
           style={{
             background: colors.mainColor,
             color: colors.secondaryColor,
@@ -81,10 +76,10 @@ export const Layout = ({ children }: Props) => {
           </div>
           <ColorButton />
         </main>
+
         <div
           id="transition_panel"
-          className="fixed top-full h-screen w-screen shadow-sm"
-          style={{ background: colors.mainColor }}
+          className="fixed h-screen w-screen top-0 left-0 z-[9999] bg-[#877B66]"
         />
       </div>
     </ProjectProvider>

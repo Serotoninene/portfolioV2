@@ -37,33 +37,6 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
 
   const isSelected = selectedProject?.title === project.title;
 
-  const handleClick = (e: MouseEvent) => {
-    e.preventDefault();
-    const tl = gsap.timeline({
-      defaults: { ease: Power4.easeOut, duration: 0.6 },
-      onComplete: () => {
-        const tl = gsap.timeline();
-        navigate(`/projects/${project.slug}`);
-        tl.set("#Layout", { clearProps: "all" });
-      },
-    });
-
-    tl.to("#Layout", {
-      rotate: 4,
-      opacity: 0.3,
-      scale: 0.8,
-    });
-    tl.fromTo(
-      "#transition_panel",
-      { scale: 0.8 },
-      {
-        yPercent: -100,
-        scale: 1,
-      },
-      "<+=0.1"
-    );
-  };
-
   const handleMouseEnter = () => {
     setCursorStyle("none");
     scrollToProject(idx);
@@ -84,7 +57,6 @@ export const ProjectLine = ({ project, idx, isLast }: Props) => {
     <Link
       to={`/projects/${project.slug}`}
       ref={container}
-      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={isLast ? "pb-2" : "pb-10"}

@@ -76,10 +76,6 @@ export default function Project() {
 
   return (
     <div ref={container} className="min-h-screen relative">
-      <div
-        className="intro-layer fixed inset-0 top-0 left-0"
-        style={{ background: colors.mainColor }}
-      ></div>
       <header className="mb-6 pt-14 md:pt-[240px] px-3 md:px-5">
         <h1 className="font-bold text:2xl md:text-6xl">
           <AnimLetters string={projectData.title} stagger={0.01} delay={0.75} />
@@ -113,6 +109,7 @@ export default function Project() {
           NEXT PROJECT
         </h3>
       </footer>
+      <div className="intro-layer fixed inset-0 top-0 left-0 shadow-sm bg-[#877B66]"></div>
     </div>
   );
 }

@@ -12,14 +12,6 @@ type Props = {
 export const HeroTitle = ({ isMobile }: Props) => {
   const threeTitle = useRef<Mesh>(null);
 
-  // const { xPos, yPos, zPos, fontSize, lineHeight } = useControls({
-  //   xPos: { value: 0, min: 0, max: 500 },
-  //   yPos: { value: 0, min: -500, max: 500 },
-  //   zPos: { value: 0, min: 0, max: 500 },
-  //   fontSize: { value: 160, min: 0, max: 160 },
-  //   lineHeight: { value: 0.45, min: 0, max: 1 },
-  // });
-
   if (isMobile) return null;
 
   return (

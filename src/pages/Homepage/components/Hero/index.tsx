@@ -60,12 +60,12 @@ const HeroText = () => {
         className="font-extrabold text-[56px] leading-[100%] text-center z-10 md:block md:text-[160px]"
       >
         <div className="hidden md:block">
-          <AnimLetters string="HI, I'M" start={hasLoaded} />
+          <AnimLetters string="HI, I'M" start={hasLoaded} delay={1.2} />
           <br />
-          <AnimLetters string=" ALEX" start={hasLoaded} />
+          <AnimLetters string=" ALEX" start={hasLoaded} delay={1.2} />
         </div>
         <div className="block md:hidden">
-          <AnimLetters string="HI, I'M ALEX" start={hasLoaded} delay={0} />
+          <AnimLetters string="HI, I'M ALEX" start={hasLoaded} delay={1.2} />
         </div>
       </h1>
 
@@ -76,7 +76,7 @@ const HeroText = () => {
         <AnimWords
           string="I'm a passionate creative developer dedicated to turning ideas into  immersive digital experiences. From elegant websites to interactive applications."
           stagger={0.01}
-          delay={0.5}
+          delay={1.3}
           start={hasLoaded}
         />
       </p>

@@ -99,14 +99,14 @@ export const AboutMe = () => {
         </div>
 
         <div id="About_Description" className="md:col-span-2">
-          <p className="text-justify text-sm md:text-base">
+          <p className="text-justify text-sm mb-4 md:text-base">
             In a previous life, I worked in the music industry, navigating the
             worlds of marketing and sales. From that time, I’ve carried over a
             deep sense of <Highlight>curiosity</Highlight>, a constant drive to{" "}
             <Highlight>improve</Highlight>, and a genuine love for{" "}
             <Highlight>collaboration</Highlight>.
           </p>
-          <p>
+          <p className="md:text-[14px]">
             Today, I’m a developer based in Paris, passionate about{" "}
             <Highlight>creating interfaces that spark</Highlight> — with subtle
             details, bold animations, and a strong focus on{" "}

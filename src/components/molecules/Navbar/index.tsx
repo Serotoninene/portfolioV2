@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { useProgress } from "@react-three/drei";
 import { useColorContext } from "../../../hooks/useColorContext";
@@ -39,7 +39,7 @@ export const Navbar = () => {
         borderColor: colors.secondaryColor,
       }}
     >
-      <a href="/">
+      <NavLink to="/">
         <h2
           id="Logo_Alex"
           className="relative bg-dark px-1 text-secondary-200 text-xl font-extrabold origin-left"
@@ -53,7 +53,8 @@ export const Navbar = () => {
           />
           <HoverSpace />
         </h2>
-      </a>
+      </NavLink>
+
       <div
         id="Center_Navbar"
         className="gap-10 text-sm font-medium overflow-hidden hidden md:flex"

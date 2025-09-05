@@ -10,7 +10,6 @@ export const useProjectLineScrollAnimation = (
   project: Project,
   idx: number
 ) => {
-  console.log(shadowLine.current);
   const tl = useRef<gsap.core.Timeline>();
 
   const { setSelectedProject } = useProjectContext();
@@ -31,11 +30,17 @@ export const useProjectLineScrollAnimation = (
       },
     });
 
-    tl.current.to(shadowLine.current, {
-      scaleX: 1,
-      duration: 0.5,
-      ease: Power3.easeOut,
-    });
+    tl.current.fromTo(
+      shadowLine.current,
+      {
+        scaleX: 0,
+      },
+      {
+        scaleX: 1,
+        duration: 0.5,
+        ease: Power3.easeOut,
+      }
+    );
 
     return () => {
       tl.current?.kill();

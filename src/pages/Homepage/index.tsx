@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ScrollIndicator } from "../../components/molecules";
-import { Loader } from "../../components/organisms";
+
 import {
   AboutMe,
   Contact,
@@ -10,7 +10,7 @@ import {
   Showreal,
   StickyText,
 } from "./components";
-import { LoadingProvider } from "../../contexts/LoadingContext";
+import { Loader } from "../../components/organisms";
 
 export default function Homepage() {
   useEffect(() => {

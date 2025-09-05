@@ -1,7 +1,7 @@
 import { RefObject, useRef } from "react";
+import { useLoadingProgress } from "../../../store/useLoadingProgress";
 import { useEndOfLoading } from "./animations/useEndOfLoading";
 import { LoadingLoop } from "./components/LoadingLoop";
-import { useLoadingProgress } from "../../../store/useLoadingProgress";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -12,7 +12,6 @@ export const Loader = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   const progress = useLoadingProgress((state) => state.progress);
-  const simulateProgress = useRef({ value: 0 });
 
   // The End of Loading animation = animates out the "LOADING" (loading loop) + the loading container
   const tl = useEndOfLoading(ref, container);
