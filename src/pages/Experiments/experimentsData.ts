@@ -12,6 +12,7 @@ import { NormalLightEffect } from "./components/NormalLightEffect";
 import { RefractionGlass } from "./components/RefractionGlass";
 import { TextMorph } from "./components/TextMorph";
 import { SphereCarrousel } from "./components/SphereCarrousel";
+import { MeadowHero } from "./components/MeadowHero";
 
 export interface Experiment {
   title: string;
@@ -21,6 +22,12 @@ export interface Experiment {
 }
 
 export const experimentsData: Record<string, Experiment> = {
+  meadow_hero: {
+    title: "Meadow Hero",
+    slug: "meadow_hero",
+    img: "https://viz1risw7o.ufs.sh/f/x0tNbNvWf7L6I4eSqEOM64X29GTPJjpSlksgFUAZu1DWOmez",
+    component: MeadowHero,
+  },
   sphere_carrousel: {
     title: "Sphere Carrousel",
     slug: "sphere_carrousel",
