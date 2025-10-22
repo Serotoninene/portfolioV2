@@ -6,7 +6,7 @@ import { extendMaterial } from "../../../../components/three/utils/extendMateria
 
 import { CustomCanvas } from "../../../../components/three";
 
-const MyMaterial = extendMaterial(THREE.MeshStandardMaterial, {
+const MyMaterial = extendMaterial(new THREE.MeshStandardMaterial(), {
   vertexHeader: "uniform float offsetScale; uniform float uTime;",
   vertex: {
     transformEnd: "transformed.y += sin((uTime + position.x) * 2.1) * 0.5;",
@@ -27,34 +27,32 @@ const MyMaterial = extendMaterial(THREE.MeshStandardMaterial, {
   },
 });
 
-const CustomDepthMeshMaterial = extendMaterial(THREE.MeshDepthMaterial, {
+const CustomDepthMeshMaterial = extendMaterial(new THREE.MeshDepthMaterial(), {
   template: MyMaterial,
 });
 
 const DistortedMesh = ({ position }) => {
   const mesh = useRef<THREE.Mesh>(null);
-  const shader = useRef<THREE.ShaderMaterial>(null);
-  const customDepth = useRef<THREE.ShaderMaterial>(null);
+  const shader = useRef<THREE.ShaderMaterial>(MyMaterial.clone());
+  const customDepth = useRef<THREE.ShaderMaterial>(
+    CustomDepthMeshMaterial.clone()
+  );
 
   useFrame(({ clock }) => {
-    if (shader.current) {
-      shader.current.uniforms.uTime.value = clock.getElapsedTime();
-    }
-
-    if (customDepth.current) {
-      customDepth.current.uniforms.uTime.value = clock.getElapsedTime();
-    }
+    console.log(JSON.stringify(shader.current));
+    // if (shader.current) {
+    //   shader.current.uniforms.uTime.value = clock.getElapsedTime();
+    // }
+    // if (customDepth.current) {
+    //   customDepth.current.uniforms.uTime.value = clock.getElapsedTime();
+    // }
   });
 
   return (
     <mesh ref={mesh} position={position} castShadow>
       <boxGeometry args={[6, 1, 1, 32, 32]} />
-      <primitive ref={shader} object={MyMaterial} attach="material" />
-      <primitive
-        ref={customDepth}
-        object={CustomDepthMeshMaterial}
-        attach="customDepthMaterial"
-      />
+      <primitive object={shader.current} attach="material" />
+      <primitive object={customDepth.current} attach="customDepthMaterial" />
     </mesh>
   );
 };
