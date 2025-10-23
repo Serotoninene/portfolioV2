@@ -11,6 +11,7 @@ import { CustomCursor, Navbar } from "../molecules";
 import { ColorButton } from "../molecules/ColorButton";
 import { Noise } from "../three";
 import { Lights } from "../three/Lights/Lights";
+import { Perf } from "r3f-perf";
 
 type Props = {
   children: React.ReactNode;
@@ -72,6 +73,7 @@ export const Layout = ({ children }: Props) => {
             >
               <Lights />
               <Noise />
+              <Perf position="top-left" />
             </GlobalCanvas>
           </div>
           <ColorButton />
